@@ -7,8 +7,8 @@ I haven't tested this, but I think that to replicate my setup it should be enoug
 
 ```sh
 cd ~/dotfiles
-stow --restow nvim -- just neovim
--- stow --restow */ -- every package
+stow --restow nvim # just neovim
+# stow --restow */ # every package
 ```
 
 stow will automatically create a symlink from the contents of each "package" to the directory from where it is invoked, i.e. your home directory.
