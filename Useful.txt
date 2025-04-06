@@ -22,7 +22,8 @@ KEYBOARD SHORTCUTS
 TERMIAL COMMANDS
 1)  ls: see what files and directories are present in the current directory
     [-a] to see hidden files,
-    [-larth] to check the files' modes
+    [-larth] to check the files' modes,
+    [-l] to see if a directory is a symbolic link
 2)  echo: print
 3)  mkdir: create a directory
 4)  cd: change directory
