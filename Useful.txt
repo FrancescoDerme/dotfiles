@@ -1,0 +1,153 @@
+NOTES
+On this computer, a ton of settings are differet from the default ones.
+Caps lock and ctrl keys have been swapped by calling: gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']",
+to reset to default settings call: gsettings reset org.gnome.desktop.input-sources xkb-options.
+Some other keyboard shortcuts have been made possible through the use of ydotool.
+Finally, all the configuration files are managed through GNU stow, look at the README for further info.
+
+-- -- --
+
+KEYBOARD SHORTCUTS
+1)  Open new terminal: alt + q
+2)  Open new terminal tab: alt + w
+3)  Close terminal or terminal tab: alt + e (works when the session is empty, not inside vim)
+4)  Switch to terminal tab by number: alt + (number)
+5)  Switch to terinal tab by going left or right: ctrl + page up/page down (note that the "page up" button is NOT the upwards arrow key)
+6)  Open browser: alt + f
+7)  Enter and exit full-screen: F11
+8)  Interrupt the execution of a command: ctrl + c
+
+-- -- --
+
+TERMIAL COMMANDS
+1)  ls: see what files and directories are present in the current directory
+    [-a] to see hidden files,
+    [-larth] to check the files' modes
+2)  echo: print
+3)  mkdir: create a directory
+4)  cd: change directory
+5)  clear: clear the terminal
+6)  rm: remove files and directories
+    [-r] to recursively remove directories,
+    [-f] to remove with force
+7)  pwd: present working directory
+8)  cat: spy a file
+9)  mv: move stuff or change stuff's name
+10) which: tells which version of a program is installed
+11) type: tells where all the versions of program installed on the computer
+12) whoami: tells which user is logged in
+13) find: find files
+14) chmod: changes the modes of a file
+    [+x] makes the file an executable (useful when writing a bash shell script)
+15) grep: find a piece of text (use it with "|" to give it the output of other commands)
+16) cp: clone a file or directory
+17) diff: find differences between two files
+
+-- -- --
+
+COMPILING
+1)  g++: compile
+    [-c] to call just the compiler, not the linker and the loader, as to produce object files,
+    [-I] to indicate a directory where to find the included files (can be used multiple times),
+    [-O] to compile with a certain optimization level,
+    [-ggdb] to compile in a debugger-friendly way, to use together with [-O0].
+2)  gdb: debug
+    [run] to run,
+    [up] to and go back from a run-time error to the line of code wich generated it,
+    [break] to insert a breakpoint,
+    [print] to print a variable,
+    [next] to move to the next line,
+    [step] to move inside functions,
+    [continue] to move to the next breakpoint.
+
+-- -- --
+
+NEOVIM
+1) The leader is spacebar.
+2) '&' is '^' for concordance with american keyboards.
+3) Arrow keys are deactivated.
+
+INSERT MODE
+1)  h, j, k, l: the basic movement keys, to be chained with numbers
+2)  w and W, b and B, e and E: move to the next word, the previous word or the end of the next word.
+    The upper case variants ignore every delimiter that isn't whitespace. Also to be chained with numbers.
+3)  ^ and $: move to the first non-whitespace character and last character of a line.
+4)  f and F, t and T: jump to the next occurrence of a character or right beore it, with uppercase variants going backwards.
+    ";" then repeats the command jumping to the next occurrence, "," to the previous one.
+5)  %: go the the "partner" of the current character, e.g. the partner parenthesis.
+6)  ctrl + o and ctrl + i: jump in the jumplist.
+7)  g; and g,: jump in the changelist.
+8)  / and ?: search forward and backward. n and N jump to next and previous occurrences, ctrl+l to clears the highlighted search terms.
+9)  H, M, L: top, mid and bottom of the current viewport.
+10) { and }: next and previous paragraphs.
+11) gg and G: first and last line of a buffer.
+12) alt + direction: switch focus among open buffers.
+13) u: undo
+14) ctrl + r: redo
+15) ctrl + u / ctrl + d: scroll up and down (not a recommended way to move around a buffer).
+
+VISUAL AND VISUAL BLOCK MODE
+1)  ctrl + v: enter visual block mode.
+2)  g + ctrl + a: add 1 to the highlighted text. If several lines are highlighted, each will be incermented by an additional unit.
+
+PLUGINS
+1)  Autopairs: automatically closes pairs of caracthers like parenthesis, type the closing character to move outside.
+2)  Competitest: compiling, running against testcases and downloading problems or contests.
+    <leder>ca: add testcase,
+    <leader>ce: edit testcase,
+    <leader>cr: run testcases,
+    <leader>cs: show competitest ui,
+    <leader>crt: receive testcases,
+    <leader>crp: receive problem (source file is automatically created along with testcases),
+    <leader>crc: receive contest (make sure to be on the homepage of the contest, not of a single problem).
+    Inside competitest's ui:
+    R: run again the selected testcase,
+    ctrl + r: run again all testcases,
+    K: kill the process associated with a testcase,
+    ctrl + k: kill all the processes associated with testcases,
+    i or I: view input in a bigger window,
+    a or A: view expected output in a bigger window,
+    o or O: view stdout in a bigger window,
+    e or E: view stderr in a bigger window,
+    d or D: toggle diff view between actual and expected output.
+3)  Lualine: status bar.
+4)  Neotree: file tree.
+    <leader>e: toggle filetree to the left.
+5)  Telescope: search files and in files.
+    <leader>fd: find files in the current directory,
+    <leader>ff: find in files.
+    <leader>fb: find in the current buffer.
+5)  Tokyonight: color theme.
+6)  Treesitter: syntax highlighting.
+7)  Whichkey: show possible ways to complete commands that one has started typing.
+8)  Oil: file explorer that allow editing the filesystem like a normal vim buffer.
+    To open a directory from command line use "nvim .", then enter to open a file/directory or - to go up a directory.
+    :w to actually perform the actions.
+    <leader>oe: open the oil file explorer in the current directory,
+    <leader>of: open the oil file explorer in a floting window in the current directory,
+    :Oil: open the oil file explorer,
+    :Oil --float: open the oil file explorer in a floating window.
+9)  Flash: navigate code with search labels.
+    Normal search is enhanced with jump labels.
+    f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, ";" or go to the previous match with F, T, ",".
+    Any highlights clear automatically when moving, changing buffers or pressing esc.
+
+NOTES OF PLUGINS
+There is no smooth scrolling plugin since one shouldn't scroll to move.
+
+INTRESTING PLUGINS TO CHECK OUT
+Personalizzazione competitest
+aerial.nvim
+Treesitter tex-objects to scroll by function, by class etc, look at the lazyvim configuration
+persistence.nvim (save sessions)
+snacks.nvim (a lot of stuff)
+bufferline.nvim (either this or another way to manage multiple buffers)
+mason.nvim + mason-lspconfig.nvim + nvim-lspconfig (don't know what it does, seems cool)
+nvim-lint (seems cool as well)
+conform (auto indent?)
+todo-comments.nvim (use comments as anchors)
+trouble (see in-editor warnings?)
+gitsigns (integration with git?)
+grug-far.nvim (find and replace!)
+harpoon (switch quickly between files? between buffers?)
+Also, find a way to put the conig in a repo pls
