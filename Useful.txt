@@ -116,10 +116,12 @@ PLUGINS
     <leader>e: toggle filetree to the left.
 5)  Telescope: search files and in files.
     <leader>fd: find files in the current directory,
-    <leader>ff: find in files.
+    <leader>ff: find in files,
     <leader>fb: find in the current buffer.
 5)  Tokyonight: color theme.
 6)  Treesitter: syntax highlighting.
+    ctrl + space: select the next node or increment selection,
+    backspace: decrement selection.
 7)  Whichkey: show possible ways to complete commands that one has started typing.
 8)  Oil: file explorer that allow editing the filesystem like a normal vim buffer.
     To open a directory from command line use "nvim .", then enter to open a file/directory or - to go up a directory.
@@ -129,11 +131,17 @@ PLUGINS
     :Oil: open the oil file explorer,
     :Oil --float: open the oil file explorer in a floating window.
 9)  Flash: navigate code with search labels.
+    s: activate flash to jump around.
     Normal search is enhanced with jump labels.
     f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, ";" or go to the previous match with F, T, ",".
     Any highlights clear automatically when moving, changing buffers or pressing esc.
 10) Treesitter-textobjects: syntax-aware select, move, and swap.
-    Mappings not set yet :(
+    <leader>snp: swap next parameters,
+    <leader>snd: swap next function definitions,
+    <leader>spp: swap previous parameters,
+    <leader>spd: swap previous function definitions.
+    Type ] to go to the next occurrence of a text-object, [ to go to the previous one, the next caracther specifies which text-object to look for.
+    Type v (visual), d (delete), c (change) or y (yoink) to start a command that interacts with a certain portion of text, the next caracther specifies wether to select the inner or the outer part of a text-object, the last caracther specifies what text-object to select.
 
 NOTES OF PLUGINS
 There is no smooth scrolling plugin since one shouldn't scroll to move.
