@@ -132,6 +132,8 @@ PLUGINS
     Normal search is enhanced with jump labels.
     f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, ";" or go to the previous match with F, T, ",".
     Any highlights clear automatically when moving, changing buffers or pressing esc.
+10) Treesitter-textobjects: syntax-aware select, move, and swap.
+    Mappings not set yet :(
 
 NOTES OF PLUGINS
 There is no smooth scrolling plugin since one shouldn't scroll to move.
@@ -139,7 +141,6 @@ There is no smooth scrolling plugin since one shouldn't scroll to move.
 INTRESTING PLUGINS TO CHECK OUT
 Personalizzazione competitest
 aerial.nvim
-Treesitter tex-objects to scroll by function, by class etc, look at the lazyvim configuration
 persistence.nvim (save sessions)
 snacks.nvim (a lot of stuff)
 bufferline.nvim (either this or another way to manage multiple buffers)
