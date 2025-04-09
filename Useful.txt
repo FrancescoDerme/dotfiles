@@ -68,7 +68,7 @@ NEOVIM
 2) '&' is '^' for concordance with american keyboards.
 3) Arrow keys are deactivated.
 
-INSERT MODE
+NORMAL MODE
 1)  h, j, k, l: the basic movement keys, to be chained with numbers
 2)  w and W, b and B, e and E: move to the next word, the previous word or the end of the next word.
     The upper case variants ignore every delimiter that isn't whitespace. Also to be chained with numbers.
@@ -86,6 +86,8 @@ INSERT MODE
 13) u: undo
 14) ctrl + r: redo
 15) ctrl + u / ctrl + d: scroll up and down (not a recommended way to move around a buffer).
+16) <leader>w: manage windows (splits),
+17) <leader>t: manage tabs.
 
 VISUAL AND VISUAL BLOCK MODE
 1)  ctrl + v: enter visual block mode.
@@ -143,15 +145,15 @@ PLUGINS
     Type ] to go to the next occurrence of a text-object, [ to go to the previous one, the next caracther specifies which text-object to look for.
     Type v (visual), d (delete), c (change) or y (yoink) to start a command that interacts with a certain portion of text, the next caracther specifies wether to select the inner or the outer part of a text-object, the last caracther specifies what text-object to select.
 
-NOTES OF PLUGINS
+NOTES ON PLUGINS
 There is no smooth scrolling plugin since one shouldn't scroll to move.
+There is no bufferline since one shouldn't think about buffers as they're just caches and use splits and tabs instead.
+There is no tabline since one shouldn't move through buffers by selecting them.
 
 INTRESTING PLUGINS TO CHECK OUT
-Personalizzazione competitest
 aerial.nvim
 persistence.nvim (save sessions)
 snacks.nvim (a lot of stuff)
-bufferline.nvim (either this or another way to manage multiple buffers)
 mason.nvim + mason-lspconfig.nvim + nvim-lspconfig (don't know what it does, seems cool)
 nvim-lint (seems cool as well)
 conform (auto indent?)
@@ -160,4 +162,3 @@ trouble (see in-editor warnings?)
 gitsigns (integration with git?)
 grug-far.nvim (find and replace!)
 harpoon (switch quickly between files? between buffers?)
-Also, find a way to put the conig in a repo pls

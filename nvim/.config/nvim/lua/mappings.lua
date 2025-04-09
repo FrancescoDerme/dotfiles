@@ -22,6 +22,10 @@ vim.keymap.set('n', '<M-j>', '<C-w>j', {desc = "Switch focus down"})
 vim.keymap.set('n', '<M-k>', '<C-w>k', {desc = "Switch focus up"})
 vim.keymap.set('n', '<M-l>', '<C-w>l', {desc = "Switch focus right"})
 
+-- Keymaps for tabs and splits
+vim.keymap.set('n', '<leader>t', ':tabnew <CR>', {desc = "Open new tab"})
+vim.keymap.set('n', '<leader>wv', ':vsplit <CR>', {desc = "Open vertical window"})
+
 -- Neotree
 vim.keymap.set('n', '<leader>e', ':Neotree filesystem toggle left <CR>', {desc = "Toggle file tree"})
 

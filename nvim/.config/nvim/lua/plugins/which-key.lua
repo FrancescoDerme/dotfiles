@@ -13,6 +13,7 @@ return {
                 {"<leader>s", group = "Swap"},
                 {"<leader>sn", group = "Swap next"},
                 {"<leader>sp", group = "Swap previous"},
+                {"<leader>w", group = "Windows"},
                 {"]", group = "Goto next"},
                 {"[", group = "Goto previous"},
             },
