@@ -74,10 +74,9 @@ NORMAL MODE
     The upper case variants ignore every delimiter that isn't whitespace. Also to be chained with numbers.
 3)  ^ and $: move to the first non-whitespace character and last character of a line.
 4)  f and F, t and T: jump to the next occurrence of a character or right beore it, with uppercase variants going backwards.
-    ";" then repeats the command jumping to the next occurrence, "," to the previous one.
 5)  %: go the the "partner" of the current character, e.g. the partner parenthesis.
 6)  ctrl + o and ctrl + i: jump in the jumplist.
-7)  g; and g,: jump in the changelist.
+7)  g; and g,: jump to older or newer positions the changelist.
 8)  / and ?: search forward and backward. n and N jump to next and previous occurrences, ctrl+l to clears the highlighted search terms.
 9)  H, M, L: top, mid and bottom of the current viewport.
 10) { and }: next and previous paragraphs.
@@ -134,8 +133,8 @@ PLUGINS
     :Oil --float: open the oil file explorer in a floating window.
 9)  Flash: navigate code with search labels.
     s: activate flash to jump around.
-    Normal search is enhanced with jump labels.
-    f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, ";" or go to the previous match with F, T, ",".
+    / and ? are enhanced with jump labels.
+    f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, or go to the previous match with F, T.
     Any highlights clear automatically when moving, changing buffers or pressing esc.
 10) Treesitter-textobjects: syntax-aware select, move, and swap.
     <leader>snp: swap next parameters,
