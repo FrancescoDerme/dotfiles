@@ -115,34 +115,42 @@ PLUGINS
 3)  Lualine: status bar.
 4)  Neotree: file tree.
     <leader>e: toggle filetree to the left.
+    a or A to create a new file or directory from within the filetree.
 5)  Telescope: search files and in files.
-    <leader>fd: find files in the current directory,
-    <leader>ff: find in files,
+    <leader>ff: find files in the current directory,
+    <leader>fd: find in files,
     <leader>fb: find in the current buffer.
-5)  Tokyonight: color theme.
-6)  Treesitter: syntax highlighting.
+6)  Tokyonight: color theme.
+7)  Treesitter: syntax highlighting.
     ctrl + space: select the next node or increment selection,
     backspace: decrement selection.
-7)  Whichkey: show possible ways to complete commands that one has started typing.
-8)  Oil: file explorer that allow editing the filesystem like a normal vim buffer.
+8)  Whichkey: show possible ways to complete commands that one has started typing.
+9)  Oil: file explorer that allow editing the filesystem like a normal vim buffer.
     To open a directory from command line use "nvim .", then enter to open a file/directory or - to go up a directory.
     :w to actually perform the actions.
     <leader>oe: open the oil file explorer in the current directory,
     <leader>of: open the oil file explorer in a floting window in the current directory,
     :Oil: open the oil file explorer,
     :Oil --float: open the oil file explorer in a floating window.
-9)  Flash: navigate code with search labels.
+10) Flash: navigate code with search labels.
     s: activate flash to jump around.
     / and ? are enhanced with jump labels.
     f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, or go to the previous match with F, T.
     Any highlights clear automatically when moving, changing buffers or pressing esc.
-10) Treesitter-textobjects: syntax-aware select, move, and swap.
+11) Treesitter-textobjects: syntax-aware select, move, and swap.
     <leader>snp: swap next parameters,
     <leader>snd: swap next function definitions,
     <leader>spp: swap previous parameters,
     <leader>spd: swap previous function definitions.
     Type ] to go to the next occurrence of a text-object, [ to go to the previous one, the next caracther specifies which text-object to look for.
     Type v (visual), d (delete), c (change) or y (yoink) to start a command that interacts with a certain portion of text, the next caracther specifies wether to select the inner or the outer part of a text-object, the last caracther specifies what text-object to select.
+12) Code-runner: run code and manage projects.
+    Still needs to be set up :(
+13) Mason: packet manager for LSP servers, linters and formatters.
+    :Mason: open the Mason UI.
+14) Conform: formatting.
+    <leader>p: make pretty.
+15) Nvim-lint: linting.
 
 NOTES ON PLUGINS
 There is no smooth scrolling plugin since one shouldn't scroll to move.
@@ -153,9 +161,7 @@ INTRESTING PLUGINS TO CHECK OUT
 aerial.nvim
 persistence.nvim (save sessions)
 snacks.nvim (a lot of stuff)
-mason.nvim + mason-lspconfig.nvim + nvim-lspconfig (don't know what it does, seems cool)
-nvim-lint (seems cool as well)
-conform (auto indent?)
+mason-lspconfig.nvim + nvim-lspconfig (don't know what it does, seems cool)
 todo-comments.nvim (use comments as anchors)
 trouble (see in-editor warnings?)
 gitsigns (integration with git?)
