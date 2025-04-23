@@ -23,16 +23,21 @@ return {
                 python = { "isort", "black" },
                 ]]
 			},
-            formatters = {
-                clang_format = {
-                    prepend_args = {"--style={BasedOnStyle: google, IndentWidth: 4}"},
-                },
-            },
+			formatters = {
+				clang_format = {
+					prepend_args = {
+						"--style={BasedOnStyle: google, IndentWidth: 4, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
+					},
+				},
+			},
+
+			--[[
 			format_on_save = {
 				lsp_fallback = true,
 				async = false,
 				timeout_ms = 1000,
 			},
+            ]]
 		})
 
 		vim.keymap.set({ "n", "v" }, "<leader>p", function()

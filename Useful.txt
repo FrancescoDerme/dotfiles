@@ -69,6 +69,7 @@ NEOVIM
 3) Arrow keys are deactivated.
 
 NORMAL MODE
+1)  : -> go to line,
 1)  h, j, k, l: the basic movement keys, to be chained with numbers
 2)  w and W, b and B, e and E: move to the next word, the previous word or the end of the next word.
     The upper case variants ignore every delimiter that isn't whitespace. Also to be chained with numbers.
@@ -85,8 +86,8 @@ NORMAL MODE
 13) u: undo
 14) ctrl + r: redo
 15) ctrl + u / ctrl + d: scroll up and down (not a recommended way to move around a buffer).
-16) <leader>w: manage windows (splits),
-17) <leader>t: manage tabs.
+16) <Tab>: manage tabs and splits,
+18) y, p, "0p; yoink, paste, paste from register 0.
 
 VISUAL AND VISUAL BLOCK MODE
 1)  ctrl + v: enter visual block mode.
@@ -134,6 +135,8 @@ PLUGINS
     :Oil --float: open the oil file explorer in a floating window.
 10) Flash: navigate code with search labels.
     s: activate flash to jump around.
+    S: activate flash + treesitter to select portions of text quickly.
+    s and S work in normal, visual and operator pending mode.
     / and ? are enhanced with jump labels.
     f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, or go to the previous match with F, T.
     Any highlights clear automatically when moving, changing buffers or pressing esc.
@@ -151,6 +154,15 @@ PLUGINS
 14) Conform: formatting.
     <leader>p: make pretty.
 15) Nvim-lint: linting.
+16) Demicolon: make comma and semiclon uniformely repat moves across plugins.
+17) grug-far.nvim; find and replace!
+    Still needs to be set up :(
+
+TODO
+Get Code-runner to work -> update docs
+Make / and ? repetable with ; and , instead of n and N -> change docs for ? and / and potentially change docs for flash
+Make , and ; work both for treesitter textobjects and flash (maybe use demicolon) -> change docs for both flash and ,/;, maybe also demicolon
+Integrate flash in treesitter -> change docs for flash
 
 NOTES ON PLUGINS
 There is no smooth scrolling plugin since one shouldn't scroll to move.
@@ -158,12 +170,11 @@ There is no bufferline since one shouldn't think about buffers as they're just c
 There is no tabline since one shouldn't move through buffers by selecting them.
 
 INTRESTING PLUGINS TO CHECK OUT
-aerial.nvim
+harpoon (switch quickly between buffer)
+aerial.nvim (outline window)
 persistence.nvim (save sessions)
-snacks.nvim (a lot of stuff)
-mason-lspconfig.nvim + nvim-lspconfig (don't know what it does, seems cool)
+snacks.nvim (a lot of stuff, among these there are debug utilities, git utilities)
+mason-lspconfig.nvim + nvim-lspconfig (autocomplete!)
 todo-comments.nvim (use comments as anchors)
-trouble (see in-editor warnings?)
-gitsigns (integration with git?)
-grug-far.nvim (find and replace!)
-harpoon (switch quickly between files? between buffers?)
+trouble (list of diagnostics)
+gitsigns (buffer integration for git)

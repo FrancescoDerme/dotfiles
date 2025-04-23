@@ -6,6 +6,5 @@ vim.cmd("set shiftwidth=4")
 vim.wo.relativenumber = true
 vim.wo.number = true
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 vim.opt.cursorline = true
-
-

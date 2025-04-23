@@ -13,10 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 local opts = {}
 
--- Attemp at writing a lua script to compile and run inside neovim, replaced by competitest!
---require("compile-and-run")
-
 require("vim-options")
 require("lazy").setup("plugins")
 require("mappings")
-require("flash").toggle()
