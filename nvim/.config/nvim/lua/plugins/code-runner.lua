@@ -6,12 +6,12 @@ return {
 				cpp = function(...)
 					cpp_base = {
 						[[cd '$dir' &&]],
-						'g++ $fileName -o',
-						'/tmp/$fileNameWithoutExt',
+						[[g++ '$fileName' -o]],
+						[[/tmp/'$fileNameWithoutExt']],
 					}
 					local cpp_exec = {
-						'&& /tmp/$fileNameWithoutExt &&',
-						'rm /tmp/$fileNameWithoutExt',
+						[[&& /tmp/'$fileNameWithoutExt' &&]],
+						[[rm /tmp/'$fileNameWithoutExt']],
 					}
 					vim.ui.input({ prompt = "Add more args:" }, function(input)
 						cpp_base[4] = input

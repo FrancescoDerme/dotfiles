@@ -1,0 +1,7 @@
+directory: ~/Music
+library: ~/.config/beets/library.db
+plugins: play
+import:
+    move: yes
+play:
+    command: mpv
