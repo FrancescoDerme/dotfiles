@@ -132,6 +132,7 @@ PLUGINS
 4)  Neotree: file tree.
     <leader>e: toggle filetree to the left.
     a or A to create a new file or directory from within the filetree.
+    r to rename a file.
 5)  Telescope: search files and in files.
     <leader>ff: find files in the current directory,
     <leader>fd: find in files,

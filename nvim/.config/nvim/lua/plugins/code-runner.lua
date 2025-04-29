@@ -4,7 +4,7 @@ return {
 		require("code_runner").setup({
 			filetype = {
 				cpp = function(...)
-					cpp_base = {
+					local cpp_base = {
 						[[cd '$dir' &&]],
 						[[g++ '$fileName' -o]],
 						[[/tmp/'$fileNameWithoutExt']],
