@@ -8,6 +8,7 @@ return {
 			formatters_by_ft = {
 				cpp = { "clang_format" },
 				lua = { "stylua" },
+				markdown = { "prettier" },
 				--[[
                 javascript = { "prettier" },
                 typescript = { "prettier" },
@@ -18,7 +19,6 @@ return {
                 html = { "prettier" },
                 json = { "prettier" },
                 yaml = { "prettier" },
-                markdown = { "prettier" },
                 graphql = { "prettier" },
                 python = { "isort", "black" },
                 ]]
@@ -26,7 +26,7 @@ return {
 			formatters = {
 				clang_format = {
 					prepend_args = {
-						"--style={BasedOnStyle: google, IndentWidth: 4, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
+						"--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 80, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
 					},
 				},
 			},
@@ -44,6 +44,6 @@ return {
 				async = false,
 				timeout_ms = 1000,
 			})
-		end, { desc = "Format file or range" })
+		end, { desc = "Format" })
 	end,
 }

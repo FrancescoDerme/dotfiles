@@ -7,6 +7,7 @@ return {
 					local cpp_base = {
 						[[cd '$dir' &&]],
 						[[g++ '$fileName' -o]],
+						---[[g++ -std=c++23 '$fileName' -o]],
 						[[/tmp/'$fileNameWithoutExt']],
 					}
 					local cpp_exec = {

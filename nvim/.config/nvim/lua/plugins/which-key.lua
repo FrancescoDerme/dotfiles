@@ -14,6 +14,7 @@ return {
 			{
 				mode = { "n" },
 				{ "<leader>", group = "Plugins" },
+				{ "<leader>l", group = "LSP" },
 				{ "<leader>f", group = "Find" },
 				{ "<leader>c", group = "Competitest" },
 				{ "<leader>cd", group = "Download" },
@@ -21,7 +22,7 @@ return {
 				{ "<leader>s", group = "Swap" },
 				{ "<leader>sn", group = "Swap next" },
 				{ "<leader>sp", group = "Swap previous" },
-				{ "<leader>w", group = "Windows" },
+				{ "g", group = "Goto" },
 				{ "]", group = "Goto next" },
 				{ "[", group = "Goto previous" },
 			},

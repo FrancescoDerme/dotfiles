@@ -43,6 +43,11 @@ TERMIAL COMMANDS
 15) grep: find a piece of text (use it with "|" to give it the output of other commands)
 16) cp: clone a file or directory
 17) diff: find differences between two files
+18) evince: pdf viewer.
+
+ctrl + z stops a running process.
+& runs a command in the background, this is useful not to have a useless terminal window open when running lasting commands.
+> redirects the output.
 
 -- -- --
 
@@ -87,8 +92,8 @@ NORMAL MODE
 13) u: undo
 14) ctrl + r: redo
 15) ctrl + u / ctrl + d: scroll up and down (not a recommended way to move around a buffer).
-16) <Tab>: manage tabs and splits,
-18) y, p, "0p; yoink, paste, paste from register 0.
+16) <Tab>: manage tabs and splits, gt -> goto next tab,
+18) p, "0p:paste, paste from register 0.
 21) cc  -> delete the contents of the current line without removing the line itself and enter insert mode.
 21) d   -> delete.
 22) D   -> delete from cursor to end of line.

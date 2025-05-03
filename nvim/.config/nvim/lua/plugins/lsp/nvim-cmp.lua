@@ -13,7 +13,7 @@ return {
 		},
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
 		"rafamadriz/friendly-snippets", -- useful snippets
-		"onsails/lspkind.nvim", -- vs-code like pictograms
+		"onsails/lspkind.nvim", -- pictograms
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -25,7 +25,12 @@ return {
 
 		cmp.setup({
 			completion = {
-				completeopt = "menu,menuone,preview,noselect",
+				--menu: shows a completion menu when there is more than one match,
+				--menuone: shows a completion menu when there is only one match,
+				--preview: shows a preview window with documentation for the selected item,
+				--noselect: do not autoselect any item from the menu.
+				completeopt = "menu,menuone,preview",
+				max_height = 5,
 			},
 			snippet = { -- configure how nvim-cmp interacts with snippet engine
 				expand = function(args)
@@ -37,24 +42,28 @@ return {
 				["<M-j>"] = cmp.mapping.select_next_item(), -- next suggestion
 				["<M-u>"] = cmp.mapping.scroll_docs(-4),
 				["<M-d>"] = cmp.mapping.scroll_docs(4),
-				["<M-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-				["<M-e>"] = cmp.mapping.abort(), -- close completion window
+				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+				["<C-e>"] = cmp.mapping.abort(), -- close completion window
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
 			}),
 			-- sources for autocompletion
 			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" }, -- snippets
+				{ name = "nvim_lsp" }, -- suggestion coming from the lsp
 				{ name = "buffer" }, -- text within current buffer
+				{ name = "luasnip" }, -- snippets
 				{ name = "path" }, -- file system paths
 			}),
 
-			-- configure lspkind for vs-code like pictograms in completion menu
+			-- configure lspkind for pictograms in completion menu
 			formatting = {
 				format = lspkind.cmp_format({
 					maxwidth = 50,
 					ellipsis_char = "...",
 				}),
+			},
+			experimental = {
+				-- Previews what the insetion would look like, but greyed out
+				ghost_text = true,
 			},
 		})
 	end,

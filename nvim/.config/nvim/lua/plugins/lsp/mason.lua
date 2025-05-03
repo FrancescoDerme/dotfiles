@@ -34,6 +34,7 @@ return {
 				"lua_ls",
 				"clang-format",
 				"stylua",
+				"prettier",
 			},
 		})
 	end,

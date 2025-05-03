@@ -28,7 +28,7 @@ vim.keymap.set("n", "<Tab>v", ":vsplit <CR>", { desc = "Open vertical window" })
 vim.keymap.set("n", "<Tab>h", ":split <CR>", { desc = "Open horizontal window" })
 
 -- Neotree
-vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc = "Toggle file tree" })
+vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc = "File tree" })
 
 -- Telescope
 vim.keymap.set("n", "<leader>fd", ":Telescope live_grep <CR>", { desc = "Text in directory" })
