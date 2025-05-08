@@ -11,6 +11,6 @@ stow --restow nvim # just neovim
 # stow --restow */ # every package
 ```
 
-stow will automatically create a symlink from the contents of each "package" to the directory from where it is invoked, i.e. your ~/dotfiles` directory.
+stow will automatically create a symlink from the contents of each "package" to the directory from where it is invoked, i.e. your `~/dotfiles` directory.
 
 [stow]: https://www.gnu.org/software/stow/
