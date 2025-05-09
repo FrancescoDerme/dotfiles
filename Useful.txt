@@ -109,6 +109,7 @@ Every command is prefixed by ':'.
 5)  !   -> apply the command with force.
 1)  %   -> apply the command to the whole buffer.
 2)  +   -> reference the system clipboard instead of neovim's internal one.
+10) term -> open a terminal window inside neovim.
 
 VISUAL AND VISUAL BLOCK MODE
 1)  ctrl + v: enter visual block mode.
@@ -138,6 +139,7 @@ PLUGINS
 4)  Neotree: file tree.
     <leader>e: toggle filetree to the left.
     a or A to create a new file or directory from within the filetree.
+    s to open a file in split view.
     r to rename a file.
 5)  Telescope: search files and in files.
     <leader>ff: find files in the current directory,
@@ -170,7 +172,7 @@ PLUGINS
     Type ] to go to the next occurrence of a text-object, [ to go to the previous one, the next caracther specifies which text-object to look for.
     Type v (visual), d (delete), c (change) or y (yoink) to start a command that interacts with a certain portion of text, the next caracther specifies wether to select the inner or the outer part of a text-object, the last caracther specifies what text-object to select.
 12) Code-runner: run code and manage projects.
-    Still needs to be set up :(
+    <leader>r: run code.
 13) Mason: packet manager for LSP servers, linters and formatters.
     :Mason: open the Mason UI.
 14) Conform: formatting.
