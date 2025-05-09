@@ -55,7 +55,7 @@ return {
 				keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
 				opts.desc = "Documentation"
-				keymap.set("n", "<leader>k", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+				keymap.set("n", "<leader>lk", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Start LSP"
 				keymap.set("n", "<leader>ls", ":LspStart<CR>", opts)

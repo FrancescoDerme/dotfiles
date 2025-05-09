@@ -3,6 +3,10 @@ return {
 	config = function()
 		require("code_runner").setup({
 			filetype = {
+				crunner = function(...)
+					vim.cmd("wincmd k")
+					vim.cmd("RunCode")
+				end,
 				cpp = function(...)
 					vim.cmd("write")
 
@@ -16,7 +20,7 @@ return {
 						[[&& /tmp/'$fileNameWithoutExt' &&]],
 						[[rm /tmp/'$fileNameWithoutExt']],
 					}
-					vim.ui.input({ prompt = "Add more args:" }, function(input)
+					vim.ui.input({ prompt = "Compiler args:" }, function(input)
 						cpp_base[4] = input
 						vim.print(vim.tbl_extend("force", cpp_base, cpp_exec))
 						require("code_runner.commands").run_from_fn(vim.list_extend(cpp_base, cpp_exec))
