@@ -47,3 +47,6 @@ vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR>", { desc =
 -- Oil
 vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
 vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
+
+-- Code runner
+vim.keymap.set("n", "<leader>r", ":RunCode <CR>", { desc = "Run code" })

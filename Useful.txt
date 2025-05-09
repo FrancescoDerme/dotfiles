@@ -45,7 +45,8 @@ TERMIAL COMMANDS
 17) diff: find differences between two files
 18) evince: pdf viewer.
 
-ctrl + z stops a running process.
+ctrl + z pauses a running process.
+bg runs a paused process in the background.
 & runs a command in the background, this is useful not to have a useless terminal window open when running lasting commands.
 > redirects the output.
 

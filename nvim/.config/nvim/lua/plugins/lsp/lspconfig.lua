@@ -68,51 +68,53 @@ return {
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
-		mason_lspconfig.setup_handlers({
-			-- default handler for installed servers
-			function(server_name)
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-				})
-			end,
-			["clangd"] = function()
-				-- configure cpp language server
-				lspconfig["clangd"].setup({
-					capabilities = capabilities,
-					cmd = {
-						"clangd",
-						"--compile-commands-dir=cmake",
-						"--background-index",
-						"--clang-tidy",
-					},
-					filetypes = {
-						"c",
-						"cpp",
-						"objc",
-						"objcpp",
-						"cuda",
-						"proto",
-					},
-				})
-			end,
-			["lua_ls"] = function()
-				-- configure lua server (with special settings)
-				lspconfig["lua_ls"].setup({
-					capabilities = capabilities,
-					settings = {
-						Lua = {
-							-- make the language server recognize "vim" global
-							diagnostics = {
-								globals = { "vim" },
-								disable = { "missing-fields" },
-							},
-							completion = {
-								callSnippet = "Replace",
+		mason_lspconfig.setup({
+			handlers = {
+				-- default handler for installed servers
+				function(server_name)
+					lspconfig[server_name].setup({
+						capabilities = capabilities,
+					})
+				end,
+				["clangd"] = function()
+					-- configure cpp language server
+					lspconfig["clangd"].setup({
+						capabilities = capabilities,
+						cmd = {
+							"clangd",
+							"--compile-commands-dir=cmake",
+							"--background-index",
+							"--clang-tidy",
+						},
+						filetypes = {
+							"c",
+							"cpp",
+							"objc",
+							"objcpp",
+							"cuda",
+							"proto",
+						},
+					})
+				end,
+				["lua_ls"] = function()
+					-- configure lua server (with special settings)
+					lspconfig["lua_ls"].setup({
+						capabilities = capabilities,
+						settings = {
+							Lua = {
+								-- make the language server recognize "vim" global
+								diagnostics = {
+									globals = { "vim" },
+									disable = { "missing-fields" },
+								},
+								completion = {
+									callSnippet = "Replace",
+								},
 							},
 						},
-					},
-				})
-			end,
+					})
+				end,
+			},
 		})
 	end,
 }

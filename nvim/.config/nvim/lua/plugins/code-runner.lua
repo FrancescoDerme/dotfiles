@@ -4,6 +4,8 @@ return {
 		require("code_runner").setup({
 			filetype = {
 				cpp = function(...)
+					vim.cmd("write")
+
 					local cpp_base = {
 						[[cd '$dir' &&]],
 						[[g++ '$fileName' -o]],

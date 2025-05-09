@@ -30,7 +30,6 @@ return {
 				--preview: shows a preview window with documentation for the selected item,
 				--noselect: do not autoselect any item from the menu.
 				completeopt = "menu,menuone,preview",
-				max_height = 5,
 			},
 			snippet = { -- configure how nvim-cmp interacts with snippet engine
 				expand = function(args)
@@ -61,10 +60,12 @@ return {
 					ellipsis_char = "...",
 				}),
 			},
+			--[[
 			experimental = {
 				-- Previews what the insetion would look like, but greyed out
 				ghost_text = true,
-			},
+			},NumericOrComplex 
+            ]]
 		})
 	end,
 }
