@@ -10,7 +10,7 @@ vim.opt.cursorline = true
 
 --vim.opt.signcolumn = "yes"
 -- vim.g.maplocalleader = " "
---
+
 vim.diagnostic.config({
 	--[[
 	signs = {
