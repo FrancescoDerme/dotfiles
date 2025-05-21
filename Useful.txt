@@ -174,6 +174,7 @@ PLUGINS
 12) Code-runner: run code and manage projects.
     <leader>r: run code.
 13) Mason: packet manager for LSP servers, linters and formatters.
+    cmake -S . -G "Unix Makefiles" -B cmake
     :Mason: open the Mason UI.
 14) Conform: formatting.
     <leader>p: make pretty.
