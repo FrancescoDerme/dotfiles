@@ -28,7 +28,7 @@ vim.keymap.set("n", "<Tab>v", ":vsplit <CR>", { desc = "Open vertical window" })
 vim.keymap.set("n", "<Tab>h", ":split <CR>", { desc = "Open horizontal window" })
 
 -- Neotree
-vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc = "File tree" })
+vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc = "File tree", silent = true })
 
 -- Telescope
 vim.keymap.set("n", "<leader>fd", ":Telescope live_grep <CR>", { desc = "Text in directory" })
@@ -50,3 +50,40 @@ vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file e
 
 -- Code runner
 vim.keymap.set("n", "<leader>r", ":RunCode <CR>", { desc = "Run code" })
+
+-- LSP
+function stop_lsp_and_unmap()
+	vim.keymap.del("n", "<leader>lg")
+	vim.keymap.del("n", "<leader>lf")
+	vim.keymap.del("n", "<leader>li")
+	vim.keymap.del("n", "<leader>lt")
+	vim.keymap.del({ "n", "v" }, "<leader>la")
+	vim.keymap.del("n", "<leader>lr")
+	vim.keymap.del("n", "<leader>lD")
+	vim.keymap.del("n", "<leader>ld")
+	vim.keymap.del("n", "[d")
+	vim.keymap.del("n", "]d")
+	vim.keymap.del("n", "<leader>lp")
+	vim.keymap.set("n", "<leader>ls", start_lsp_and_map, { desc = "Start LSP" })
+	vim.cmd("LspStop")
+end
+
+function start_lsp_and_map()
+	vim.keymap.set("n", "<leader>lg", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+	vim.keymap.set("n", "<leader>lf", "<cmd>Telescope lsp_definitions<CR>", { desc = "Show definitions" })
+	vim.keymap.set("n", "<leader>li", "<cmd>Telescope lsp_implementations<CR>", { desc = "Show implementations" })
+	vim.keymap.set("n", "<leader>lt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "Show type definitions" })
+	vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { desc = "See code actions" })
+	vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Smart rename" })
+	vim.keymap.set("n", "<leader>lD", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Show buffer diagnostics" })
+	vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+	vim.keymap.set("n", "<leader>lp", stop_lsp_and_unmap, { desc = "Stop LSP" })
+	vim.keymap.del("n", "<leader>ls")
+	vim.cmd("LspStart")
+end
+
+vim.keymap.set("n", "<leader>ls", start_lsp_and_map, { desc = "Start LSP", silent = true })
+--vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "Show references" })
+--vim.keymap.set("n", "<leader>lk", vim.lsp.buf.hover, { desc = "Show documentation" })
