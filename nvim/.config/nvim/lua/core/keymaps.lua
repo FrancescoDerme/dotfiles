@@ -6,15 +6,11 @@
 --]]
 vim.keymap.set("n", "&", "^", { desc = "^" })
 
--- Deactivating arrow keys in both normal and insert modes
-vim.keymap.set("n", "<Down>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set("i", "<Down>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set("n", "<Up>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set("i", "<Up>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set("n", "<Left>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set("i", "<Left>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set("n", "<Right>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set("i", "<Right>", "<Nop>", { desc = "Ignored" })
+-- Deactivating arrow keys in both normal and insert mode
+vim.keymap.set({ "n", "i" }, "<Down>", "<Nop>", { desc = "Ignored" })
+vim.keymap.set({ "n", "i" }, "<Up>", "<Nop>", { desc = "Ignored" })
+vim.keymap.set({ "n", "i" }, "<Left>", "<Nop>", { desc = "Ignored" })
+vim.keymap.set({ "n", "i" }, "<Right>", "<Nop>", { desc = "Ignored" })
 
 -- Keymaps to switch focus faster
 vim.keymap.set("n", "<M-h>", "<C-w>h", { desc = "Switch focus left" })
