@@ -1,5 +1,5 @@
 return {
-	dir = "~/Projects/competitest.nvim",
+	dir = "~/projects/competitest.nvim",
 	--"xeluxee/competitest.nvim",
 	dependencies = "MunifTanjim/nui.nvim",
 	config = function()
