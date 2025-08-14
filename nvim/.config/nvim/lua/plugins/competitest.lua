@@ -22,12 +22,12 @@ return {
 				show_nu = true,
 				show_rnu = false,
 				normal_mode_mappings = {
-					switch_window = { "<C-h>", "<C-l>", "<C-i>" },
+					switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
 					save_and_close = "<C-s>",
 					cancel = { "q", "Q" },
 				},
 				insert_mode_mappings = {
-					switch_window = { "<C-h>", "<C-l>", "<C-i>" },
+					switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
 					save_and_close = "<C-s>",
 					cancel = "<C-q>",
 				},
