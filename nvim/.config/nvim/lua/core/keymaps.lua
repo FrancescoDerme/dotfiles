@@ -23,8 +23,9 @@ vim.keymap.set("n", "<Tab>t", ":tabnew <CR>", { desc = "Open new tab" })
 vim.keymap.set("n", "<Tab>v", ":vsplit <CR>", { desc = "Open vertical window" })
 vim.keymap.set("n", "<Tab>h", ":split <CR>", { desc = "Open horizontal window" })
 
--- Change directory to the folder of the currently open file
-vim.keymap.set("n", "<leader>d", ":cd %:p:h <CR>", { desc = "cd to file", silent = true })
+-- Change directory
+vim.keymap.set("n", "<leader>dp", ":cd %:p:h <CR>", { desc = "cd to file", silent = true })
+vim.keymap.set("n", "<leader>du", ":cd %:p:h:h <CR>", { desc = "cd to above file", silent = true })
 
 -- Neotree
 vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc = "File tree", silent = true })

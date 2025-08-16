@@ -13,7 +13,8 @@ return {
 		spec = {
 			{
 				mode = { "n" },
-				{ "<leader>", group = "Plugins" },
+				{ "<leader>", group = "Keymaps" },
+				{ "<leader>d", group = "Directory" },
 				{ "<leader>l", group = "LSP" },
 				{ "<leader>f", group = "Find" },
 				{ "<leader>c", group = "Competitest" },
