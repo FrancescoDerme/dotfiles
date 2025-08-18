@@ -44,6 +44,43 @@ vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { desc
 vim.keymap.set("n", "<leader>cdp", ":CompetiTest receive problem <CR>", { desc = "Problem" })
 vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR>", { desc = "Contest" })
 
+-- Keymap to go to the next problem
+vim.keymap.set("n", "<leader>cn", function()
+	local file = vim.fn.expand("%:p:h")
+	local head = vim.fn.fnamemodify(file, ":h")
+	local tail = vim.fn.fnamemodify(file, ":t")
+
+	-- Get sibling dirs sorted alphabetically
+	local dirs = vim.fn.globpath(head, "*/", 0, 1)
+
+	for i, d in ipairs(dirs) do
+		dirs[i] = vim.fn.fnamemodify(d, ":h:t")
+	end
+
+	table.sort(dirs)
+
+	-- Find current index
+	local next
+	for i, d in ipairs(dirs) do
+		if d == tail then
+			next = dirs[i + 1]
+			break
+		end
+	end
+
+	-- If there is a next sibling, try to open its main.cpp
+	if next then
+		local target = head .. "/" .. next .. "/main.cpp"
+		if vim.fn.filereadable(target) == 1 then
+			vim.cmd("edit " .. target)
+		else
+			print("No main.cpp in " .. next)
+		end
+	else
+		print("Already at last problem")
+	end
+end, { desc = "Next problem" })
+
 -- Oil
 vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
 vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
