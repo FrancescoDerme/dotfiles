@@ -1,9 +1,11 @@
 NOTES
-On this computer, a ton of settings are differet from the default ones.
-Caps lock and ctrl keys have been swapped by calling: gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']",
-to reset to default settings call: gsettings reset org.gnome.desktop.input-sources xkb-options.
-Some other keyboard shortcuts have been made possible through the use of ydotool.
-Finally, all the configuration files are managed through GNU stow, look at the README for further info.
+I like to work on a heavily customised system.
+Caps lock and ctrl keys have been swapped by running: gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']",
+to reset to default settings run: gsettings reset org.gnome.desktop.input-sources xkb-options.
+~/.bashrc has been edited so that scripts placed in ~/.local/bin/ can be called from anywhere, this is the case for
+"enable-nextnds" and "disable-nextdns" which manage which DNS server the system queries. There are also "newtertab" and "closetertab" to
+open and close terminal tabs, these two can be called through keyboard shortcuts thanks to ydotool.
+All the configuration files are managed through GNU stow, look at the README for further info.
 
 -- -- --
 
