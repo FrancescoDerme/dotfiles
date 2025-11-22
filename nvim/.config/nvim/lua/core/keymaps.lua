@@ -44,42 +44,54 @@ vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { desc
 vim.keymap.set("n", "<leader>cdp", ":CompetiTest receive problem <CR>", { desc = "Problem" })
 vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR>", { desc = "Contest" })
 
--- Keymap to go to the next problem
-vim.keymap.set("n", "<leader>cn", function()
+local function navigate_problem(offset, direction_name)
+	-- 1. Get current file and directory info
 	local file = vim.fn.expand("%:p:h")
-	local head = vim.fn.fnamemodify(file, ":h")
-	local tail = vim.fn.fnamemodify(file, ":t")
+	local head = vim.fn.fnamemodify(file, ":h") -- Parent directory path
+	local tail = vim.fn.fnamemodify(file, ":t") -- Current directory name (e.g., 'ProblemA')
 
-	-- Get sibling dirs sorted alphabetically
-	local dirs = vim.fn.globpath(head, "*/", 0, 1)
+	-- 2. Get sibling dirs and normalize names
+	local dirs = vim.fn.globpath(head, "*/", 0, 1) -- e.g., {'/path/to/Contest/ProblemA/', ...}
 
 	for i, d in ipairs(dirs) do
+		-- Convert to just the directory name (e.g., 'ProblemA')
 		dirs[i] = vim.fn.fnamemodify(d, ":h:t")
 	end
 
-	table.sort(dirs)
+	table.sort(dirs) -- Sort them alphabetically
 
-	-- Find current index
-	local next
+	-- 3. Find the target sibling index
+	local target_name
 	for i, d in ipairs(dirs) do
 		if d == tail then
-			next = dirs[i + 1]
+			-- i is the index of the current directory (tail)
+			target_name = dirs[i + offset]
 			break
 		end
 	end
 
-	-- If there is a next sibling, try to open its main.cpp
-	if next then
-		local target = head .. "/" .. next .. "/main.cpp"
-		if vim.fn.filereadable(target) == 1 then
-			vim.cmd("edit " .. target)
+	-- 4. Execute navigation
+	if target_name then
+		local target_path = head .. "/" .. target_name .. "/main.cpp"
+		if vim.fn.filereadable(target_path) == 1 then
+			vim.cmd("edit " .. target_path)
 		else
-			print("No main.cpp in " .. next)
+			print("No main.cpp found in: " .. target_name)
 		end
 	else
-		print("Already at last problem")
+		print("Already at the " .. direction_name .. " problem")
 	end
+end
+
+-- Keymap to go to the next problem (offset = 1)
+vim.keymap.set("n", "<leader>cn", function()
+	navigate_problem(1, "last")
 end, { desc = "Next problem" })
+
+-- Keymap to go to the previous problem (offset = -1)
+vim.keymap.set("n", "<leader>cp", function()
+	navigate_problem(-1, "first")
+end, { desc = "Previous problem" })
 
 -- Oil
 vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
