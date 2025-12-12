@@ -33,7 +33,7 @@ TERMIAL COMMANDS
 6)  rm: remove files and directories
     [-r] to recursively remove directories,
     [-f] to remove with force
-7)  pwd: present working directory
+7)  pwd: present working directory. pwd | wl-copy copies the present working directory to clipboard.
 8)  cat: spy a file
 9)  mv: move stuff or change stuff's name
 10) which: tells which version of a program is installed
@@ -46,6 +46,7 @@ TERMIAL COMMANDS
 16) cp: clone a file or directory
 17) diff: find differences between two files
 18) evince: pdf viewer.
+19) flameshot gui: take screenshots.
 
 ctrl + z pauses a running process.
 bg runs a paused process in the background.
