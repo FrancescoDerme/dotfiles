@@ -24,6 +24,6 @@ vim.diagnostic.config({
     ]]
 	signs = false,
 	underline = true,
-	virtual_text = true,
+	virtual_text = false,
 	update_in_insert = false,
 })
