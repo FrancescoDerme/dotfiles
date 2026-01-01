@@ -26,7 +26,7 @@ return {
 			formatters = {
 				clang_format = {
 					prepend_args = {
-						"--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 80, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
+						"--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 74, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
 					},
 				},
 			},
