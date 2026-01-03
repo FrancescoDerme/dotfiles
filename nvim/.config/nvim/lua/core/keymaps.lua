@@ -20,8 +20,10 @@ vim.keymap.set("n", "<M-l>", "<C-w>l", { desc = "Switch focus right" })
 
 -- Keymaps for tabs and splits
 vim.keymap.set("n", "<Tab>t", ":tabnew <CR>", { desc = "Open new tab" })
-vim.keymap.set("n", "<Tab>v", ":vsplit <CR>", { desc = "Open vertical window" })
-vim.keymap.set("n", "<Tab>h", ":split <CR>", { desc = "Open horizontal window" })
+vim.keymap.set("n", "<Tab>v", ":vsplit | wincmd =<CR>", { desc = "Open vertical window" })
+vim.keymap.set("n", "<Tab>h", ":split | wincmd =<CR>", { desc = "Open horizontal window" })
+-- vim.keymap.set("n", "<Tab>v", ":vsplit <CR>", { desc = "Open vertical window" })
+-- vim.keymap.set("n", "<Tab>h", ":split <CR>", { desc = "Open horizontal window" })
 
 -- Change directory
 vim.keymap.set("n", "<leader>dp", ":cd %:p:h <CR>", { desc = "cd to file", silent = true })
