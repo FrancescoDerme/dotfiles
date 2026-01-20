@@ -1,4 +1,5 @@
 #!/bin/bash
+
 SLEEP_DURATION=${1:-0.5}
 
 echo "Disabling Wi-Fi..."

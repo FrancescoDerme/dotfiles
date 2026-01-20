@@ -1,16 +1,35 @@
 ## Francesco's Dotfiles
 
-This repo uses [stow][] to manage the symlinks to the files that hold the user settings of the programs I use.
-Basically I have a `~/dotfiles` directory where all the configuration files are stored, when programs like neovim go look for them in the usual directory they instead find a symbolic link which points to the folder where they're actually stored. This makes managing configuration files, sharing them across multiple machines and using a version control tool to back them up much more convenient, but keeping track of the symlinks becomes a mess; stow does this for us.
+This repo uses [stow][] to manage the symlinks for my configuration files.
 
-I haven't tested this, but I think that to replicate my setup it should be enough to install stow, clone this repository into `~/dotfiles` and do:
+Basically, I have a `~/dotfiles` directory where all the actual config files live. When tools and shells (like `nvim` or `bash`) look for their configs and scripts in the usual places (e.g., `~/.config/nvim` or `~/.local/bin`), they find a symbolic link that points back to this folder.
+
+This makes managing configurations, sharing them across machines, and version control much easier.
+
+### Installation
+
+1. Install `stow` (e.g., `sudo apt install stow`)
+2. Clone this repository to your home directory:
+   ```sh
+   git clone https://github.com/FrancescoDerme/dotfiles.git ~/dotfiles
+   cd ~/dotfiles
+   ```
+
+### Usage
+
+I use a `Makefile` to simplify the stow commands. For example:
+
+```sh
+make # Installs everything
+make nvim # Installs nvim
+make delete-nvim # Deletes nvim
+```
+
+If you prefer running stow manually:
 
 ```sh
 cd ~/dotfiles
-stow --restow nvim # just neovim
-# stow --restow */ # every package
+stow --restow nvim
 ```
-
-stow will automatically create a symlink from the contents of each "package" to the directory from where it is invoked, i.e. your `~/dotfiles` directory.
 
 [stow]: https://www.gnu.org/software/stow/

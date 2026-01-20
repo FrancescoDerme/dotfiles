@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Password for disabling NextDNS
+# Friction password (not a real secret, just to stop me from procrastinating)
 PASS="Ireallyneedtowatchyoutubeitsforeducationalpurposesisweartogod"
 
 # Ask for password
@@ -8,13 +8,13 @@ read -s -p "Enter NextDNS disable password: " entered
 echo
 
 if [ "$entered" != "$PASS" ]; then
-  echo "Wrong password. Aborting."
+  echo "Wrong password, aborting"
   exit 1
 fi
 
 sudo tee /etc/systemd/resolved.conf > /dev/null <<EOL
 [Resolve]
-# No custom DNS here → will use your default network DNS
+# No custom DNS here, will use your default network DNS
 EOL
 
 sudo systemctl restart systemd-resolved

@@ -1,10 +1,22 @@
 #!/bin/bash
+
+# Path to the secret file
+SECRET_FILE="$HOME/.nextdns_id"
+
+# Check if secret file exists
+if [ -f "$SECRET_FILE" ]; then
+    ID=$(cat "$SECRET_FILE")
+else
+    echo "Error: ID file not found at $SECRET_FILE"
+    exit 1
+fi
+
 sudo tee /etc/systemd/resolved.conf > /dev/null <<EOL
 [Resolve]
-DNS=45.90.28.0#939ec5.dns.nextdns.io
-DNS=2a07:a8c0::#939ec5.dns.nextdns.io
-DNS=45.90.30.0#939ec5.dns.nextdns.io
-DNS=2a07:a8c1::#939ec5.dns.nextdns.io
+DNS=45.90.28.0#${ID}.dns.nextdns.io
+DNS=2a07:a8c0::#${ID}.dns.nextdns.io
+DNS=45.90.30.0#${ID}.dns.nextdns.io
+DNS=2a07:a8c1::#${ID}.dns.nextdns.io
 DNSOverTLS=yes
 EOL
 

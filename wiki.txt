@@ -5,7 +5,7 @@ All the configuration files are managed through GNU stow, look at the README for
 Caps lock and ctrl keys have been swapped by running: gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']",
 to reset to default settings run: gsettings reset org.gnome.desktop.input-sources xkb-options.
 ~/.bashrc has been edited so that scripts placed in ~/.local/bin/ can be called from anywhere, these include
--   "enable-nextnds" and "disable-nextdns" to manage which DNS server the system queries
+-   "enable-nextdns" and "disable-nextdns" to manage which DNS server the system queries, these require a file "~/.nextdns_id" with your NextDNS id
 -   "newtertab" and "closetertab" to open and close terminal tabs, these can be called through keyboard shortcuts thanks to ydotool,
     in particular alt + w opens a new tab, alt + e closes the currently-focused tab, alt + q opens a new window (this doesn't need a custom script)
 -   "play" to call "beets play", the input doesn't quotation marks
