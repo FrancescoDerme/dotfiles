@@ -12,7 +12,6 @@ This makes managing configurations, sharing them across machines, and version co
 2. Clone this repository to your home directory:
    ```sh
    git clone https://github.com/FrancescoDerme/dotfiles.git ~/dotfiles
-   cd ~/dotfiles
    ```
 
 ### Usage
