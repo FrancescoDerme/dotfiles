@@ -1,4 +1,4 @@
-all:
+nvim:
 	stow --verbose --target=$$HOME --restow nvim
 
 delete:

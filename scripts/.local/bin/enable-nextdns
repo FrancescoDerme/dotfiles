@@ -1,0 +1,13 @@
+#!/bin/bash
+sudo tee /etc/systemd/resolved.conf > /dev/null <<EOL
+[Resolve]
+DNS=45.90.28.0#939ec5.dns.nextdns.io
+DNS=2a07:a8c0::#939ec5.dns.nextdns.io
+DNS=45.90.30.0#939ec5.dns.nextdns.io
+DNS=2a07:a8c1::#939ec5.dns.nextdns.io
+DNSOverTLS=yes
+EOL
+
+sudo systemctl restart systemd-resolved
+echo "NextDNS enabled"
+

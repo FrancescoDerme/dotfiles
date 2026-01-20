@@ -1,11 +1,15 @@
-NOTES
+WIKI
 I like to work on a heavily customised system.
+All the configuration files are managed through GNU stow, look at the README for further info.
+
 Caps lock and ctrl keys have been swapped by running: gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']",
 to reset to default settings run: gsettings reset org.gnome.desktop.input-sources xkb-options.
-~/.bashrc has been edited so that scripts placed in ~/.local/bin/ can be called from anywhere, this is the case for
-"enable-nextnds" and "disable-nextdns" which manage which DNS server the system queries. There are also "newtertab" and "closetertab" to
-open and close terminal tabs, these two can be called through keyboard shortcuts thanks to ydotool.
-All the configuration files are managed through GNU stow, look at the README for further info.
+~/.bashrc has been edited so that scripts placed in ~/.local/bin/ can be called from anywhere, these include
+-   "enable-nextnds" and "disable-nextdns" to manage which DNS server the system queries
+-   "newtertab" and "closetertab" to open and close terminal tabs, these can be called through keyboard shortcuts thanks to ydotool,
+    in particular alt + w opens a new tab, alt + e closes the currently-focused tab, alt + q opens a new window (this doesn't need a custom script)
+-   "play" to call "beets play", the input doesn't quotation marks
+-   "wifi" to cycle wifi settings to off and on again in order to reconnect to laggy networks
 
 -- -- --
 
