@@ -7,27 +7,18 @@ return {
 		conform.setup({
 			formatters_by_ft = {
 				cpp = { "clang_format" },
+				cmake = { "cmake_format" },
 				lua = { "stylua" },
 				markdown = { "prettier" },
-				--[[
-                javascript = { "prettier" },
-                typescript = { "prettier" },
-                javascriptreact = { "prettier" },
-                typescriptreact = { "prettier" },
-                svelte = { "prettier" },
-                css = { "prettier" },
-                html = { "prettier" },
-                json = { "prettier" },
-                yaml = { "prettier" },
-                graphql = { "prettier" },
-                python = { "isort", "black" },
-                ]]
 			},
 			formatters = {
 				clang_format = {
 					prepend_args = {
 						"--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 74, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
 					},
+				},
+				cmake_format = {
+					prepend_args = { "--indent-width", "4" },
 				},
 			},
 

@@ -19,7 +19,7 @@ return {
 		})
 
 		--[[
-        -- It's called "ensure_installed but for some reason also enables the lsps"
+        -- It's called "ensure_installed" but for some reason also enables the lsps
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
 			ensure_installed = {
@@ -32,10 +32,20 @@ return {
 		local mason_tool_installer = require("mason-tool-installer")
 		mason_tool_installer.setup({
 			ensure_installed = {
+				-- C++
 				"clangd",
-				"lua_ls",
 				"clang-format",
+
+				-- CMake
+				"cmake-language-server",
+				"cmakelang",
+				"cmakelint",
+
+				-- Lua
+				"lua_ls",
 				"stylua",
+
+				-- Markdown
 				"prettier",
 			},
 		})
