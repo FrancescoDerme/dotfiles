@@ -1,7 +1,0 @@
-{
-    "diagnostics.globals": [
-        "vim",
-        "stop_lsp_and_unmap",
-        "start_lsp_and_map"
-    ]
-}
