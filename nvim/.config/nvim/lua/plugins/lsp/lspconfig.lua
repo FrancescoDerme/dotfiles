@@ -16,6 +16,7 @@ return {
 			cmd = {
 				"clangd",
 				"--clang-tidy",
+				"--header-insertion=never", -- Stops automatic header imports
 				"--background-index",
 				"--offset-encoding=utf-8",
 				"--compile-commands-dir=cmake",
