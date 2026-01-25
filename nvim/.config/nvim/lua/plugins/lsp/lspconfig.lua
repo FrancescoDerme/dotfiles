@@ -4,7 +4,7 @@ return {
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
-		{ "folke/neodev.nvim", opts = {} },
+		{ "folke/lazydev.nvim", opts = {} },
 	},
 
 	config = function()
@@ -28,12 +28,20 @@ return {
 		})
 
 		-- CMake
-		vim.lsp.config("cmake", {
-			cmd = { "cmake-language-server" },
+		vim.lsp.config("neocmakelsp", {
+			cmd = { "neocmakelsp", "stdio" },
 			filetypes = { "cmake" },
 			root_markers = { "CMakeLists.txt", ".git" },
 			init_options = {
-				buildDirectory = "build", -- Helps LSP find generated files
+				buildDirectory = "build",
+				semantic_token = true,
+				scan_cmake_in_package = true,
+				lint = {
+					enable = true,
+				},
+				format = {
+					enable = true,
+				},
 			},
 		})
 
@@ -41,9 +49,7 @@ return {
 		vim.lsp.config("lua_ls", {
 			settings = {
 				["Lua"] = {
-					-- make the language server recognize "vim" global
 					diagnostics = {
-						globals = { "vim" },
 						disable = { "missing-fields" },
 					},
 					completion = {

@@ -103,38 +103,65 @@ vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file e
 vim.keymap.set("n", "<leader>r", ":RunCode <CR>", { desc = "Run code" })
 
 -- LSP
-function stop_lsp_and_unmap()
-	vim.keymap.del("n", "<leader>lg")
-	vim.keymap.del("n", "<leader>lf")
-	vim.keymap.del("n", "<leader>li")
-	vim.keymap.del("n", "<leader>lt")
-	vim.keymap.del({ "n", "v" }, "<leader>la")
-	vim.keymap.del("n", "<leader>lr")
-	vim.keymap.del("n", "<leader>lD")
-	vim.keymap.del("n", "<leader>ld")
-	vim.keymap.del("n", "[d")
-	vim.keymap.del("n", "]d")
-	vim.keymap.del("n", "<leader>lp")
-	vim.keymap.set("n", "<leader>ls", start_lsp_and_map, { desc = "Start LSP" })
-	vim.cmd("LspStop")
-end
+_G.lsp_active = false
+local servers = { "clangd", "neocmakelsp", "lua_ls" }
 
-function start_lsp_and_map()
-	vim.keymap.set("n", "<leader>lg", vim.lsp.buf.declaration, { desc = "Go to declaration" })
-	vim.keymap.set("n", "<leader>lf", "<cmd>Telescope lsp_definitions<CR>", { desc = "Show definitions" })
-	vim.keymap.set("n", "<leader>li", "<cmd>Telescope lsp_implementations<CR>", { desc = "Show implementations" })
-	vim.keymap.set("n", "<leader>lt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "Show type definitions" })
-	vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { desc = "See code actions" })
-	vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Smart rename" })
-	vim.keymap.set("n", "<leader>lD", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Show buffer diagnostics" })
-	vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-	vim.keymap.set("n", "<leader>lp", stop_lsp_and_unmap, { desc = "Stop LSP" })
-	vim.keymap.del("n", "<leader>ls")
-	vim.cmd("LspStart")
-end
+local lsp_mappings = {
+	{ mode = "n", key = "<leader>lg", func = vim.lsp.buf.declaration, desc = "Go to declaration" },
+	{ mode = "n", key = "<leader>lf", func = "<cmd>Telescope lsp_definitions<CR>", desc = "Show definitions" },
+	{ mode = "n", key = "<leader>li", func = "<cmd>Telescope lsp_implementations<CR>", desc = "Show implementations" },
+	{
+		mode = "n",
+		key = "<leader>lt",
+		func = "<cmd>Telescope lsp_type_definitions<CR>",
+		desc = "Show type definitions",
+	},
+	{ mode = { "n", "v" }, key = "<leader>la", func = vim.lsp.buf.code_action, desc = "See code actions" },
+	{ mode = "n", key = "<leader>lr", func = vim.lsp.buf.rename, desc = "Smart rename" },
+	{
+		mode = "n",
+		key = "<leader>lD",
+		func = "<cmd>Telescope diagnostics bufnr=0<CR>",
+		desc = "Show buffer diagnostics",
+	},
+	{ mode = "n", key = "<leader>ld", func = vim.diagnostic.open_float, desc = "Show line diagnostics" },
+	{ mode = "n", key = "[d", func = vim.diagnostic.goto_prev, desc = "Previous Diagnostic" },
+	{ mode = "n", key = "]d", func = vim.diagnostic.goto_next, desc = "Next Diagnostic" },
+}
 
-vim.keymap.set("n", "<leader>ls", start_lsp_and_map, { desc = "Start LSP", silent = true })
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+	callback = function(ev)
+		for _, map in ipairs(lsp_mappings) do
+			vim.keymap.set(map.mode, map.key, map.func, { buffer = ev.buf, desc = map.desc })
+		end
+	end,
+})
+
+vim.keymap.set("n", "<leader>ls", function()
+	_G.lsp_active = not _G.lsp_active
+
+	local status = _G.lsp_active and "Enabled" or "Disabled"
+	vim.notify("LSP " .. status, vim.log.levels.INFO, { title = "LSP System" })
+
+	vim.lsp.enable(servers, _G.lsp_active)
+
+	if not _G.lsp_active then
+		for _, client in ipairs(vim.lsp.get_clients()) do
+			if vim.tbl_contains(servers, client.name) then
+				local attached_buffers = vim.lsp.get_buffers_by_client_id(client.id)
+				client.stop()
+
+				-- Clean up keymaps for which-key
+				for _, bufnr in ipairs(attached_buffers) do
+					for _, map in ipairs(lsp_mappings) do
+						pcall(vim.keymap.del, map.mode, map.key, { buffer = bufnr })
+					end
+				end
+			end
+		end
+	end
+end, { desc = "Toggle LSP" })
+
 --vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "Show references" })
 --vim.keymap.set("n", "<leader>lk", vim.lsp.buf.hover, { desc = "Show documentation" })

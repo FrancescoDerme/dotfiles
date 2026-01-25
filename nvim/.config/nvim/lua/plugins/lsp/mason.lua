@@ -18,16 +18,18 @@ return {
 			},
 		})
 
+		-- It's called "ensure_installed" but for some reason also enables the LSPs,
+		-- thus it's disabled cause I prefer manually toggling the LSPs
 		--[[
-        -- It's called "ensure_installed" but for some reason also enables the lsps
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
 			ensure_installed = {
 				"clangd",
+				"neocmakelsp",
 				"lua_ls",
 			},
 		})
-        ]]
+        --]]
 
 		local mason_tool_installer = require("mason-tool-installer")
 		mason_tool_installer.setup({
@@ -37,9 +39,8 @@ return {
 				"clang-format",
 
 				-- CMake
-				"cmake-language-server",
+				"neocmakelsp",
 				"cmakelang",
-				"cmakelint",
 
 				-- Lua
 				"lua_ls",
@@ -48,6 +49,8 @@ return {
 				-- Markdown
 				"prettier",
 			},
+
+			auto_update = true,
 		})
 	end,
 }

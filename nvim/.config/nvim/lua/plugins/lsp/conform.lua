@@ -17,9 +17,6 @@ return {
 						"--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 74, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
 					},
 				},
-				cmake_format = {
-					prepend_args = { "--indent-width", "4" },
-				},
 			},
 
 			format_on_save = {
