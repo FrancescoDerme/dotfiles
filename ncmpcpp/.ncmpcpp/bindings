@@ -10,5 +10,5 @@ def_key "l"
 
 # Fix Conflicts
 # 'l' was originally Lyrics
-def_key "c"
+def_key "C"
     show_lyrics
