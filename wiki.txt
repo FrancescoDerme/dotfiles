@@ -32,6 +32,7 @@ TERMIAL COMMANDS
     [-l] to see if a directory is a symbolic link
 2)  echo: print
 3)  mkdir: create a directory
+    [-p] create intermediate directories & suppress error if the directory already exists
 4)  cd: change directory
 5)  clear: clear the terminal
 6)  rm: remove files and directories

@@ -1,7 +1,10 @@
 directory: ~/Music
 library: ~/.config/beets/library.db
-plugins: play
+plugins: play mpdupdate
 import:
     move: yes
 play:
     command: mpv
+mpdupdate:
+    host: 127.0.0.1
+    port: 6600

@@ -1,7 +1,20 @@
-PACKAGES = nvim beets scripts
+.PHONY: all print
+
+# Find top-level directories (result: nvim/)
+DIRS := $(wildcard */)
+
+# Remove trailing slashes (result: nvim)
+DIRS_CLEAN := $(patsubst %/,%,$(DIRS))
+
+# Filter out directories not to be stowed (e.g., .git)
+EXCLUDE := .git .github node_modules
+PACKAGES := $(filter-out $(EXCLUDE), $(DIRS_CLEAN))
+
+# Test which directories are detected
+print:
+	@echo $(PACKAGES)
 
 # Default target stows all packages
-.PHONY: all
 all: $(PACKAGES)
 
 # "make <package>" stows that package

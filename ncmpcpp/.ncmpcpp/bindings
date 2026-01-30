@@ -1,0 +1,14 @@
+# Vim Navigation
+def_key "j"
+    scroll_down
+def_key "k"
+    scroll_up
+def_key "h"
+    previous_column
+def_key "l"
+    next_column
+
+# Fix Conflicts
+# 'l' was originally Lyrics
+def_key "c"
+    show_lyrics
