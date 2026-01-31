@@ -16,7 +16,7 @@ to reset to default settings run `gsettings reset org.gnome.desktop.input-source
 ### keyboard shortcuts
 
 - Open new terminal: `alt + q`
-- Open new terminal tab: `alt + `w
+- Open new terminal tab: `alt + w`
 - Close terminal or terminal tab: `alt + e` (works when the session is empty, not inside vim)
 - Switch to terminal tab by number: `alt + number`
 - Switch to terinal tab by going left or right: `ctrl + page up/down`
