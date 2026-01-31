@@ -5,68 +5,73 @@ All the configuration files are managed through GNU stow, look at the README for
 Caps lock and ctrl keys have been swapped by running: gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']",
 to reset to default settings run: gsettings reset org.gnome.desktop.input-sources xkb-options.
 ~/.bashrc has been edited so that scripts placed in ~/.local/bin/ can be called from anywhere, these include
--   "enable-nextdns" and "disable-nextdns" to manage which DNS server the system queries, these require a file "~/.nextdns_id" with your NextDNS id
--   "newtertab" and "closetertab" to open and close terminal tabs, these can be called through keyboard shortcuts thanks to ydotool,
-    in particular alt + w opens a new tab, alt + e closes the currently-focused tab, alt + q opens a new window (this doesn't need a custom script)
--   "play" to call "beets play", the input doesn't quotation marks
--   "wifi" to cycle wifi settings to off and on again in order to reconnect to laggy networks
 
--- -- --
+- "enable-nextdns" and "disable-nextdns" to manage which DNS server the system queries, these require a file "~/.nextdns_id" with your NextDNS id
+- "newtertab" and "closetertab" to open and close terminal tabs, these can be called through keyboard shortcuts thanks to ydotool,
+  in particular alt + w opens a new tab, alt + e closes the currently-focused tab, alt + q opens a new window (this doesn't need a custom script)
+- "play" to call "beets play", the input doesn't quotation marks
+- "wifi" to cycle wifi settings to off and on again in order to reconnect to laggy networks
+
+---
 
 KEYBOARD SHORTCUTS
-1)  Open new terminal: alt + q
-2)  Open new terminal tab: alt + w
-3)  Close terminal or terminal tab: alt + e (works when the session is empty, not inside vim)
-4)  Switch to terminal tab by number: alt + (number)
-5)  Switch to terinal tab by going left or right: ctrl + page up/page down (note that the "page up" button is NOT the upwards arrow key)
-6)  Open browser: alt + f
-7)  Enter and exit full-screen: F11
-8)  Interrupt the execution of a command: ctrl + c
 
--- -- --
+1.  Open new terminal: alt + q
+2.  Open new terminal tab: alt + w
+3.  Close terminal or terminal tab: alt + e (works when the session is empty, not inside vim)
+4.  Switch to terminal tab by number: alt + (number)
+5.  Switch to terinal tab by going left or right: ctrl + page up/page down (note that the "page up" button is NOT the upwards arrow key)
+6.  Open browser: alt + f
+7.  Enter and exit full-screen: F11
+8.  Interrupt the execution of a command: ctrl + c
+
+---
 
 TERMIAL COMMANDS
-1)  ls: see what files and directories are present in the current directory
+
+1.  ls: see what files and directories are present in the current directory
     [-a] to see hidden files,
     [-larth] to check the files' modes,
     [-l] to see if a directory is a symbolic link
-2)  echo: print
-3)  mkdir: create a directory
+2.  echo: print
+3.  mkdir: create a directory
     [-p] create intermediate directories & suppress error if the directory already exists
-4)  cd: change directory
-5)  clear: clear the terminal
-6)  rm: remove files and directories
+4.  cd: change directory
+5.  clear: clear the terminal
+6.  rm: remove files and directories
     [-r] to recursively remove directories,
     [-f] to remove with force
-7)  pwd: present working directory. pwd | wl-copy copies the present working directory to clipboard.
-8)  cat: spy a file
-9)  mv: move stuff or change stuff's name
-10) which: tells which version of a program is installed
-11) type: tells where all the versions of program installed on the computer
-12) whoami: tells which user is logged in
-13) find: find files
-14) chmod: changes the modes of a file
+7.  pwd: present working directory. pwd | wl-copy copies the present working directory to clipboard.
+8.  cat: spy a file
+9.  mv: move stuff or change stuff's name
+10. which: tells which version of a program is installed
+11. type: tells where all the versions of program installed on the computer
+12. whoami: tells which user is logged in
+13. find: find files
+14. chmod: changes the modes of a file
     [+x] makes the file an executable (useful when writing a bash shell script)
-15) grep: find a piece of text (use it with "|" to give it the output of other commands)
-16) cp: clone a file or directory
-17) diff: find differences between two files
-18) evince: pdf viewer.
-19) flameshot gui: take screenshots.
+15. grep: find a piece of text (use it with "|" to give it the output of other commands)
+16. cp: clone a file or directory
+17. diff: find differences between two files
+18. evince: pdf viewer.
+19. flameshot gui: take screenshots.
 
 ctrl + z pauses a running process.
 bg runs a paused process in the background.
 & runs a command in the background, this is useful not to have a useless terminal window open when running lasting commands.
+
 > redirects the output.
 
--- -- --
+---
 
 COMPILING
-1)  g++: compile
+
+1.  g++: compile
     [-c] to call just the compiler, not the linker and the loader, as to produce object files,
     [-I] to indicate a directory where to find the included files (can be used multiple times),
     [-O] to compile with a certain optimization level,
     [-ggdb] to compile in a debugger-friendly way, to use together with [-O0].
-2)  gdb: debug
+2.  gdb: debug
     [run] to run,
     [up] to and go back from a run-time error to the line of code wich generated it,
     [break] to insert a breakpoint,
@@ -75,57 +80,62 @@ COMPILING
     [step] to move inside functions,
     [continue] to move to the next breakpoint.
 
--- -- --
+---
 
 NEOVIM
-1) The leader is spacebar.
-2) '&' is '^' for concordance with american keyboards.
-3) Arrow keys are deactivated.
+
+1. The leader is spacebar.
+2. '&' is '^' for concordance with american keyboards.
+3. Arrow keys are deactivated.
 
 NORMAL MODE
-1)  :   -> enter command mode.
-1)  h, j, k, l: the basic movement keys, to be chained with numbers
-3)  zz -> center the view.
-2)  w and W, b and B, e and E: move to the next word, the previous word or the end of the next word.
+
+1.  : -> enter command mode.
+1.  h, j, k, l: the basic movement keys, to be chained with numbers
+1.  zz -> center the view.
+1.  w and W, b and B, e and E: move to the next word, the previous word or the end of the next word.
     The upper case variants ignore every delimiter that isn't whitespace. Also to be chained with numbers.
-3)  ^ and $: move to the first non-whitespace character and last character of a line.
-4)  f and F, t and T: jump to the next occurrence of a character or right beore it, with uppercase variants going backwards.
-5)  %: go the the "partner" of the current character, e.g. the partner parenthesis.
-6)  ctrl + o and ctrl + i: jump in the jumplist.
-7)  g; and g,: jump to older or newer positions the changelist.
-8)  / and ?: search forward and backward. n and N jump to next and previous occurrences, ctrl+l to clears the highlighted search terms.
-9)  H, M, L: top, mid and bottom of the current viewport.
-10) { and }: next and previous paragraphs.
-11) gg and G: first and last line of a buffer.
-12) alt + direction: switch focus among open buffers.
-13) u: undo
-14) ctrl + r: redo
-15) ctrl + u / ctrl + d: scroll up and down (not a recommended way to move around a buffer).
-16) <Tab>: manage tabs and splits, gt -> goto next tab,
-18) p, "0p:paste, paste from register 0.
-21) cc  -> delete the contents of the current line without removing the line itself and enter insert mode.
-21) d   -> delete.
-22) D   -> delete from cursor to end of line.
-23) y   -> yoink.
+1.  ^ and $: move to the first non-whitespace character and last character of a line.
+1.  f and F, t and T: jump to the next occurrence of a character or right beore it, with uppercase variants going backwards.
+1.  %: go the the "partner" of the current character, e.g. the partner parenthesis.
+1.  ctrl + o and ctrl + i: jump in the jumplist.
+1.  g; and g,: jump to older or newer positions the changelist.
+1.  / and ?: search forward and backward. n and N jump to next and previous occurrences, ctrl+l to clears the highlighted search terms.
+1.  H, M, L: top, mid and bottom of the current viewport.
+1.  { and }: next and previous paragraphs.
+1.  gg and G: first and last line of a buffer.
+1.  alt + direction: switch focus among open buffers.
+1.  u: undo
+1.  ctrl + r: redo
+1.  ctrl + u / ctrl + d: scroll up and down (not a recommended way to move around a buffer).
+1.  <Tab>: manage tabs and splits, gt -> goto next tab,
+1.  p, "0p:paste, paste from register 0.
+1.  cc -> delete the contents of the current line without removing the line itself and enter insert mode.
+1.  d -> delete.
+1.  D -> delete from cursor to end of line.
+1.  y -> yoink.
 
 COMMAND MODE
 Every command is prefixed by ':'.
-1)  w   -> write a buffer.
-3)  q   -> quit a buffer.
-3)  5   -> go to line 5.
-4)  a   -> reference every buffer.
-5)  !   -> apply the command with force.
-1)  %   -> apply the command to the whole buffer.
-2)  +   -> reference the system clipboard instead of neovim's internal one.
-10) term -> open a terminal window inside neovim.
+
+1.  w -> write a buffer.
+2.  q -> quit a buffer.
+3.  5 -> go to line 5.
+4.  a -> reference every buffer.
+5.  ! -> apply the command with force.
+6.  % -> apply the command to the whole buffer.
+7.  - -> reference the system clipboard instead of neovim's internal one.
+8.  term -> open a terminal window inside neovim.
 
 VISUAL AND VISUAL BLOCK MODE
-1)  ctrl + v: enter visual block mode.
-2)  g + ctrl + a: add 1 to the highlighted text. If several lines are highlighted, each will be incermented by an additional unit.
+
+1.  ctrl + v: enter visual block mode.
+2.  g + ctrl + a: add 1 to the highlighted text. If several lines are highlighted, each will be incermented by an additional unit.
 
 PLUGINS
-1)  Autopairs: automatically closes pairs of caracthers like parenthesis, type the closing character to move outside.
-2)  Competitest: compiling, running against testcases and downloading problems or contests.
+
+1.  Autopairs: automatically closes pairs of caracthers like parenthesis, type the closing character to move outside.
+2.  Competitest: compiling, running against testcases and downloading problems or contests.
     <leder>ca: add testcase,
     <leader>ce: edit testcase,
     <leader>cr: run testcases,
@@ -143,52 +153,52 @@ PLUGINS
     o or O: view stdout in a bigger window,
     e or E: view stderr in a bigger window,
     d or D: toggle diff view between actual and expected output.
-3)  Lualine: status bar.
-4)  Neotree: file tree.
+3.  Lualine: status bar.
+4.  Neotree: file tree.
     <leader>e: toggle filetree to the left.
     a or A to create a new file or directory from within the filetree.
     s to open a file in split view.
     r to rename a file.
-5)  Telescope: search files and in files.
+5.  Telescope: search files and in files.
     <leader>ff: find files in the current directory,
     <leader>fd: find in files,
     <leader>fb: find in the current buffer.
-6)  Tokyonight: color theme.
-7)  Treesitter: syntax highlighting.
+6.  Tokyonight: color theme.
+7.  Treesitter: syntax highlighting.
     ctrl + space: select the next node or increment selection,
     backspace: decrement selection.
-8)  Whichkey: show possible ways to complete commands that one has started typing.
-9)  Oil: file explorer that allow editing the filesystem like a normal vim buffer.
+8.  Whichkey: show possible ways to complete commands that one has started typing.
+9.  Oil: file explorer that allow editing the filesystem like a normal vim buffer.
     To open a directory from command line use "nvim .", then enter to open a file/directory or - to go up a directory.
     :w to actually perform the actions.
     <leader>oe: open the oil file explorer in the current directory,
     <leader>of: open the oil file explorer in a floting window in the current directory,
     :Oil: open the oil file explorer,
     :Oil --float: open the oil file explorer in a floating window.
-10) Flash: navigate code with search labels.
+10. Flash: navigate code with search labels.
     s: activate flash to jump around.
     S: activate flash + treesitter to select portions of text quickly.
     s and S work in normal, visual and operator pending mode.
     / and ? are enhanced with jump labels.
     f, F, t and T motions allow searching a single caracther, then one can repeat the motion with f, t, or go to the previous match with F, T.
     Any highlights clear automatically when moving, changing buffers or pressing esc.
-11) Treesitter-textobjects: syntax-aware select, move, and swap.
+11. Treesitter-textobjects: syntax-aware select, move, and swap.
     <leader>snp: swap next parameters,
     <leader>snd: swap next function definitions,
     <leader>spp: swap previous parameters,
     <leader>spd: swap previous function definitions.
     Type ] to go to the next occurrence of a text-object, [ to go to the previous one, the next caracther specifies which text-object to look for.
     Type v (visual), d (delete), c (change) or y (yoink) to start a command that interacts with a certain portion of text, the next caracther specifies wether to select the inner or the outer part of a text-object, the last caracther specifies what text-object to select.
-12) Code-runner: run code and manage projects.
+12. Code-runner: run code and manage projects.
     <leader>r: run code.
-13) Mason: packet manager for LSP servers, linters and formatters.
+13. Mason: packet manager for LSP servers, linters and formatters.
     cmake -S . -G "Unix Makefiles" -B cmake
     :Mason: open the Mason UI.
-14) Conform: formatting.
+14. Conform: formatting.
     <leader>p: make pretty.
-15) Nvim-lint: linting.
-16) Demicolon: make comma and semiclon uniformely repat moves across plugins.
-17) grug-far.nvim; find and replace!
+15. Nvim-lint: linting.
+16. Demicolon: make comma and semiclon uniformely repat moves across plugins.
+17. grug-far.nvim; find and replace!
     Still needs to be set up :(
 
 TODO
@@ -211,17 +221,3 @@ mason-lspconfig.nvim + nvim-lspconfig (autocomplete!)
 todo-comments.nvim (use comments as anchors)
 trouble (list of diagnostics)
 gitsigns (buffer integration for git)
-
--- -- --
-
-BEETS
-This computer is setup to organise music using Beets and play it using mpv.
-1)  beet config -p: show where the configuration file is located.
-2)  beet import: import music.
-3)  beet play: play music. Ex: beet play artist: Wu-Tang Clan.
-    Since beet is using mpv to play, mpv hotkeys are available while playing:
-    - space: pause/unpause,
-    - right/left arrow: skip 5 seconds forward/backward,
-    - up/down arrow: skip 1 minute forward/backward,
-    - >/<: next/previous track,
-    - q: quit.

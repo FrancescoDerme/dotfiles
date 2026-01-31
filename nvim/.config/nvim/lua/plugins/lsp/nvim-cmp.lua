@@ -29,7 +29,7 @@ return {
 				--menuone: shows a completion menu when there is only one match,
 				--preview: shows a preview window with documentation for the selected item,
 				--noselect: do not autoselect any item from the menu.
-				completeopt = "menu,menuone,preview",
+				completeopt = "menu, menuone, preview, noselect",
 			},
 			snippet = { -- configure how nvim-cmp interacts with snippet engine
 				expand = function(args)
