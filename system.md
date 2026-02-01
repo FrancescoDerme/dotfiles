@@ -12,6 +12,7 @@ to reset to default settings run `gsettings reset org.gnome.desktop.input-source
   in particular `alt + w` opens a new tab, `alt + e` closes the currently-focused tab, `alt + q` opens a new window (this doesn't need a custom script)
 - `play` as an alias to `beet play`
 - `wifi` to cycle wifi settings to off and on again in order to reconnect to laggy networks
+- `hp` to toggle the connection to a specific pair of bluetooth headphones
 
 ### keyboard shortcuts
 
