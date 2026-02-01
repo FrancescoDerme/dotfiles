@@ -24,6 +24,20 @@ return {
 		require("luasnip.loaders.from_vscode").lazy_load()
 
 		cmp.setup({
+			performance = {
+				-- Limit the computed results for speed
+				max_view_entries = 5,
+			},
+
+			--[[
+			window = {
+				completion = {
+					-- Limit the window entries for clutter
+					max_height = 5,
+				},
+			},
+            --]]
+
 			completion = {
 				--menu: shows a completion menu when there is more than one match,
 				--menuone: shows a completion menu when there is only one match,
@@ -43,19 +57,33 @@ return {
 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
 
-				-- ["<M-u>"] = cmp.mapping.scroll_docs(-4),
-				-- ["<M-d>"] = cmp.mapping.scroll_docs(4),
+				["<M-u>"] = cmp.mapping.scroll_docs(-4),
+				["<M-d>"] = cmp.mapping.scroll_docs(4),
 
 				-- Explicitly disable arrow keys in the cmp menu
 				["<Down>"] = cmp.config.disable,
 				["<Up>"] = cmp.config.disable,
 			}),
 			-- sources for autocompletion
+			-- keyword_length is the number of characters to be typed before a suggestion is generated
+			-- max_item_count is self-explanatory
 			sources = cmp.config.sources({
-				{ name = "nvim_lsp" }, -- suggestion coming from the lsp
-				{ name = "luasnip" }, -- snippets
-				{ name = "buffer" }, -- text within current buffer
-				-- { name = "path" }, -- file system paths
+				-- suggestion coming from the lsp
+				{
+					name = "nvim_lsp",
+					entry_filter = function(entry, ctx)
+						-- Get the word currently typed in the buffer
+						local word = ctx.cursor_before_line:match("[%w_]+$")
+						-- Compare it to the completion label
+						return entry:get_insert_text() ~= word
+					end,
+				},
+				-- snippets
+				{ name = "luasnip" },
+				-- text within current buffer
+				{ name = "buffer" },
+				-- file system paths
+				{ name = "path", keyword_length = 3, max_item_count = 1 },
 			}),
 
 			-- configure lspkind for pictograms in completion menu
