@@ -1,7 +1,12 @@
 #!/bin/bash
 
-# Mac address of a specific device
-DEVICE="80:99:E7:2D:6C:DF"
+# Read the MAC address of a specific device
+DEVICE=$(cat $HOME/dotfiles/private/bluetooth_device)
+
+if [ -z "$DEVICE" ]; then
+    echo "Error: no MAC address found at ~/.bluetooth_device"
+    exit 1
+fi
 
 # Check if the device is connected
 IS_CONNECTED=$(bluetoothctl info $DEVICE | grep "Connected: yes")

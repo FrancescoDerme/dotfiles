@@ -8,7 +8,7 @@ read -s -p "Enter NextDNS disable password: " entered
 echo
 
 if [ "$entered" != "$PASS" ]; then
-  echo "Wrong password, aborting"
+  echo "Error: wrong password"
   exit 1
 fi
 

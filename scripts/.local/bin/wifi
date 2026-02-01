@@ -2,13 +2,13 @@
 
 SLEEP_DURATION=${1:-0.5}
 
-echo "Disabling Wi-Fi..."
+echo "Disabling Wi-Fi"
 nmcli radio wifi off
 echo -n "Current status: "; nmcli radio wifi
-echo "Waiting $SLEEP_DURATION second(s)..."
+echo "Waiting $SLEEP_DURATION second(s)"
 sleep $SLEEP_DURATION
-echo "Enabling Wi-Fi..."
+echo "Enabling Wi-Fi"
 nmcli radio wifi on
-echo "Waiting $SLEEP_DURATION second(s)..."
+echo "Waiting $SLEEP_DURATION second(s)"
 sleep $SLEEP_DURATION
 echo -n "New status: "; nmcli radio wifi
