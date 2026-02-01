@@ -1,8 +1,10 @@
+## Dotfiles
+
 This repo uses [stow][] to manage the symlinks for my configuration files.
 
-Basically, I have a `~/dotfiles` directory where all the config files live. When tools and shells (like `nvim` or `bash`) look for their configs and scripts in the usual places (e.g., `~/.config/nvim` or `~/.local/bin`), they find a symbolic link that points to this folder.
+Basically, I have a `~/dotfiles` directory where all the config files live. When tools and shells (like `nvim` or `bash`) look for their configs and scripts in the usual places (e.g., `~/.config/nvim` or `~/.local/bin`), they find a symbolic link that points to this folder. This makes managing configurations, sharing them across machines, and version control much easier.
 
-This makes managing configurations, sharing them across machines, and version control much easier.
+For more information about how each configuration works, refer to the `documentation` folder.
 
 ### Installation
 

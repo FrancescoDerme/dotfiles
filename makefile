@@ -7,7 +7,7 @@ DIRS := $(wildcard */)
 DIRS_CLEAN := $(patsubst %/,%,$(DIRS))
 
 # Filter out directories not to be stowed (e.g., .git)
-EXCLUDE := .git .github node_modules
+EXCLUDE := .git .github private documentation
 PACKAGES := $(filter-out $(EXCLUDE), $(DIRS_CLEAN))
 
 # Test which directories are detected

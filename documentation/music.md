@@ -14,7 +14,7 @@
 
 ### Play music
 
-On pc, `play something` plays something via `mpv`, `something` is fuzzily-matched by `beets` to something in the library and can be a song, an album or an artist. Alternativaly `ncmpcpp` opens a GUI to interact with `mpd`. On mobile, when the `Navidrome` and `Tailscale` services are running, content can be streamed from the pc to apposite apps.
+On pc, `play something` plays something via `mpv`, `something` is fuzzily-matched by `beets` to something in the library and can be a song, an album, an artist, a genre, etc. Alternativaly `ncmpcpp` opens a GUI to interact with `mpd`. On mobile, when the `Navidrome` and `Tailscale` services are running, content can be streamed from the pc to apposite apps.
 
 ### Create a playlist
 

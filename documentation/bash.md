@@ -1,28 +1,8 @@
-### Settings
+### bashrc and bash_aliases
 
-Caps lock and ctrl keys have been swapped by running `gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']"`,
-to reset to default settings run `gsettings reset org.gnome.desktop.input-sources xkb-options`.
-
-### Scripts
-
-`~/.bashrc` is edited so that scripts placed in `~/.local/bin/` can be called from anywhere, these include:
-
-- `enable-nextdns` and `disable-nextdns` to manage which DNS server the system queries, these require a file `~/dotfiles/private/nextdns_id` with a NextDNS id
-- `newtertab` and `closetertab` to open and close terminal tabs, these can be called through keyboard shortcuts thanks to `ydotool`,
-  in particular `alt + w` opens a new tab, `alt + e` closes the currently-focused tab, `alt + q` opens a new window (this doesn't need a custom script)
-- `play` as an alias to `beet play`
-- `wifi` to cycle wifi settings to off and on again in order to reconnect to laggy networks
-- `bd` to toggle the bluetooth connection to a specific bluetooth device, this requires a file `~/dotfiles/private/bluetooth_device` with the device's MAC address
-
-### keyboard shortcuts
-
-- Open new terminal: `alt + q`
-- Open new terminal tab: `alt + w`
-- Close terminal or terminal tab: `alt + e` (works when the session is empty, not inside vim)
-- Switch to terminal tab by number: `alt + number`
-- Switch to terinal tab by going left or right: `ctrl + page up/down`
-- Enter and exit full-screen: `F11`
-- Interrupt the execution of a command: `ctrl + c`
+- The path `~/.local/bin/` is exported so that scripts placed in this direcory can be called from anywhere
+- `ls` and its standard aliases (`ll`, `la`, and `l`) are aliased to have the `--group-directories-first` flag set by default
+- `play` is an alias for `beet play`
 
 ### Bash commands
 
@@ -74,8 +54,9 @@ to reset to default settings run `gsettings reset org.gnome.desktop.input-source
 ### External utilities
 
 - `wl-copy` copies its input to the clipboard
-- `flameshot` gui takes a screenshots
+- `flameshot gui` takes a screenshots
 - `evince` opens a pdf
+- `tree` shows a file tree
 
 ### Compiling and debugging
 
