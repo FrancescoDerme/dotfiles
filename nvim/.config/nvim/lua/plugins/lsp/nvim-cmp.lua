@@ -39,11 +39,16 @@ return {
 			mapping = cmp.mapping.preset.insert({
 				["<M-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
 				["<M-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-				["<M-u>"] = cmp.mapping.scroll_docs(-4),
-				["<M-d>"] = cmp.mapping.scroll_docs(4),
 				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
+
+				-- ["<M-u>"] = cmp.mapping.scroll_docs(-4),
+				-- ["<M-d>"] = cmp.mapping.scroll_docs(4),
+
+				-- Explicitly disable arrow keys in the cmp menu
+				["<Down>"] = cmp.config.disable,
+				["<Up>"] = cmp.config.disable,
 			}),
 			-- sources for autocompletion
 			sources = cmp.config.sources({
