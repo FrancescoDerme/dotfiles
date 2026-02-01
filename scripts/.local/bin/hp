@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Mac address of a specific device
+DEVICE="80:99:E7:2D:6C:DF"
+
+# Check if the device is connected
+IS_CONNECTED=$(bluetoothctl info $DEVICE | grep "Connected: yes")
+
+if [ -z "$IS_CONNECTED" ]; then
+    echo "Attempting to connect to $DEVICE"
+    bluetoothctl connect $DEVICE > /dev/null 2>&1
+
+    if [ $? -eq 0 ]; then
+        echo "Connected"
+    else
+        echo "Failed to connect"
+    fi
+else
+    echo "Disconnecting from $DEVICE"
+    bluetoothctl disconnect $DEVICE > /dev/null 2>&1
+    echo "Disconnected"
+fi
