@@ -102,6 +102,9 @@ vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file e
 -- Code runner
 vim.keymap.set("n", "<leader>r", ":RunCode <CR>", { desc = "Run code" })
 
+-- Markdown-preview
+vim.keymap.set("n", "<leader>m", ":MarkdownPreviewToggle <CR>", { desc = "Mardown preview" })
+
 -- LSP
 _G.lsp_active = false
 local servers = { "clangd", "neocmakelsp", "lua_ls" }
