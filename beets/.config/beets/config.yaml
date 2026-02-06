@@ -1,10 +1,22 @@
+include:
+  - ~/dotfiles/private/genius_api_key.yaml
+
 directory: ~/Music
 library: ~/.config/beets/library.db
-plugins: play mpdupdate
+plugins: play lyrics mpdupdate
 import:
     move: yes
 play:
     command: mpv
+lyrics:
+    sources: genius
+    # Embed in file 
+    # This writes lyrics to the ID3/Vorbis tag, resulting in
+    # zero clutter, the lyrics travel with the song
+    force: no
+    auto: yes
+    # This allows slight differences in title matching
+    title_diff: 2  
 mpdupdate:
     host: 127.0.0.1
     port: 6600

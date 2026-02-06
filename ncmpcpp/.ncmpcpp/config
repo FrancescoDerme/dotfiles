@@ -1,6 +1,5 @@
 # Files
 mpd_music_dir = "~/Music"  
-lyrics_directory = "~/Music/Lyrics"
 ncmpcpp_directory  = ~/.ncmpcpp
 mpd_host = "localhost"
 mpd_port = "6600"  
@@ -27,32 +26,32 @@ song_list_format = "{$3%n │ $9}{$7%a - $9}{$5%t$9}|{$8%f$9}$R{$6 │ %b$9}{$3 
 user_interface = "alternative"
 default_place_to_search_in = "database"
 
-# visualizer
+# Visualizer
 visualizer_data_source = "/tmp/mpd.fifo"
 visualizer_output_name = "my_fifo"
 visualizer_type = "spectrum" (spectrum/wave)
 visualizer_in_stereo = "yes"
 visualizer_look = "+|"
 
-## Navigation ##
+# Navigation
 cyclic_scrolling = "yes"
 header_text_scrolling = "yes"
 jump_to_now_playing_song_at_start = "yes"
 lines_scrolled = "2"
 
-## Other
+# Other
 system_encoding = "utf-8"
 regular_expressions = "extended"
 
-## Selected tracks
+# Selected tracks
 selected_item_prefix = "* "
 discard_colors_if_item_is_selected = "no"
 
-## Seeking
+# Seeking
 incremental_seeking = "yes"
 seek_time = "1"
 
-## Visivility
+# Visibility
 header_visibility = "yes"
 statusbar_visibility = "yes"
 titles_visibility = "yes"
@@ -65,12 +64,15 @@ song_status_format = " $2%a $4⟫$3⟫ $8%t $4⟫$3⟫ $5%b "
 autocenter_mode = "yes"
 centered_cursor = "yes"
 
+# Lyrics
+lyrics_directory = "/tmp"
+lyrics_fetchers = "azlyrics"
+store_lyrics_in_song_dir = "no"
+fetch_lyrics_for_current_song_in_background = "no"
+follow_now_playing_lyrics = "yes"
+execute_on_song_change = "get_lyrics"
+
 # Misc
 display_bitrate = "yes"
-follow_now_playing_lyrics = "yes"
 ignore_leading_the = "yes"
 empty_tag_marker = ""
-
-# Lyrics
-lyrics_fetchers = "justsomelyrics"
-fetch_lyrics_for_current_song_in_background = "yes"

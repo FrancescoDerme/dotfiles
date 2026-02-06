@@ -1,6 +1,7 @@
 ### bashrc and bash_aliases
 
 - The path `~/.local/bin/` is exported so that scripts placed in this direcory can be called from anywhere
+- `pipx` installation path is set to `~/.local/pipx-bin` not to get its stuff mixed up with personal scripts. This path is also exported.
 - `ls` and its standard aliases (`ll`, `la`, and `l`) are aliased to have the `--group-directories-first` flag set by default
 - `play` is an alias for `beet play`
 

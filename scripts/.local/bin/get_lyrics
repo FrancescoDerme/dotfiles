@@ -1,0 +1,12 @@
+#!/bin/bash
+
+RELATIVE_PATH=$(mpc -f %file% current)
+FULL_PATH="$HOME/Music/$RELATIVE_PATH"
+ARTIST_TITLE=$(mpc -f "%artist% - %title%" current)
+TEMP_LYRICS="/tmp/$ARTIST_TITLE.txt"
+
+if [ -f "$FULL_PATH" ]; then
+    metaflac --show-tag=LYRICS "$FULL_PATH" | sed 's/^LYRICS=//' > "$TEMP_LYRICS"
+else
+    echo "No embedded lyrics found." > "$TEMP_LYRICS"
+fi

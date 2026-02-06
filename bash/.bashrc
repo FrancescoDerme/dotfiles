@@ -111,4 +111,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Export scripts directory
 export PATH="$PATH:$HOME/.local/bin"
+
+# Pipx will put its stuff here
+export PIPX_BIN_DIR="$HOME/.local/pipx-bin"
+
+# Export pipx directory
+export PATH="$PIPX_BIN_DIR:$PATH"

@@ -10,7 +10,11 @@
 
 ### Import music
 
-`beet import path/to/file/or/folder`, since `beets` tends to be quite picky with tags and metadata, it might be useful to give it the release id from the [MusicBrainz][] database when importing, this is found in the last part of the url of a release's webpage.
+`beet import path/to/file/or/folder`, since `Beets` tends to be quite picky with tags and metadata, it might be useful to give it the release id from the [MusicBrainz][] database when importing, this is found in the last part of the url of a release's webpage.
+
+### Download lyrics
+
+`beet lyrics` downloads lyrics for the entire music library and embeds them in the ID3/Vorbis tag, meaning that it does not create separate files, but rather the lyrics live withing the song files. For large libraries, a `Genius` API key at `~/dotfiles/private/genius_api_key.yaml` is required, this file needs to be formatted in the same manner as `Beets`' own `config.yaml`.
 
 ### Play music
 
@@ -31,6 +35,7 @@ sed -i 's|^|../|' NameOfPlaylist.m3u
 
 - Config file directory: `beet config -p`
 - Import music: `beet import`
+- Download lyrics: `beet lyrics`
 - Play music: `beet play` or just `play` thanks to a script
   Since `Beets` is using `mpv` to play, `mpv` hotkeys are available while playing:
   - Pause/unpause: spacebar,
