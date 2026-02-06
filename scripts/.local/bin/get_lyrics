@@ -1,12 +1,46 @@
 #!/bin/bash
 
+# Get file info from mpc
 RELATIVE_PATH=$(mpc -f %file% current)
 FULL_PATH="$HOME/Music/$RELATIVE_PATH"
 ARTIST_TITLE=$(mpc -f "%artist% - %title%" current)
 TEMP_LYRICS="/tmp/$ARTIST_TITLE.txt"
 
+# Get extension (lowercase)
+EXT="${FULL_PATH##*.}"
+EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
+
 if [ -f "$FULL_PATH" ]; then
-    metaflac --show-tag=LYRICS "$FULL_PATH" | sed 's/^LYRICS=//' > "$TEMP_LYRICS"
+    case "$EXT_LOWER" in
+        flac)
+            # FLAC: simple text parsing works fine here
+            metaflac --show-tag=LYRICS "$FULL_PATH" | sed 's/^LYRICS=//' > "$TEMP_LYRICS"
+            ;;
+        mp3)
+            # MP3: use python-mutagen directly to grab the full USLT block
+            python3 -c "
+import sys
+from mutagen.id3 import ID3
+try:
+    tags = ID3(sys.argv[1])
+    # Iterate keys to find the USLT frame (it often has suffixes like USLT::eng)
+    for key in tags.keys():
+        if key.startswith('USLT'):
+            print(tags[key].text)
+            break
+except Exception:
+    pass
+" "$FULL_PATH" > "$TEMP_LYRICS"
+            ;;
+        *)
+            echo "Unsupported file type: $EXT" > "$TEMP_LYRICS"
+            ;;
+    esac
+
+    # If no lyrics found, write a placeholder
+    if [ ! -s "$TEMP_LYRICS" ]; then
+        echo "No embedded lyrics found." > "$TEMP_LYRICS"
+    fi
 else
-    echo "No embedded lyrics found." > "$TEMP_LYRICS"
+    echo "File not found: $FULL_PATH" > "$TEMP_LYRICS"
 fi
