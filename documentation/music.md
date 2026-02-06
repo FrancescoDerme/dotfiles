@@ -14,7 +14,7 @@
 
 ### Download lyrics
 
-`beet lyrics` downloads lyrics for the entire music library and embeds them in the ID3/Vorbis tag, meaning that it does not create separate files, but rather the lyrics live withing the song files. For large libraries, a `Genius` API key at `~/dotfiles/private/genius_api_key.yaml` is required, this file needs to be formatted in the same manner as `Beets`' own `config.yaml`.
+`beet lyrics` downloads lyrics for the entire music library and embeds them in the ID3/Vorbis tag, meaning that it does not create separate files, but rather the lyrics live within the song files. For large libraries, a `Genius` API key at `~/dotfiles/private/genius_api_key.yaml` is required, this file needs to be formatted in the same manner as `Beets`' own `config.yaml`.
 
 ### Play music
 

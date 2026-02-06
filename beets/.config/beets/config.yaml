@@ -10,9 +10,8 @@ play:
     command: mpv
 lyrics:
     sources: genius
-    # Embed in file 
-    # This writes lyrics to the ID3/Vorbis tag, resulting in
-    # zero clutter, the lyrics travel with the song
+    # This writes lyrics to the ID3/Vorbis tag,
+    # the lyrics live within the song
     force: no
     auto: yes
     # This allows slight differences in title matching
