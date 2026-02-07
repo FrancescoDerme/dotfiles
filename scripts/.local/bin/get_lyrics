@@ -4,7 +4,8 @@
 RELATIVE_PATH=$(mpc -f %file% current)
 FULL_PATH="$HOME/Music/$RELATIVE_PATH"
 ARTIST_TITLE=$(mpc -f "%artist% - %title%" current)
-TEMP_LYRICS="/tmp/$ARTIST_TITLE.txt"
+SAFE_FILENAME="${ARTIST_TITLE//\//}" 
+TEMP_LYRICS="/tmp/$SAFE_FILENAME.txt"
 
 # Get extension (lowercase)
 EXT="${FULL_PATH##*.}"
