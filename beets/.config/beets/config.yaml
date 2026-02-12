@@ -3,7 +3,7 @@ include:
 
 directory: ~/Music
 library: ~/.config/beets/library.db
-plugins: play lyrics mpdupdate
+plugins: play lyrics mpdupdate rewrite
 import:
     move: yes
 play:
@@ -15,7 +15,11 @@ lyrics:
     force: no
     auto: yes
     # This allows slight differences in title matching
-    title_diff: 2  
+    title_diff: 2 
 mpdupdate:
     host: 127.0.0.1
     port: 6600
+rewrite:
+    # Some artists have releases under multiple names or
+    # their names are different on Musixmatch vs Genius
+    artist Alessandro Mannarino: Mannarino
