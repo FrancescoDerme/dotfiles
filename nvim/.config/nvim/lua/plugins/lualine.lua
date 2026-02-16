@@ -5,6 +5,9 @@ return {
 			options = {
 				theme = "palenight",
 			},
+			extensions = {
+				"neo-tree",
+			},
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = { "branch", "diff", "diagnostics" },

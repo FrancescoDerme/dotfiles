@@ -55,7 +55,10 @@ return {
 				["<M-j>"] = cmp.mapping.select_next_item(), -- next suggestion
 				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
+
+				-- Sometimes Alt key is still pressed when pressing Enter, this should behave as standard Enter
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
+				["<M-CR>"] = cmp.mapping.confirm({ select = false }),
 
 				["<M-u>"] = cmp.mapping.scroll_docs(-4),
 				["<M-d>"] = cmp.mapping.scroll_docs(4),
