@@ -1,8 +1,13 @@
 return {
 	"mawkler/demicolon.nvim",
 	branch = "repeated",
-	-- keys = { ';', ',', 't', 'f', 'T', 'F', ']', '[', ']d', '[d' }, -- Uncomment this to lazy load
-	-- ft = 'tex',                                                    -- ...and this if you use LaTeX
+
+	-- Disable some default keymaps
+	keys = {
+		{ "]c", false },
+		{ "[c", false },
+	},
+
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-treesitter/nvim-treesitter-textobjects",

@@ -6,11 +6,58 @@
 --]]
 vim.keymap.set("n", "&", "^", { desc = "^" })
 
--- Deactivating arrow keys in both normal and insert mode
-vim.keymap.set({ "n", "i" }, "<Down>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set({ "n", "i" }, "<Up>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set({ "n", "i" }, "<Left>", "<Nop>", { desc = "Ignored" })
-vim.keymap.set({ "n", "i" }, "<Right>", "<Nop>", { desc = "Ignored" })
+-- Disable some of the default "]" and "[" vim keymaps
+local chars_to_delete = {
+	"a",
+	"A",
+	"b",
+	"B",
+	"D",
+	"h",
+	"L",
+	"q",
+	"Q",
+	"t",
+	"T",
+	" ",
+	"<C-L>",
+	"<C-T>",
+	"<C-Q>",
+}
+
+for _, char in ipairs(chars_to_delete) do
+	pcall(vim.keymap.del, { "n", "v", "o" }, "]" .. char)
+	pcall(vim.keymap.del, { "n", "v", "o" }, "[" .. char)
+end
+
+-- Disable other default keymaps and hide them inside which-key
+-- These are core engine motions, so vim.keymap.del doesn't work
+_G.DeadKeys = {
+	"]m",
+	"[m",
+	"]M",
+	"[M",
+	"]s",
+	"[s",
+	"]%",
+	"[%",
+	"](",
+	"[(",
+	"]<",
+	"[<",
+	"]{",
+	"[{",
+}
+
+for _, key in ipairs(_G.DeadKeys) do
+	vim.keymap.set({ "n", "v", "o" }, key, "<Nop>", { desc = "Disabled" })
+end
+
+-- Disable arrow keys
+vim.keymap.set({ "n", "i" }, "<Down>", "<Nop>", { desc = "Disabled" })
+vim.keymap.set({ "n", "i" }, "<Up>", "<Nop>", { desc = "Disabled" })
+vim.keymap.set({ "n", "i" }, "<Left>", "<Nop>", { desc = "Disabled" })
+vim.keymap.set({ "n", "i" }, "<Right>", "<Nop>", { desc = "Disabled" })
 
 -- Keymaps to switch focus faster
 vim.keymap.set("n", "<M-h>", "<C-w>h", { desc = "Switch focus left" })
@@ -128,8 +175,8 @@ local lsp_mappings = {
 		desc = "Show buffer diagnostics",
 	},
 	{ mode = "n", key = "<leader>ld", func = vim.diagnostic.open_float, desc = "Show line diagnostics" },
-	{ mode = "n", key = "[d", func = vim.diagnostic.goto_prev, desc = "Previous Diagnostic" },
-	{ mode = "n", key = "]d", func = vim.diagnostic.goto_next, desc = "Next Diagnostic" },
+	{ mode = "n", key = "[e", func = vim.diagnostic.goto_prev, desc = "Diagnostic" },
+	{ mode = "n", key = "]e", func = vim.diagnostic.goto_next, desc = "Diagnostic" },
 }
 
 vim.api.nvim_create_autocmd("LspAttach", {

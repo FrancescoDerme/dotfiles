@@ -4,7 +4,20 @@ return {
 	opts = {
 		---@param mapping wk.Mapping
 		filter = function(mapping)
-			-- return true
+			-- Hide DeadKeys, these are defined in "keymaps.lua"
+			if _G.DeadKeys then
+				for _, dead_key in ipairs(_G.DeadKeys) do
+					if mapping.lhs == dead_key then
+						return false
+					end
+				end
+			end
+
+			-- Hide keys whose description starts with "Disabled"
+			if mapping.desc and mapping.desc:match("^Disable") then
+				return false
+			end
+
 			return mapping.desc and mapping.desc ~= ""
 		end,
 		win = {
@@ -20,12 +33,17 @@ return {
 				{ "<leader>c", group = "Competitest" },
 				{ "<leader>cd", group = "Download" },
 				{ "<leader>o", group = "Oil" },
-				{ "<leader>s", group = "Swap" },
-				{ "<leader>sn", group = "Swap next" },
-				{ "<leader>sp", group = "Swap previous" },
 				{ "g", group = "Goto" },
-				{ "]", group = "Goto next" },
-				{ "[", group = "Goto previous" },
+				{ "]", group = "Next" },
+				{ "]f", group = "Function call" },
+				{ "]d", group = "Function definition" },
+				{ "]i", group = "Conditional" },
+				{ "]l", group = "Loop" },
+				{ "[", group = "Previous" },
+				{ "[f", group = "Function call" },
+				{ "[d", group = "Function definition" },
+				{ "[i", group = "Conditional" },
+				{ "[l", group = "Loop" },
 			},
 		},
 	},
@@ -35,7 +53,6 @@ return {
 			function()
 				require("which-key").show({ global = false })
 			end,
-			--desc = "Buffer Local Keymaps (which-key)",
 			desc = "",
 		},
 	},

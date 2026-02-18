@@ -33,6 +33,8 @@ return {
 						["ic"] = { query = "@class.inner", desc = "Select inner class" },
 					},
 				},
+				-- Swaps are rerely useful and clutter the config
+				--[[
 				swap = {
 					enable = true,
 					swap_next = {
@@ -44,58 +46,63 @@ return {
 						["<leader>spd"] = { query = "@function.outer", desc = "Swap prev function definitions" },
 					},
 				},
+                ]]
 				move = {
 					enable = true,
 					set_jumps = true, -- whether to set jumps in the jumplist
 					goto_next_start = {
-						["]f"] = { query = "@call.outer", desc = "Next function call start" },
-						["]d"] = { query = "@function.outer", desc = "Next function definition" },
-						--["]c"] = { query = "@class.outer", desc = "Next class start" },
-						["]p"] = { query = "@parameter.inner", desc = "Next parameter start" },
-						["]i"] = { query = "@conditional.outer", desc = "Next conditional start" },
-						["]l"] = { query = "@loop.outer", desc = "Next loop start" },
+						["]fs"] = { query = "@call.outer", desc = "Start" },
+						["]ds"] = { query = "@function.outer", desc = "Start" },
+						["]is"] = { query = "@conditional.outer", desc = "Start" },
+						["]ls"] = { query = "@loop.outer", desc = "Start" },
+						--["]cs"] = { query = "@class.outer", desc = "Start" },
+						--["]ps"] = { query = "@parameter.inner", desc = "Start" },
 					},
 					goto_next_end = {
-						["]F"] = { query = "@call.outer", desc = "Next function call end" },
-						["]D"] = { query = "@function.outer", desc = "Next function def end" },
-						--["]C"] = { query = "@class.outer", desc = "Next class end" },
-						["]P"] = { query = "@parameter.outer", desc = "Next parameter end" },
-						["]I"] = { query = "@conditional.outer", desc = "Next conditional end" },
-						["]L"] = { query = "@loop.outer", desc = "Next loop end" },
+						["]fe"] = { query = "@call.outer", desc = "End" },
+						["]de"] = { query = "@function.outer", desc = "End" },
+						["]ie"] = { query = "@conditional.outer", desc = "End" },
+						["]le"] = { query = "@loop.outer", desc = "End" },
+						--["]ce"] = { query = "@class.outer", desc = "End" },
+						--["]pe"] = { query = "@parameter.outer", desc = "End" },
 					},
 					goto_previous_start = {
-						["[f"] = { query = "@call.outer", desc = "Prev function call start" },
-						["[d"] = { query = "@function.outer", desc = "Prev method/function def start" },
-						--["[c"] = { query = "@class.outer", desc = "Prev class start" },
-						["[p"] = { query = "@parameter.inner", desc = "Prev parameter start" },
-						["[i"] = { query = "@conditional.outer", desc = "Prev conditional start" },
-						["[l"] = { query = "@loop.outer", desc = "Prev loop start" },
+						["[fs"] = { query = "@call.outer", desc = "Start" },
+						["[ds"] = { query = "@function.outer", desc = "Start" },
+						["[is"] = { query = "@conditional.outer", desc = "Start" },
+						["[ls"] = { query = "@loop.outer", desc = "Start" },
+						--["[cs"] = { query = "@class.outer", desc = "Start" },
+						--["[ps"] = { query = "@parameter.inner", desc = "Start" },
 					},
 					goto_previous_end = {
-						["[F"] = { query = "@call.outer", desc = "Prev function call end" },
-						["[D"] = { query = "@function.outer", desc = "Prev method/function def end" },
-						--["[C"] = { query = "@class.outer", desc = "Prev class end" },
-						["[P"] = { query = "@parameter.outer", desc = "Prev parameter end" },
-						["[I"] = { query = "@conditional.outer", desc = "Prev conditional end" },
-						["[L"] = { query = "@loop.outer", desc = "Prev loop end" },
+						["[fe"] = { query = "@call.outer", desc = "End" },
+						["[de"] = { query = "@function.outer", desc = "End" },
+						["[ie"] = { query = "@conditional.outer", desc = "End" },
+						["[le"] = { query = "@loop.outer", desc = "End" },
+						--["[ce"] = { query = "@class.outer", desc = "End" },
+						--["[pe"] = { query = "@parameter.outer", desc = "End" },
 					},
 				},
 			},
 		})
 
-		-- local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-
-		-- Repeat movement with ; and ,
-		-- ensure ; goes forward and , goes backward regardless of the last direction
-		--vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
-		--vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
-
-		-- vim way: ; goes to the direction you were moving.
-		-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-		-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+		-- The next blocks are commented because moves are made repeatable through the demicolon plugin
 
 		--[[
-		-- Optionally, make builtin f, F, t, T also repeatable with ; and ,
+		local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+		-- Repeat movement with ; and ,
+		-- Option 1: ; goes forward and , goes backward regardless of the last direction
+		vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
+		vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
+
+		-- Option 2: ; goes forawrd in the last direction
+		-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+		-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+        ]]
+
+		--[[
+		-- Make builtin f, F, t, T also repeatable with ; and ,
 		vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
 		vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
 		vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
