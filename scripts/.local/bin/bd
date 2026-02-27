@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check for the no-disconnect argument
+NO_DISCONNECT=0
+if [[ "$1" == "--no-disconnect" || "$1" == "-n" ]]; then
+    NO_DISCONNECT=1
+fi
+
 # Read the MAC address of a specific device
 DEVICE=$(cat $HOME/dotfiles/private/bluetooth_device)
 
@@ -21,7 +27,11 @@ if [ -z "$IS_CONNECTED" ]; then
         echo "Failed to connect"
     fi
 else
-    echo "Disconnecting from $DEVICE"
-    bluetoothctl disconnect $DEVICE > /dev/null 2>&1
-    echo "Disconnected"
+    if [ "$NO_DISCONNECT" -eq 1 ]; then
+        echo "Device $DEVICE is already connected. Skipping disconnect."
+    else
+        echo "Disconnecting from $DEVICE"
+        bluetoothctl disconnect $DEVICE > /dev/null 2>&1
+        echo "Disconnected"
+    fi
 fi
