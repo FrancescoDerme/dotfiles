@@ -28,7 +28,7 @@ if [ -z "$IS_CONNECTED" ]; then
     fi
 else
     if [ "$NO_DISCONNECT" -eq 1 ]; then
-        echo "Device $DEVICE is already connected. Skipping disconnect."
+        echo "Device $DEVICE is already connected"
     else
         echo "Disconnecting from $DEVICE"
         bluetoothctl disconnect $DEVICE > /dev/null 2>&1
