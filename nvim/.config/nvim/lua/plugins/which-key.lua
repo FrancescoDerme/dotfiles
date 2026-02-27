@@ -33,7 +33,6 @@ return {
 				{ "<leader>c", group = "Competitest" },
 				{ "<leader>cd", group = "Download" },
 				{ "<leader>o", group = "Oil" },
-				{ "g", group = "Goto" },
 				{ "]", group = "Next" },
 				{ "]f", group = "Function call" },
 				{ "]d", group = "Function definition" },
