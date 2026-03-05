@@ -2,9 +2,12 @@
 --   american keyboard (it makes sense for '&' to be close to
 --   '$' since they have complementary functions). '&' did something
 --   too, probably something quite important and useful, but we're
---   gonna ignore it for now.
+--   gonna ignore it for now
 --]]
 vim.keymap.set("n", "&", "^", { desc = "^" })
+
+-- Fix AltGr+i typing right arrow, this is only a problem on non-US keyboards
+vim.keymap.set("i", "→", "i", { noremap = true })
 
 -- Disable some of the default "]" and "[" vim keymaps
 local chars_to_delete = {
