@@ -82,32 +82,41 @@ vim.keymap.set("n", "<leader>du", ":cd %:p:h:h <CR>", { desc = "cd to above file
 
 -- Keep track of the path of the last saved files to be used in directory-related keymaps
 local history_path = vim.fn.stdpath("data") .. "/history.txt"
+local history_cache = nil
 local MAX_HISTORY = 5
 
--- Read history from disk
-local function read_history()
-	local f = io.open(history_path, "r")
-	if not f then
-		return {}
+-- Read history from disk (only once per session)
+local function load_history()
+	if history_cache then
+		return
 	end
 
-	local lines = {}
+	history_cache = {}
+
+	local f = io.open(history_path, "r")
+	if not f then
+		return
+	end
+
 	for line in f:lines() do
 		local cleaned = line:match("^%s*(.-)%s*$")
 		if cleaned ~= "" then
-			table.insert(lines, cleaned)
+			table.insert(history_cache, cleaned)
 		end
 	end
 
 	f:close()
-	return lines
 end
 
--- Write history to disk
-local function write_history(lines)
+-- Write history to disk (only at the end of the session)
+local function save_history()
+	if not history_cache then
+		return
+	end
+
 	local f = io.open(history_path, "w")
 	if f then
-		for _, line in ipairs(lines) do
+		for _, line in ipairs(history_cache) do
 			f:write(line .. "\n")
 		end
 
@@ -115,7 +124,7 @@ local function write_history(lines)
 	end
 end
 
--- Add current buffer to history
+-- Add current buffer to history cache
 local function add_to_history()
 	local filepath = vim.api.nvim_buf_get_name(0)
 	if not filepath or filepath == "" then
@@ -123,64 +132,42 @@ local function add_to_history()
 	end
 
 	local abs_path = vim.fn.fnamemodify(filepath, ":p")
-	local history = read_history()
+	load_history()
 
-	-- Count valid older items
-	local valid_count = 0
-	for _, path in ipairs(history) do
-		if path ~= abs_path then
-			valid_count = valid_count + 1
+	-- Remove the file if it's already in the history to avoid duplicates
+	for i = #history_cache, 1, -1 do
+		if history_cache[i] == abs_path then
+			table.remove(history_cache, i)
 		end
 	end
 
-	-- Calculate how many older items to skip to leave room for the new one
-	local skip_count = math.max(0, valid_count - (MAX_HISTORY - 1))
+	-- Add to the end of the history
+	table.insert(history_cache, abs_path)
 
-	local new_history = {}
-
-	-- Rebuild the list
-	for _, path in ipairs(history) do
-		if path ~= abs_path then
-			if skip_count > 0 then
-				skip_count = skip_count - 1
-			else
-				table.insert(new_history, path)
-			end
-		end
+	-- Enforce MAX_HISTORY limit
+	while #history_cache > MAX_HISTORY do
+		table.remove(history_cache, 1)
 	end
-
-	-- Append the new file to the end
-	table.insert(new_history, abs_path)
-	write_history(new_history)
 end
 
--- Navigate and clean history
+-- Navigate memory cache
 local function navigate_history(direction)
-	local history = read_history()
-	if #history == 0 then
+	load_history()
+
+	if #history_cache == 0 then
 		vim.notify("History is empty", vim.log.levels.WARN)
 		return
 	end
 
-	-- Filter out files that no longer exist
-	local valid_history = {}
-	local cleaned = false
-
-	for _, path in ipairs(history) do
-		if vim.fn.filereadable(path) == 1 then
-			table.insert(valid_history, path)
-		else
-			cleaned = true
+	-- Clean up missing files lazily from cache
+	for i = #history_cache, 1, -1 do
+		if vim.fn.filereadable(history_cache[i]) == 0 then
+			table.remove(history_cache, i)
 		end
 	end
 
-	-- Update the disk file silently if cleanup happened
-	if cleaned then
-		write_history(valid_history)
-	end
-
-	if #valid_history == 0 then
-		vim.notify("All files in history were deleted, history is empty", vim.log.levels.WARN)
+	if #history_cache == 0 then
+		vim.notify("All files in history were deleted", vim.log.levels.WARN)
 		return
 	end
 
@@ -188,7 +175,7 @@ local function navigate_history(direction)
 	local current_idx = nil
 
 	-- Find current position in the history
-	for i, path in ipairs(valid_history) do
+	for i, path in ipairs(history_cache) do
 		if path == current_path then
 			current_idx = i
 			break
@@ -200,7 +187,7 @@ local function navigate_history(direction)
 		target_idx = (direction == "prev") and (current_idx - 1) or (current_idx + 1)
 	else
 		if direction == "prev" then
-			target_idx = #valid_history
+			target_idx = #history_cache
 		else
 			vim.notify("Current file not in history, no 'next' available", vim.log.levels.INFO)
 			return
@@ -211,25 +198,27 @@ local function navigate_history(direction)
 	if target_idx < 1 then
 		vim.notify("Already at the end of history", vim.log.levels.INFO)
 		return
-	elseif target_idx > #valid_history then
+	elseif target_idx > #history_cache then
 		vim.notify("Already at the beginning of history", vim.log.levels.INFO)
 		return
 	end
 
-	local target_file = valid_history[target_idx]
+	local target_file = history_cache[target_idx]
 
 	-- Open the file and change directory
 	vim.cmd("edit " .. vim.fn.fnameescape(target_file))
-
 	local dir = vim.fn.fnamemodify(target_file, ":h")
 	vim.cmd("cd " .. vim.fn.fnameescape(dir))
 
-	local msg = string.format("History (%d/%d): %s", target_idx, #valid_history, target_file)
+	local msg = string.format("History (%d/%d): %s", target_idx, #history_cache, target_file)
 	vim.notify(msg, vim.log.levels.INFO)
 end
 
--- Automatically save to history on file saves
+local augroup = vim.api.nvim_create_augroup("PersistentHistory", { clear = true })
+
+-- Save to history on file saves
 vim.api.nvim_create_autocmd("BufWritePost", {
+	group = augroup,
 	pattern = "*",
 	callback = function()
 		-- Only add actual files to the history, ignoring special plugin/help buffers
@@ -238,6 +227,13 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 		end
 	end,
 	desc = "Add saved file to persistent history",
+})
+
+-- Write to disk on session end
+vim.api.nvim_create_autocmd("VimLeavePre", {
+	group = augroup,
+	callback = save_history,
+	desc = "Save history to disk on exit",
 })
 
 -- Navigate the history
