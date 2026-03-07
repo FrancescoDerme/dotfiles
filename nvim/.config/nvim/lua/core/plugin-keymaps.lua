@@ -75,9 +75,6 @@ vim.keymap.set("n", "<leader>r", ":RunCode <CR>", { desc = "Run code" })
 vim.keymap.set("n", "<leader>m", ":MarkdownPreviewToggle <CR>", { desc = "Mardown preview" })
 
 -- LSP
-_G.lsp_active = false
-local servers = { "clangd", "neocmakelsp", "lua_ls" }
-
 local lsp_mappings = {
 	{ mode = "n", key = "<leader>lg", func = vim.lsp.buf.declaration, desc = "Go to declaration" },
 	{ mode = "n", key = "<leader>lf", func = "<cmd>Telescope lsp_definitions<CR>", desc = "Show definitions" },
@@ -97,12 +94,44 @@ local lsp_mappings = {
 		desc = "Show buffer diagnostics",
 	},
 	{ mode = "n", key = "<leader>ld", func = vim.diagnostic.open_float, desc = "Show line diagnostics" },
-	{ mode = "n", key = "[e", func = vim.diagnostic.goto_prev, desc = "Diagnostic" },
-	{ mode = "n", key = "]e", func = vim.diagnostic.goto_next, desc = "Diagnostic" },
+	{
+		mode = "n",
+		key = "[e",
+		func = function()
+			vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })
+		end,
+		desc = "Error",
+	},
+	{
+		mode = "n",
+		key = "]e",
+		func = function()
+			vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
+		end,
+		desc = "Error",
+	},
+	{
+		mode = "n",
+		key = "[w",
+		func = function()
+			vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN, float = true })
+		end,
+		desc = "Warning",
+	},
+	{
+		mode = "n",
+		key = "]w",
+		func = function()
+			vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN, float = true })
+		end,
+		desc = "Warning",
+	},
 }
 
+local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
+
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+	group = lsp_group,
 	callback = function(ev)
 		for _, map in ipairs(lsp_mappings) do
 			vim.keymap.set(map.mode, map.key, map.func, { buffer = ev.buf, desc = map.desc })
@@ -110,28 +139,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-vim.keymap.set("n", "<leader>ls", function()
-	_G.lsp_active = not _G.lsp_active
-
-	local status = _G.lsp_active and "Enabled" or "Disabled"
-	vim.notify("LSP " .. status, vim.log.levels.INFO, { title = "LSP System" })
-
-	vim.lsp.enable(servers, _G.lsp_active)
-
-	if not _G.lsp_active then
-		for _, client in ipairs(vim.lsp.get_clients()) do
-			if vim.tbl_contains(servers, client.name) then
-				local attached_buffers = vim.lsp.get_buffers_by_client_id(client.id)
-				client.stop()
-
-				-- Clean up keymaps for which-key
-				for _, bufnr in ipairs(attached_buffers) do
-					for _, map in ipairs(lsp_mappings) do
-						pcall(vim.keymap.del, map.mode, map.key, { buffer = bufnr })
-					end
-				end
-			end
+vim.api.nvim_create_autocmd("LspDetach", {
+	group = lsp_group,
+	callback = function(ev)
+		for _, map in ipairs(lsp_mappings) do
+			pcall(vim.keymap.del, map.mode, map.key, { buffer = ev.buf })
 		end
+	end,
+})
+
+vim.keymap.set("n", "<leader>ls", function()
+	-- Check if there are any active clients in the current buffer
+	local active_clients = vim.lsp.get_clients({ bufnr = 0 })
+	local is_active = #active_clients > 0
+
+	if is_active then
+		vim.cmd("LspStop")
+		vim.notify("LSP Disabled", vim.log.levels.INFO, { title = "LSP System" })
+	else
+		vim.cmd("LspStart")
+		vim.notify("LSP Enabled", vim.log.levels.INFO, { title = "LSP System" })
 	end
 end, { desc = "Toggle LSP" })
 
