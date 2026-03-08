@@ -95,10 +95,7 @@ return {
 					exec = "g++",
 					args = {
 						"-Wall",
-						"-Wno-unused-variable",
-						"-Wno-sign-compare",
 						"-Wshadow=local",
-						"-Werror=shadow=local",
 						"$(FNAME)",
 						"-o",
 						"$(FNOEXT)",
