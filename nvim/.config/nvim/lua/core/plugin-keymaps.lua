@@ -32,11 +32,12 @@ local function navigate_problem(offset, direction_name)
 	table.sort(dirs) -- Sort them alphabetically
 
 	-- 3. Find the target sibling index
-	local target_name
+	local target_name, target_idx
 	for i, d in ipairs(dirs) do
 		if d == tail then
 			-- i is the index of the current directory (tail)
 			target_name = dirs[i + offset]
+			target_idx = i + offset
 			break
 		end
 	end
@@ -46,11 +47,13 @@ local function navigate_problem(offset, direction_name)
 		local target_path = head .. "/" .. target_name .. "/main.cpp"
 		if vim.fn.filereadable(target_path) == 1 then
 			vim.cmd("edit " .. target_path)
+			local msg = string.format("Problem (%d/%d): %s", target_idx, #dirs, target_name)
+			vim.notify(msg, vim.log.levels.INFO)
 		else
-			print("No main.cpp found in: " .. target_name)
+			vim.notify("No main.cpp found in: " .. target_name, vim.log.levels.WARN)
 		end
 	else
-		print("Already at the " .. direction_name .. " problem")
+		vim.notify("Already at the " .. direction_name .. " problem", vim.log.levels.WARN)
 	end
 end
 
