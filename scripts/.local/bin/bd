@@ -2,7 +2,7 @@
 
 # Check for the no-disconnect argument
 NO_DISCONNECT=0
-if [[ "$1" == "--no-disconnect" || "$1" == "-n" ]]; then
+if [[ "$1" == "--no-disconnect" || "$1" == "-n" || "$1" == "-d" ]]; then
     NO_DISCONNECT=1
 fi
 
