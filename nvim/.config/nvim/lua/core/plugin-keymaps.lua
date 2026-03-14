@@ -72,7 +72,11 @@ vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
 vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
 
 -- Code runner
-vim.keymap.set("n", "<leader>r", ":RunCode <CR>", { desc = "Run code" })
+vim.keymap.set("n", "<leader>r", function()
+	vim.cmd("write")
+	vim.cmd("RunCode")
+	vim.cmd("wincmd l")
+end, { desc = "Run code" })
 
 -- Markdown-preview
 vim.keymap.set("n", "<leader>m", ":MarkdownPreviewToggle <CR>", { desc = "Mardown preview" })

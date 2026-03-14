@@ -3,6 +3,6 @@ return {
 	event = "InsertEnter",
 	config = true,
 	opts = {
-		--check_ts = true,
+		map_bs = false,
 	},
 }

@@ -131,6 +131,24 @@ local function save_history()
 	end
 end
 
+-- Remove current buffer from history cache
+local function remove_from_history()
+	local filepath = vim.api.nvim_buf_get_name(0)
+	if not filepath or filepath == "" then
+		return
+	end
+
+	local abs_path = vim.fn.fnamemodify(filepath, ":p")
+	load_history()
+
+	for i = #history_cache, 1, -1 do
+		if history_cache[i] == abs_path then
+			table.remove(history_cache, i)
+			break
+		end
+	end
+end
+
 -- Add current buffer to history cache
 local function add_to_history()
 	local filepath = vim.api.nvim_buf_get_name(0)
@@ -244,7 +262,15 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 	desc = "Save history to disk on exit",
 })
 
--- Navigate the history
+-- Navigate and manage history
+vim.keymap.set("n", "<leader>da", function()
+	add_to_history()
+end, { desc = "Add to history" })
+
+vim.keymap.set("n", "<leader>dd", function()
+	remove_from_history()
+end, { desc = "Remove from history" })
+
 vim.keymap.set("n", "<leader>dp", function()
 	navigate_history("prev")
 end, { desc = "Previous file in history" })

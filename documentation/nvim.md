@@ -164,6 +164,12 @@ Formatting.
 
 Makes comma and semiclon uniformely repat moves across plugins.
 
+### Toggleterm
+
+Manage multiple terminals inside Neovim.
+
+- `+` toggle a terminal
+
 ## Notes
 
 ### To do
