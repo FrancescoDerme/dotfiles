@@ -114,9 +114,6 @@ local lsp_mappings = {
 		key = "]e",
 		func = function()
 			vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
-			-- { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-			-- { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-			-- { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
 		end,
 		desc = "Error",
 	},
