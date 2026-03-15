@@ -76,6 +76,9 @@ vim.keymap.set("n", "<leader>r", function()
 	vim.cmd("write")
 	vim.cmd("RunCode")
 	vim.cmd("wincmd l")
+	vim.schedule(function()
+		vim.cmd("startinsert")
+	end)
 end, { desc = "Run code" })
 
 -- Markdown-preview
