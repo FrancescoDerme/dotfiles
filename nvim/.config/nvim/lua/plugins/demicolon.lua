@@ -2,17 +2,31 @@ return {
 	"mawkler/demicolon.nvim",
 	branch = "repeated",
 
-	-- Disable some default keymaps
+	-- These keymaps are used for lazily loading the plugin
+	-- They are defined at the bottom of this file
 	keys = {
-		{ "]c", false },
-		{ "[c", false },
+		-- Flash
+		{ "f", desc = "Flash f" },
+		{ "F", desc = "Flash F" },
+		{ "t", desc = "Flash t" },
+		{ "T", desc = "Flash T" },
+		{ "s", desc = "Flash s" },
+
+		-- Treesitter textobjects
+		{ "]d", desc = "Function definition" },
+		{ "[d", desc = "Function definition" },
+		{ "]f", desc = "Function call" },
+		{ "[f", desc = "Function call" },
+		{ "]i", desc = "Conditional" },
+		{ "[i", desc = "Condtional" },
+		{ "]l", desc = "Loop" },
+		{ "[l", desc = "Loop" },
 	},
 
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-treesitter/nvim-treesitter-textobjects",
 	},
-	opts = {},
 
 	config = function()
 		require("demicolon").setup({
@@ -22,12 +36,11 @@ return {
 		})
 
 		local flash_char = require("flash.plugins.char")
-		---@param options { key: string, fowrard: boolean }
+		---@param options { key: string, forward: boolean }
 		local function flash_jump(options)
 			return function()
 				require("demicolon.jump").repeatably_do(function(o)
 					local key = o.forward and o.key:lower() or o.key:upper()
-
 					flash_char.jumping = true
 					local autohide = require("flash.config").get("char").autohide
 
@@ -79,9 +92,48 @@ return {
 			end
 		end)
 
-		vim.keymap.set({ "n", "x", "o" }, "f", flash_jump({ key = "f", forward = true }), { desc = "Flash f" })
-		vim.keymap.set({ "n", "x", "o" }, "F", flash_jump({ key = "F", forward = false }), { desc = "Flash F" })
-		vim.keymap.set({ "n", "x", "o" }, "t", flash_jump({ key = "t", forward = true }), { desc = "Flash t" })
-		vim.keymap.set({ "n", "x", "o" }, "T", flash_jump({ key = "T", forward = false }), { desc = "Flash T" })
+		-- Flash mappings
+		vim.keymap.set({ "n", "x", "o" }, "f", flash_jump({ key = "f", forward = true }))
+		vim.keymap.set({ "n", "x", "o" }, "F", flash_jump({ key = "F", forward = false }))
+		vim.keymap.set({ "n", "x", "o" }, "t", flash_jump({ key = "t", forward = true }))
+		vim.keymap.set({ "n", "x", "o" }, "T", flash_jump({ key = "T", forward = false }))
+
+		vim.keymap.set({ "n", "x", "o" }, "s", function()
+			require("flash").jump()
+		end)
+
+		-- Treesitter textobjects mapppings
+		local ts_move = require("nvim-treesitter.textobjects.move")
+		vim.keymap.set({ "n", "x", "o" }, "]d", function()
+			ts_move.goto_next_start("@function.outer")
+		end)
+
+		vim.keymap.set({ "n", "x", "o" }, "[d", function()
+			ts_move.goto_previous_start("@function.outer")
+		end)
+
+		vim.keymap.set({ "n", "x", "o" }, "]f", function()
+			ts_move.goto_next_start("@call.outer")
+		end)
+
+		vim.keymap.set({ "n", "x", "o" }, "[f", function()
+			ts_move.goto_previous_start("@call.outer")
+		end)
+
+		vim.keymap.set({ "n", "x", "o" }, "]i", function()
+			ts_move.goto_next_start("@conditional.outer")
+		end)
+
+		vim.keymap.set({ "n", "x", "o" }, "[i", function()
+			ts_move.goto_previous_start("@conditional.outer")
+		end)
+
+		vim.keymap.set({ "n", "x", "o" }, "]l", function()
+			ts_move.goto_next_start("@loop.outer")
+		end)
+
+		vim.keymap.set({ "n", "x", "o" }, "[l", function()
+			ts_move.goto_previous_start("@loop.outer")
+		end)
 	end,
 }
