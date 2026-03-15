@@ -9,6 +9,24 @@ vim.keymap.set("n", "&", "^", { desc = "^" })
 -- Fix AltGr+i typing right arrow, this is only a problem on non-US keyboards
 vim.keymap.set("i", "→", "i", { noremap = true })
 
+-- Fix AltGr+numbers typing superscripts, this is only a problem on non-US keyboards
+local superscripts = {
+	["¹"] = "1",
+	["²"] = "2",
+	["³"] = "3",
+	["⁴"] = "4",
+	["⁵"] = "5",
+	["⁶"] = "6",
+	["⁷"] = "7",
+	["⁸"] = "8",
+	["⁹"] = "9",
+	["⁰"] = "0",
+}
+
+for super, digit in pairs(superscripts) do
+	vim.keymap.set("i", super, digit, { noremap = true })
+end
+
 -- Disable some of the default "]" and "[" vim keymaps
 local chars_to_delete = {
 	"a",
