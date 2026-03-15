@@ -18,7 +18,7 @@ return {
 				move = {
 					enable = true,
 					set_jumps = true, -- whether to set jumps in the jumplist
-					-- The specific mappings are specified inside the demicolon plugin configuration file
+					-- The mappings are specified inside the demicolon plugin configuration file
 				},
 			},
 		})

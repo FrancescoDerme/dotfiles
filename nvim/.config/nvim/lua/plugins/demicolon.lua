@@ -41,6 +41,7 @@ return {
 			return function()
 				require("demicolon.jump").repeatably_do(function(o)
 					local key = o.forward and o.key:lower() or o.key:upper()
+
 					flash_char.jumping = true
 					local autohide = require("flash.config").get("char").autohide
 
