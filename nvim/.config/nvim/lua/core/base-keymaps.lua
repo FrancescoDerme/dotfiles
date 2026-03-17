@@ -7,6 +7,7 @@
 vim.keymap.set("n", "&", "^", { desc = "^" })
 
 -- Fix AltGr combinations typing strange things, this is only a problem on non-US keyboards
+-- AltGr + j can't be treated like the rest because it is a modifier on the next typed character
 local supercomb = {
 	["⁰"] = "0",
 	["¹"] = "1",
@@ -24,7 +25,6 @@ local supercomb = {
 	["ð"] = "d",
 	["€"] = "e",
 	["→"] = "i",
-	[" ̉"] = "j",
 	["ĸ"] = "k",
 	["µ"] = "m",
 	["ñ"] = "n",
