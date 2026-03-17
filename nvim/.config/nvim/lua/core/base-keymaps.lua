@@ -8,6 +8,7 @@ vim.keymap.set("n", "&", "^", { desc = "^" })
 
 -- Fix AltGr combinations typing strange things, this is only a problem on non-US keyboards
 local supercomb = {
+	["⁰"] = "0",
 	["¹"] = "1",
 	["²"] = "2",
 	["³"] = "3",
@@ -17,19 +18,23 @@ local supercomb = {
 	["⁷"] = "7",
 	["⁸"] = "8",
 	["⁹"] = "9",
-	["⁰"] = "0",
 	["æ"] = "a",
 	["”"] = "b",
 	["¢"] = "c",
 	["ð"] = "d",
 	["€"] = "e",
 	["→"] = "i",
-	["ñ"] = "n",
+	[" ̉"] = "j",
+	["ĸ"] = "k",
 	["µ"] = "m",
+	["ñ"] = "n",
+	["»"] = "x",
+	["←"] = "y",
+	["«"] = "z",
 }
 
-for super, digit in pairs(supercomb) do
-	vim.keymap.set("i", super, digit, { noremap = true })
+for lhs, rhs in pairs(supercomb) do
+	vim.keymap.set("i", lhs, rhs, { noremap = true, silent = true })
 end
 
 -- Disable some of the default "]" and "[" vim keymaps
