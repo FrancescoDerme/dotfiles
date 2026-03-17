@@ -6,11 +6,8 @@
 --]]
 vim.keymap.set("n", "&", "^", { desc = "^" })
 
--- Fix AltGr+i typing right arrow, this is only a problem on non-US keyboards
-vim.keymap.set("i", "→", "i", { noremap = true })
-
--- Fix AltGr+numbers typing superscripts, this is only a problem on non-US keyboards
-local superscripts = {
+-- Fix AltGr combinations typing strange things, this is only a problem on non-US keyboards
+local supercomb = {
 	["¹"] = "1",
 	["²"] = "2",
 	["³"] = "3",
@@ -21,9 +18,17 @@ local superscripts = {
 	["⁸"] = "8",
 	["⁹"] = "9",
 	["⁰"] = "0",
+	["æ"] = "a",
+	["”"] = "b",
+	["¢"] = "c",
+	["ð"] = "d",
+	["€"] = "e",
+	["→"] = "i",
+	["ñ"] = "n",
+	["µ"] = "m",
 }
 
-for super, digit in pairs(superscripts) do
+for super, digit in pairs(supercomb) do
 	vim.keymap.set("i", super, digit, { noremap = true })
 end
 
