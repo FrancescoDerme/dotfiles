@@ -40,7 +40,7 @@ except Exception:
 
     # If no lyrics found, write a placeholder
     if [ ! -s "$TEMP_LYRICS" ]; then
-        echo "No embedded lyrics found." > "$TEMP_LYRICS"
+        echo "No embedded lyrics found" > "$TEMP_LYRICS"
     fi
 else
     echo "File not found: $FULL_PATH" > "$TEMP_LYRICS"

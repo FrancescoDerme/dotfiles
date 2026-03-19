@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Path to the secret file
-SECRET_FILE="$HOME/dotfiles/private/nextdns_id"
+# Path to the file containing the NextDNS id
+ID_FILE="$HOME/dotfiles/private/nextdns_id"
 
-# Check if secret file exists
-if [ -f "$SECRET_FILE" ]; then
-    ID=$(cat "$SECRET_FILE")
+# Check if the file exists
+if [ -f "$ID_FILE" ]; then
+    ID=$(cat "$ID_FILE")
 else
-    echo "Error: ID file not found at $SECRET_FILE"
+    echo "Error: ID file not found at $ID_FILE"
     exit 1
 fi
 

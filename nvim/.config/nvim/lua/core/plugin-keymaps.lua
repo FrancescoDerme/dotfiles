@@ -15,13 +15,50 @@ vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { desc
 vim.keymap.set("n", "<leader>cdp", ":CompetiTest receive problem <CR>", { desc = "Problem" })
 vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR>", { desc = "Contest" })
 
+local submit_term = nil
+vim.keymap.set("n", "<leader>cs", function()
+	vim.cmd("write")
+
+	-- Extract URL and filepath
+	local lines = vim.api.nvim_buf_get_lines(0, 2, 3, false)
+	local line = lines[1] or ""
+	local url = line:match("submit at:%s*(%S+)")
+
+	if not url then
+		vim.notify("Submitter: no URL found on line 3 after 'submit at:'", vim.log.levels.ERROR)
+		return
+	end
+
+	local file_path = vim.fn.expand("%:p")
+	local bash_cmd = string.format('subwithoutcred "%s" "C++" "%s"', url, file_path)
+
+	local ok, terminal_module = pcall(require, "toggleterm.terminal")
+	if not ok then
+		vim.notify("Submitter: toggleterm.terminal is not installed", vim.log.levels.ERROR)
+		return
+	end
+
+	if not submit_term then
+		submit_term = terminal_module.Terminal:new({
+			direction = "vertical",
+			close_on_exit = false,
+		})
+	end
+
+	if not submit_term:is_open() then
+		submit_term:toggle()
+	end
+
+	submit_term:send(bash_cmd)
+end, { desc = "Submit" })
+
 local function navigate_problem(offset, direction_name)
-	-- 1. Get current file and directory info
+	-- Get current file and directory info
 	local file = vim.fn.expand("%:p:h")
 	local head = vim.fn.fnamemodify(file, ":h") -- Parent directory path
 	local tail = vim.fn.fnamemodify(file, ":t") -- Current directory name (e.g., 'ProblemA')
 
-	-- 2. Get sibling dirs and normalize names
+	-- Get sibling dirs and normalize names
 	local dirs = vim.fn.globpath(head, "*/", 0, 1) -- e.g., {'/path/to/Contest/ProblemA/', ...}
 
 	for i, d in ipairs(dirs) do
@@ -31,7 +68,7 @@ local function navigate_problem(offset, direction_name)
 
 	table.sort(dirs) -- Sort them alphabetically
 
-	-- 3. Find the target sibling index
+	-- Find the target sibling index
 	local target_name, target_idx
 	for i, d in ipairs(dirs) do
 		if d == tail then
@@ -42,7 +79,7 @@ local function navigate_problem(offset, direction_name)
 		end
 	end
 
-	-- 4. Execute navigation
+	-- Execute navigation
 	if target_name then
 		local target_path = head .. "/" .. target_name .. "/main.cpp"
 		if vim.fn.filereadable(target_path) == 1 then
