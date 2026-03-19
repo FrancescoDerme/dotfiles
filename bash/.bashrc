@@ -119,3 +119,7 @@ export PIPX_BIN_DIR="$HOME/.local/pipx-bin"
 
 # Export pipx directory
 export PATH="$PIPX_BIN_DIR:$PATH"
+. "$HOME/.cargo/env"
+
+# Export Rust directory
+export PATH="$HOME/.cargo/bin:$PATH"
