@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Path to the file containing the credentials
+CRED_DIR="$HOME/dotfiles/private"
+
+# Path to the actual rust binary
+REAL_SUBMITTER="$HOME/.cargo/bin/submitter"
+
+# Make sure the directory exists
+mkdir -p "$CRED_DIR"
+
+# Check if this is a submission command (3 arguments: URL, Lang, File)
+if [ "$#" -eq 3 ]; then
+    URL="$1"
+    LANG="$2"
+    FILE="$3"
+        
+    # Convert the relative file path to an absolute path
+    ABS_FILE="$(realpath "$FILE")"
+        
+    # Run the command inside the credentials directory in a subshell
+    (cd "$CRED_DIR" && "$REAL_SUBMITTER" "$URL" "$LANG" "$ABS_FILE")
+else
+    # For other commands like "submitter login <site>"
+    (cd "$CRED_DIR" && "$REAL_SUBMITTER" "$@")
+fi
