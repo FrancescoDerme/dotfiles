@@ -12,8 +12,8 @@ vim.keymap.set("n", "<leader>ce", ":CompetiTest edit_testcase <CR>", { desc = "E
 vim.keymap.set("n", "<leader>cr", ":CompetiTest run <CR>", { desc = "Run testcases" })
 vim.keymap.set("n", "<leader>cs", ":CompetiTest show_ui <CR>", { desc = "Show ui" })
 vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { desc = "Testcases" })
-vim.keymap.set("n", "<leader>cdp", ":CompetiTest receive problem <CR>", { desc = "Problem" })
-vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR>", { desc = "Contest" })
+vim.keymap.set("n", "<leader>cdp", ":CompetiTest receive problem <CR> :16 <CR>", { desc = "Problem" })
+vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR> :16 <CR>", { desc = "Contest" })
 
 local submit_term = nil
 vim.keymap.set("n", "<leader>cs", function()
@@ -84,6 +84,10 @@ local function navigate_problem(offset, direction_name)
 		local target_path = head .. "/" .. target_name .. "/main.cpp"
 		if vim.fn.filereadable(target_path) == 1 then
 			vim.cmd("edit " .. target_path)
+
+			-- Right line to start editing the template
+			vim.cmd("16")
+
 			local msg = string.format("Problem (%d/%d): %s", target_idx, #dirs, target_name)
 			vim.notify(msg, vim.log.levels.INFO)
 		else
