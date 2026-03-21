@@ -94,6 +94,7 @@ return {
 				cpp = {
 					exec = "g++",
 					args = {
+						"-std=c++23",
 						"-Wall",
 						"-Wshadow=local",
 						"$(FNAME)",
