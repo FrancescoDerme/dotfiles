@@ -1,14 +1,35 @@
 #!/bin/bash
 
-SLEEP_DURATION=${1:-0.5}
+SLEEP_DURATION=${1:-1.5}
+
+CURRENT_WIFI=$(nmcli -t -f TYPE,STATE,CONNECTION device | grep '^wifi:connected:' | cut -d':' -f3-)
+if [ -n "$CURRENT_WIFI" ]; then
+    echo "Currently connected to $CURRENT_WIFI"
+else
+    echo "No active Wi-Fi connection detected"
+fi
 
 echo "Disabling Wi-Fi"
 nmcli radio wifi off
 echo -n "Current status: "; nmcli radio wifi
+
 echo "Waiting $SLEEP_DURATION second(s)"
 sleep $SLEEP_DURATION
+
 echo "Enabling Wi-Fi"
 nmcli radio wifi on
+
 echo "Waiting $SLEEP_DURATION second(s)"
 sleep $SLEEP_DURATION
+
+if [ -n "$CURRENT_WIFI" ]; then
+    echo "Attempting to reconnect to $CURRENT_WIFI"
+
+    if nmcli connection up id "$CURRENT_WIFI" > /dev/null 2>&1; then
+        echo "Successfully reconnected to $CURRENT_WIFI"
+    else
+        echo "Failed to reconnect to $CURRENT_WIFI"
+    fi
+fi
+
 echo -n "New status: "; nmcli radio wifi
