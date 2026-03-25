@@ -95,6 +95,8 @@ return {
 					exec = "g++",
 					args = {
 						"-std=c++23",
+						"-DLOCAL",
+						"-I$(HOME)/cp",
 						"-Wall",
 						"-Wshadow=local",
 						"$(FNAME)",
