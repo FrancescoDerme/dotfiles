@@ -7,13 +7,14 @@ vim.keymap.set("n", "<leader>fb", ":Telescope current_buffer_fuzzy_find <CR>", {
 vim.keymap.set("n", "<leader>ff", ":Telescope find_files <CR>", { desc = "File in directory" })
 
 -- Competitest
+local target_line = 25
 vim.keymap.set("n", "<leader>ca", ":CompetiTest add_testcase <CR>", { desc = "Add testcase" })
 vim.keymap.set("n", "<leader>ce", ":CompetiTest edit_testcase <CR>", { desc = "Edit testcase" })
 vim.keymap.set("n", "<leader>cr", ":CompetiTest run <CR>", { desc = "Run testcases" })
 vim.keymap.set("n", "<leader>cu", ":CompetiTest show_ui <CR>", { desc = "Show ui" })
 vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { desc = "Testcases" })
-vim.keymap.set("n", "<leader>cdp", ":CompetiTest receive problem <CR> :16 <CR>", { desc = "Problem" })
-vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR> :16 <CR>", { desc = "Contest" })
+vim.keymap.set("n", "<leader>cdp", ":CompetiTest receive problem <CR> :" .. target_line .. "<CR>", { desc = "Problem" })
+vim.keymap.set("n", "<leader>cdc", ":CompetiTest receive contest <CR> :" .. target_line .. "<CR>", { desc = "Contest" })
 
 local submit_term = nil
 vim.keymap.set("n", "<leader>cs", function()
@@ -45,8 +46,8 @@ vim.keymap.set("n", "<leader>cs", function()
 		})
 	end
 
-	if not submit_term:is_open() then
-		submit_term:toggle()
+	if not submit_term.job_id then
+		submit_term:spawn()
 	end
 
 	submit_term:send(bash_cmd)
@@ -86,7 +87,7 @@ local function navigate_problem(offset, direction_name)
 			vim.cmd("edit " .. target_path)
 
 			-- Right line to start editing the template
-			vim.cmd("16")
+			vim.cmd(tostring(target_line))
 
 			local msg = string.format("Problem (%d/%d): %s", target_idx, #dirs, target_name)
 			vim.notify(msg, vim.log.levels.INFO)
