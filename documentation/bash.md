@@ -38,7 +38,17 @@
   - `-i` in place, i.e. the result is not printed but saved
   - flags: `g` (global) to replace every occurrence, `I` to ignore case
 - `top` monitor what's using resoruces in real time until quitting with `q`
-- `man` (manual) see what a flag does
+- `man` (manual) see what a command or a flag do
+- `df` (disk free) show the amount of disk space used and available on mounted file systems
+  - `-h` (human-readable) to print sizes in KB, MB, and GB instead of 1K blocks
+  - `-T` to display the file system type (e.g., ext4, tmpfs)
+- `free` display the total, used, and available amount of system memory (RAM and swap)
+  - `-h` (human-readable) to print sizes in KB, MB, and GB instead of 1K blocks
+  - `-s` followed by a number to continuously refresh the output every few seconds (e.g. `free -s 2`)
+- `top` monitor what's using resources (CPU, RAM) in real time until quitting with `q`
+  - `M` (while running) to sort the process list by memory usage
+  - `P` (while running) to sort the process list by CPU usage
+  - `k` (while running) to prompt to kill a process by typing its PID
 
 ### I/O redirection
 

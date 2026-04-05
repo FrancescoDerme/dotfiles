@@ -206,10 +206,10 @@ vim.keymap.set("n", "<leader>ls", function()
 	local is_active = #active_clients > 0
 
 	if is_active then
-		vim.cmd("LspStop")
+		vim.cmd("lsp disable")
 		vim.notify("LSP Disabled", vim.log.levels.INFO, { title = "LSP System" })
 	else
-		vim.cmd("LspStart")
+		vim.cmd("lsp enable")
 		vim.notify("LSP Enabled", vim.log.levels.INFO, { title = "LSP System" })
 	end
 end, { desc = "Toggle LSP" })

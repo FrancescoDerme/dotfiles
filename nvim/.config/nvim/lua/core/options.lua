@@ -7,6 +7,8 @@ vim.wo.relativenumber = true
 vim.wo.number = true
 vim.g.mapleader = " "
 vim.opt.cursorline = true
+vim.opt.autoindent = true
+vim.opt.smartindent = true
 
 -- vim.opt.signcolumn = "yes"
 -- vim.g.maplocalleader = " "
