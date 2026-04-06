@@ -1,37 +1,53 @@
 #!/bin/bash
 
-# Check for the no-disconnect argument
-NO_DISCONNECT=0
-if [[ "$1" == "--no-disconnect" || "$1" == "-n" || "$1" == "-d" ]]; then
-    NO_DISCONNECT=1
-fi
+MODE="toggle"
+
+# Check for arguments
+case "$1" in
+    -c|--connect|-n|--no-disconnect)
+        MODE="connect"
+        ;;
+    -d|--disconnect)
+        MODE="disconnect"
+        ;;
+esac
 
 # Read the MAC address of a specific device
-DEVICE=$(cat $HOME/dotfiles/private/bluetooth_device)
+DEVICE_FILE="$HOME/dotfiles/private/bluetooth_device"
+
+if [ ! -f "$DEVICE_FILE" ]; then
+    echo "Error: no MAC address file found at $DEVICE_FILE"
+    exit 1
+fi
+
+DEVICE=$(cat "$DEVICE_FILE")
 
 if [ -z "$DEVICE" ]; then
-    echo "Error: no MAC address found at ~/.bluetooth_device"
+    echo "Error: no MAC address found at $DEVICE_FILE"
     exit 1
 fi
 
 # Check if the device is connected
-IS_CONNECTED=$(bluetoothctl info $DEVICE | grep "Connected: yes")
-
-if [ -z "$IS_CONNECTED" ]; then
-    echo "Attempting to connect to $DEVICE"
-    bluetoothctl connect $DEVICE > /dev/null 2>&1
-
-    if [ $? -eq 0 ]; then
-        echo "Connected"
-    else
-        echo "Failed to connect"
-    fi
-else
-    if [ "$NO_DISCONNECT" -eq 1 ]; then
-        echo "Device $DEVICE is already connected"
-    else
+if bluetoothctl info "$DEVICE" | grep -q "Connected: yes"; then
+    if [[ "$MODE" == "toggle" || "$MODE" == "disconnect" ]]; then
         echo "Disconnecting from $DEVICE"
         bluetoothctl disconnect $DEVICE > /dev/null 2>&1
         echo "Disconnected"
+    else
+        echo "Device $DEVICE is already connected"
+    fi
+else
+    if [[ "$MODE" == "toggle" || "$MODE" == "connect" ]]; then
+        echo "Attempting to connect to $DEVICE"
+        bluetoothctl connect $DEVICE > /dev/null 2>&1
+
+        if [ $? -eq 0 ]; then
+            echo "Connected"
+        else
+            echo "Failed to connect"
+            exit 1
+        fi
+    else
+        echo "Device $DEVICE is already disconnected"
     fi
 fi
