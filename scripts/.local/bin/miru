@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# Combine all arguments into the title so that quotes aren't needed
+TITLE="$*"
+
+if [ -z "$TITLE" ]; then
+    echo "Usage: miru <show title>"
+    exit 1
+fi
+
+SHOW_DIR="$HOME/watch/$TITLE"
+LOG_FILE="$SHOW_DIR/progress.txt"
+
+# Check if the show folder exists
+if [ ! -d "$SHOW_DIR" ]; then
+    echo "Error: no show folder found at $SHOW_DIR"
+    exit 1
+fi
+
+# Find all video files and sort them
+# Supports mp4, mkv, and avi
+mapfile -t EPISODES < <(find "$SHOW_DIR" -maxdepth 2 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \) | sort -V)
+
+if [ ${#EPISODES[@]} -eq 0 ]; then
+    echo "Error: no video files found at $SHOW_DIR (looking 2 levels deep)"
+    exit 1
+fi
+
+NEXT_EP=""
+RESUME_PROMPT=0
+
+# Read the log file to determine the next episode and resume state
+if [ -f "$LOG_FILE" ]; then
+    LOG_CONTENT=$(cat "$LOG_FILE")
+    # Split the log by the '|' character
+    LAST_WATCHED=$(echo "$LOG_CONTENT" | cut -d'|' -f1)
+    LAST_STATUS=$(echo "$LOG_CONTENT" | cut -d'|' -f2)
+    
+    for i in "${!EPISODES[@]}"; do
+        if [ "${EPISODES[$i]}" = "$LAST_WATCHED" ]; then
+            # If marked as DONE or empty
+            if [ "$LAST_STATUS" = "DONE" ] || [ -z "$LAST_STATUS" ]; then
+                NEXT_INDEX=$((i + 1))
+                if [ $NEXT_INDEX -lt ${#EPISODES[@]} ]; then
+                    NEXT_EP="${EPISODES[$NEXT_INDEX]}"
+                else
+                    echo "All available episodes of $TITLE have been watched"
+                    exit 0
+                fi
+            else
+                # It's a partially watched episode
+                NEXT_EP="${EPISODES[$i]}"
+                RESUME_PROMPT=1
+            fi
+            break
+        fi
+    done
+    
+    # If the previously watched file was renamed or deleted
+    if [ -z "$NEXT_EP" ]; then
+        echo "Previous episode not found in directory, starting from the beginning"
+        NEXT_EP="${EPISODES[0]}"
+    fi
+else
+    # No log file exists, start from the very first episode
+    echo "No watch history found for '$TITLE', starting from the beginning"
+    NEXT_EP="${EPISODES[0]}"
+fi
+
+# Handle resuming vs playing from beginning
+VLC_ARGS=""
+if [ "$RESUME_PROMPT" -eq 1 ]; then
+    # Convert seconds to minutes and seconds for a cleaner prompt
+    MINS=$(( LAST_STATUS / 60 ))
+    SECS=$(( LAST_STATUS % 60 ))
+    
+    echo "You left off at ${MINS}m ${SECS}s in $(basename "$NEXT_EP")."
+    read -p "Do you want to resume? (y/n) " -n 1 -r
+    echo ""
+    
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        # Pull back 10 seconds for context
+        START_TIME=$(( LAST_STATUS - 10 ))
+        # Prevent negative start times
+        if [ $START_TIME -lt 0 ]; then START_TIME=0; fi 
+        
+        VLC_ARGS="--start-time=$START_TIME"
+        echo "Resuming at $(($START_TIME / 60))m $(($START_TIME % 60))s"
+    else
+        echo "Starting from the beginning"
+    fi
+else
+    echo "Playing: $(basename "$NEXT_EP")"
+fi
+
+# Play the episode in VLC in the background
+vlc $VLC_ARGS "$NEXT_EP" > /dev/null 2>&1 &
+VLC_PID=$!
+
+# Wait for VLC to launch and register with the system
+sleep 5
+
+PERCENT_WATCHED=0
+POS_INT=0
+
+# Monitor VLC while it's running
+# This loop checks the progress every 5 seconds until VLC is closed
+while kill -0 $VLC_PID 2>/dev/null; do
+    # 'metadata mpris:length' returns total length in microseconds
+    LEN_US=$(playerctl -p vlc metadata mpris:length 2>/dev/null)
+    # 'position' returns current position in seconds 
+    POS_S=$(playerctl -p vlc position 2>/dev/null)
+
+    if [[ -n "$LEN_US" && -n "$POS_S" ]]; then
+        # Convert total length to seconds
+        LEN_S=$((LEN_US / 1000000))
+        # Remove decimals from the current position 
+        POS_INT=${POS_S%.*} 
+
+        # Calculate the percentage
+        if [[ "$LEN_S" -gt 0 ]]; then
+            PERCENT_WATCHED=$(( POS_INT * 100 / LEN_S ))
+        fi
+    fi
+    sleep 5
+done
+
+# Evaluate the final watch percentage and save
+if [[ "$PERCENT_WATCHED" -ge 99 ]]; then
+    # Over 99% = fully watched
+    echo "$NEXT_EP|DONE" > "$LOG_FILE"
+    echo "Finished $PERCENT_WATCHED% of the episode, progress saved"
+elif [[ "$PERCENT_WATCHED" -ge 10 ]]; then
+    # Between 10% and 98% = partially watched, ask for confirmation
+    echo "Stopped at $PERCENT_WATCHED%, resume position at $(($POS_INT / 60))m $(($POS_INT % 60))s"
+    read -p "Do you want to record the episode as finished? (y/n) " -n 1 -r
+    echo ""
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "$NEXT_EP|DONE" > "$LOG_FILE"
+        echo "Progress saved, logged: $(basename "$NEXT_EP")"
+    else
+        echo "$NEXT_EP|$POS_INT" > "$LOG_FILE"
+        echo "Resume position saved"
+    fi
+else
+    # Less than 10% = very early exit
+    echo "Stopped at $PERCENT_WATCHED%, progress not saved"
+fi

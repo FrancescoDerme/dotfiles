@@ -1,0 +1,28 @@
+# Autocomplete for the 'miru' command
+_miru_completions() {
+    # Get the current word being typed
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local watch_dir="$HOME/watch/"
+
+    # If the watch directory doesn't exist, stop
+    if [ ! -d "$watch_dir" ]; then
+        return
+    fi
+
+    # Temporarily move to the watch directory (silently)
+    pushd "$watch_dir" >/dev/null 2>&1 || return
+
+    # Tell Bash to only split items by newlines, not spaces
+    # This prevents "Samurai Champloo" from breaking into two options
+    local IFS=$'\n'
+
+    # Find all directories that match the current typed word
+    COMPREPLY=( $(compgen -d -- "$cur") )
+
+    # Return to the original directory (silently)
+    popd >/dev/null 2>&1
+}
+
+# Bind the autocomplete function to the 'miru' command
+# The "-o filenames" flag tells Bash to automatically add backslashes to spaces
+complete -F _miru_completions -o filenames miru

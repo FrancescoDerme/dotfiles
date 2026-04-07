@@ -122,3 +122,8 @@ export PATH="$PIPX_BIN_DIR:$PATH"
 
 # Export Rust directory
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# Load custom bash completions
+if [ -f ~/.bash_completions ]; then
+    . ~/.bash_completions
+fi
