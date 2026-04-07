@@ -31,7 +31,8 @@ RESUME_PROMPT=0
 
 # Read the log file to determine the next episode and resume state
 if [ -f "$LOG_FILE" ]; then
-    LOG_CONTENT=$(cat "$LOG_FILE")
+    # Grab ONLY the last line of the log file
+    LOG_CONTENT=$(tail -n 1 "$LOG_FILE")
     # Split the log by the '|' character
     LAST_WATCHED=$(echo "$LOG_CONTENT" | cut -d'|' -f1)
     LAST_STATUS=$(echo "$LOG_CONTENT" | cut -d'|' -f2)
