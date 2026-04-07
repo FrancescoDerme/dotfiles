@@ -126,10 +126,12 @@ while kill -0 $VLC_PID 2>/dev/null; do
     sleep 5
 done
 
-# Evaluate the final watch percentage and save
+# Evaluate the final watch percentage and determine what to save
+SAVE_LINE=""
+
 if [[ "$PERCENT_WATCHED" -ge 99 ]]; then
     # Over 99% = fully watched
-    echo "$NEXT_EP|DONE" > "$LOG_FILE"
+    SAVE_LINE="$NEXT_EP|DONE"
     echo "Finished $PERCENT_WATCHED% of the episode, progress saved"
 elif [[ "$PERCENT_WATCHED" -ge 10 ]]; then
     # Between 10% and 98% = partially watched, ask for confirmation
@@ -138,13 +140,26 @@ elif [[ "$PERCENT_WATCHED" -ge 10 ]]; then
     echo ""
 
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "$NEXT_EP|DONE" > "$LOG_FILE"
+        SAVE_LINE="$NEXT_EP|DONE"
         echo "Progress saved, logged: $(basename "$NEXT_EP")"
     else
-        echo "$NEXT_EP|$POS_INT" > "$LOG_FILE"
+        SAVE_LINE="$NEXT_EP|$POS_INT"
         echo "Resume position saved"
     fi
 else
     # Less than 10% = very early exit
     echo "Stopped at $PERCENT_WATCHED%, progress not saved"
+fi
+
+# If there is progress to save, clean up old entries and append the new one
+if [ -n "$SAVE_LINE" ]; then
+    if [ -f "$LOG_FILE" ]; then
+        # grep -v -F safely removes all previous lines for THIS specific episode
+        # -F ensures special characters like () or spaces in the filename don't break the search
+        grep -v -F "$NEXT_EP|" "$LOG_FILE" > "${LOG_FILE}.tmp"
+        mv "${LOG_FILE}.tmp" "$LOG_FILE"
+    fi
+    
+    # Append the new state to the bottom of the log
+    echo "$SAVE_LINE" >> "$LOG_FILE"
 fi
