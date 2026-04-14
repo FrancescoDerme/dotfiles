@@ -130,14 +130,6 @@ local function load_history()
 		if line ~= "" then
 			table.insert(history_cache, line)
 		end
-
-		-- If history cointains clean absolute paths, regex can be skipped
-		--[[
-		local cleaned = line:match("^%s*(.-)%s*$")
-		if cleaned ~= "" then
-			table.insert(history_cache, cleaned)
-		end
-        --]]
 	end
 
 	f:close()
