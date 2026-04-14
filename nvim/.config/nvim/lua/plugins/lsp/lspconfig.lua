@@ -23,6 +23,10 @@ return {
 				"--offset-encoding=utf-8",
 				"--compile-commands-dir=build",
 			},
+			init_options = {
+				-- Used if build/compile_commands.json is not found
+				fallbackFlags = { "-std=c++23" },
+			},
 			root_markers = { ".clangd", "compile_commands.json" },
 			filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 		})
