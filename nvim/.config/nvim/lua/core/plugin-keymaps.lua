@@ -200,16 +200,20 @@ vim.api.nvim_create_autocmd("LspDetach", {
 	end,
 })
 
+local servers = { "clangd", "neocmakelsp", "lua_ls" }
+
 vim.keymap.set("n", "<leader>ls", function()
 	-- Check if there are any active clients in the current buffer
 	local active_clients = vim.lsp.get_clients({ bufnr = 0 })
 	local is_active = #active_clients > 0
 
 	if is_active then
-		vim.cmd("lsp disable")
+		for _, server in ipairs(servers) do
+			pcall(vim.lsp.disable, server)
+		end
 		vim.notify("LSP Disabled", vim.log.levels.INFO, { title = "LSP System" })
 	else
-		vim.cmd("lsp enable")
+		vim.lsp.enable(servers)
 		vim.notify("LSP Enabled", vim.log.levels.INFO, { title = "LSP System" })
 	end
 end, { desc = "Toggle LSP" })
