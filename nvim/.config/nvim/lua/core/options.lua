@@ -27,7 +27,10 @@ vim.opt.showmode = false
 vim.opt.breakindent = true
 
 -- Save undo history
-vim.opt.undofile = true
+-- This will create an undo file for every edited file allowing to undo edits that happened
+-- during the previous sessions. Although it might prove useful, I like being able to spam 'u'
+-- to go back to the state I had at the start of the session. Might need to tinker with it some more
+-- vim.opt.undofile = true
 
 -- Case-insensitive searching unless \C or one or more capital letters in the search term
 -- \C is a built-in Vim regex flag that forces case-sensitivity, regardless of settings
@@ -50,10 +53,6 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor
 -- A high number makes the cursor stay in the middle of the screen
 vim.opt.scrolloff = 999
-
--- Manage code indentation
-vim.opt.autoindent = true
-vim.opt.smartindent = true
 
 -- Set diagnostic options
 vim.diagnostic.config({

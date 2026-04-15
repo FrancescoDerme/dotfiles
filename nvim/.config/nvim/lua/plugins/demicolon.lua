@@ -1,6 +1,5 @@
 return {
 	"mawkler/demicolon.nvim",
-	branch = "repeated",
 
 	-- These keymaps are used for lazily loading the plugin
 	-- They are defined at the bottom of this file
@@ -104,37 +103,38 @@ return {
 		end)
 
 		-- Treesitter textobjects mapppings
-		local ts_move = require("nvim-treesitter.textobjects.move")
+		local ts_move = require("nvim-treesitter-textobjects.move")
+
 		vim.keymap.set({ "n", "x", "o" }, "]d", function()
-			ts_move.goto_next_start("@function.outer")
-		end)
+			ts_move.goto_next_start("@function.outer", "textobjects")
+		end, { desc = "Next function definition start" })
 
 		vim.keymap.set({ "n", "x", "o" }, "[d", function()
-			ts_move.goto_previous_start("@function.outer")
-		end)
+			ts_move.goto_previous_start("@function.outer", "textobjects")
+		end, { desc = "Previous function definition start" })
 
 		vim.keymap.set({ "n", "x", "o" }, "]f", function()
-			ts_move.goto_next_start("@call.outer")
-		end)
+			ts_move.goto_next_start("@call.outer", "textobjects")
+		end, { desc = "Next function call start" })
 
 		vim.keymap.set({ "n", "x", "o" }, "[f", function()
-			ts_move.goto_previous_start("@call.outer")
-		end)
+			ts_move.goto_previous_start("@call.outer", "textobjects")
+		end, { desc = "Previous function call start" })
 
 		vim.keymap.set({ "n", "x", "o" }, "]i", function()
-			ts_move.goto_next_start("@conditional.outer")
-		end)
+			ts_move.goto_next_start("@conditional.outer", "textobjects")
+		end, { desc = "Next conditional start" })
 
 		vim.keymap.set({ "n", "x", "o" }, "[i", function()
-			ts_move.goto_previous_start("@conditional.outer")
-		end)
+			ts_move.goto_previous_start("@conditional.outer", "textobjects")
+		end, { desc = "Previous conditional start" })
 
 		vim.keymap.set({ "n", "x", "o" }, "]l", function()
-			ts_move.goto_next_start("@loop.outer")
-		end)
+			ts_move.goto_next_start("@loop.outer", "textobjects")
+		end, { desc = "Next loop start" })
 
 		vim.keymap.set({ "n", "x", "o" }, "[l", function()
-			ts_move.goto_previous_start("@loop.outer")
-		end)
+			ts_move.goto_previous_start("@loop.outer", "textobjects")
+		end, { desc = "Previous loop start" })
 	end,
 }

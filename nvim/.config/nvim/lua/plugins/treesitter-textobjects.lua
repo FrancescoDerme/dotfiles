@@ -2,25 +2,33 @@ return {
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	lazy = true,
 	config = function()
-		require("nvim-treesitter.configs").setup({
-			textobjects = {
-				select = {
-					enable = true,
-					lookahead = true,
-
-					keymaps = {
-						["=o"] = { query = "@assignment.outer", desc = "Select outer assignment" },
-						["=i"] = { query = "@assignment.inner", desc = "Select inner assignment" },
-						["=l"] = { query = "@assignment.lhs", desc = "Select left assignment" },
-						["=r"] = { query = "@assignment.rhs", desc = "Select right assignment" },
-					},
-				},
-				move = {
-					enable = true,
-					set_jumps = true, -- whether to set jumps in the jumplist
-					-- The mappings are specified inside the demicolon plugin configuration file
-				},
+		require("nvim-treesitter-textobjects").setup({
+			select = {
+				lookahead = true,
+			},
+			move = {
+				set_jumps = true,
 			},
 		})
+
+		local select = require("nvim-treesitter-textobjects.select")
+
+		vim.keymap.set({ "x", "o" }, "=o", function()
+			select.select_textobject("@assignment.outer", "textobjects")
+		end, { desc = "Select outer assignment" })
+
+		vim.keymap.set({ "x", "o" }, "=i", function()
+			select.select_textobject("@assignment.inner", "textobjects")
+		end, { desc = "Select inner assignment" })
+
+		vim.keymap.set({ "x", "o" }, "=l", function()
+			select.select_textobject("@assignment.lhs", "textobjects")
+		end, { desc = "Select left assignment" })
+
+		vim.keymap.set({ "x", "o" }, "=r", function()
+			select.select_textobject("@assignment.rhs", "textobjects")
+		end, { desc = "Select right assignment" })
+
+		-- The move keympas are handled by the demicolon plugin
 	end,
 }
