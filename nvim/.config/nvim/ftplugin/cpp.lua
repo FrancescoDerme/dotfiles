@@ -1,11 +1,34 @@
 -- Code runner
 vim.keymap.set("n", "<leader>r", function()
 	vim.cmd("write")
-	vim.cmd("RunCode")
-	vim.cmd("wincmd l")
-	vim.schedule(function()
-		vim.cmd("startinsert")
-	end)
+
+	-- Find the terminal buffer and clear any pending input
+	local term_found = false
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.bo[buf].buftype == "terminal" then
+			local chan = vim.bo[buf].channel
+			if chan > 0 then
+				-- \x03 is Ctrl-C (cancels running process)
+				-- \x15 is Ctrl-U (clears the line)
+				vim.api.nvim_chan_send(chan, "\x03\x15")
+				term_found = true
+			end
+		end
+	end
+
+	-- Delay the execution slightly if the terminal was cleared
+	local delay = term_found and 50 or 0
+
+	vim.defer_fn(function()
+		-- Run the code
+		vim.cmd("RunCode")
+
+		-- Jump to the terminal window and enter insert mode
+		vim.cmd("wincmd l")
+		vim.schedule(function()
+			vim.cmd("startinsert")
+		end)
+	end, delay)
 end, { buffer = true, desc = "Run code" })
 
 -- Competitest
