@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This would also work well as an alias, but I want it to get picked up
+# by direct command runners (these are not shells and do not read the bashrc)
+xdg-open . &
