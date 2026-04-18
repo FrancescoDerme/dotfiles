@@ -11,6 +11,7 @@ vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
 vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
 
 -- Competitest
+local target_line = 25
 vim.keymap.set(
 	"n",
 	"<leader>cdp",
