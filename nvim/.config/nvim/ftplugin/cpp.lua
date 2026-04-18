@@ -1,3 +1,5 @@
+local helpers = require("core.helpers")
+
 -- Code runner
 vim.keymap.set("n", "<leader>r", function()
 	vim.cmd("write")
@@ -53,7 +55,6 @@ vim.keymap.set("n", "<leader>r", function()
 end, { buffer = true, desc = "Run code" })
 
 -- Competitest
-local target_line = 25
 vim.keymap.set("n", "<leader>ca", ":CompetiTest add_testcase <CR>", { buffer = true, desc = "Add testcase" })
 vim.keymap.set("n", "<leader>ce", ":CompetiTest edit_testcase <CR>", { buffer = true, desc = "Edit testcase" })
 vim.keymap.set("n", "<leader>cr", ":CompetiTest run <CR>", { buffer = true, desc = "Run testcases" })
@@ -131,7 +132,7 @@ local function navigate_problem(offset, direction_name)
 			vim.cmd("edit " .. target_path)
 
 			-- Right line to start editing the template
-			vim.cmd(tostring(target_line))
+			vim.cmd(tostring(helpers.target_line))
 
 			local msg = string.format("Problem (%d/%d): %s", target_idx, #dirs, target_name)
 			vim.notify(msg, vim.log.levels.INFO)

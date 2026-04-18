@@ -1,3 +1,5 @@
+local helpers = require("core.helpers")
+
 -- Neotree
 vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc = "File tree", silent = true })
 
@@ -11,17 +13,16 @@ vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
 vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
 
 -- Competitest
-local target_line = 25
 vim.keymap.set(
 	"n",
 	"<leader>cdp",
-	":CompetiTest receive problem <CR> :" .. target_line .. "<CR>",
+	":CompetiTest receive problem <CR> :" .. helpers.target_line .. "<CR>",
 	{ buffer = true, desc = "Problem" }
 )
 vim.keymap.set(
 	"n",
 	"<leader>cdc",
-	":CompetiTest receive contest <CR> :" .. target_line .. "<CR>",
+	":CompetiTest receive contest <CR> :" .. helpers.target_line .. "<CR>",
 	{ buffer = true, desc = "Contest" }
 )
 
