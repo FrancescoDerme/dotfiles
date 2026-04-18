@@ -59,18 +59,6 @@ vim.keymap.set("n", "<leader>ce", ":CompetiTest edit_testcase <CR>", { buffer = 
 vim.keymap.set("n", "<leader>cr", ":CompetiTest run <CR>", { buffer = true, desc = "Run testcases" })
 vim.keymap.set("n", "<leader>cu", ":CompetiTest show_ui <CR>", { buffer = true, desc = "Show ui" })
 vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { buffer = true, desc = "Testcases" })
-vim.keymap.set(
-	"n",
-	"<leader>cdp",
-	":CompetiTest receive problem <CR> :" .. target_line .. "<CR>",
-	{ buffer = true, desc = "Problem" }
-)
-vim.keymap.set(
-	"n",
-	"<leader>cdc",
-	":CompetiTest receive contest <CR> :" .. target_line .. "<CR>",
-	{ buffer = true, desc = "Contest" }
-)
 
 local submit_term = nil
 vim.keymap.set("n", "<leader>cs", function()

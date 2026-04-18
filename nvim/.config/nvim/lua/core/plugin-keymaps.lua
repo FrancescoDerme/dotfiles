@@ -10,6 +10,20 @@ vim.keymap.set("n", "<leader>ff", ":Telescope find_files <CR>", { desc = "File i
 vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
 vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
 
+-- Competitest
+vim.keymap.set(
+	"n",
+	"<leader>cdp",
+	":CompetiTest receive problem <CR> :" .. target_line .. "<CR>",
+	{ buffer = true, desc = "Problem" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>cdc",
+	":CompetiTest receive contest <CR> :" .. target_line .. "<CR>",
+	{ buffer = true, desc = "Contest" }
+)
+
 -- LSP
 local lsp_mappings = {
 	{ mode = "n", key = "<leader>lg", func = vim.lsp.buf.declaration, desc = "Go to declaration" },
