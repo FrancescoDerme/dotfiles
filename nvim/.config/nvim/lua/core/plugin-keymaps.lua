@@ -17,13 +17,14 @@ vim.keymap.set(
 	"n",
 	"<leader>cdp",
 	":CompetiTest receive problem <CR> :" .. helpers.target_line .. "<CR>",
-	{ buffer = true, desc = "Problem" }
+	{ desc = "Problem" }
 )
+
 vim.keymap.set(
 	"n",
 	"<leader>cdc",
 	":CompetiTest receive contest <CR> :" .. helpers.target_line .. "<CR>",
-	{ buffer = true, desc = "Contest" }
+	{ desc = "Contest" }
 )
 
 -- LSP
