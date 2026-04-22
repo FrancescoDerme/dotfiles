@@ -13,19 +13,40 @@ vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
 vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
 
 -- Competitest
-vim.keymap.set(
-	"n",
-	"<leader>cdp",
-	":CompetiTest receive problem <CR> :" .. helpers.target_line .. "<CR>",
-	{ desc = "Problem" }
-)
+local function receive_and_execute(receive_type, target_cmd)
+	-- Start the Competitest server to listen for the browser extension
+	vim.cmd("CompetiTest receive " .. receive_type)
 
-vim.keymap.set(
-	"n",
-	"<leader>cdc",
-	":CompetiTest receive contest <CR> :" .. helpers.target_line .. "<CR>",
-	{ desc = "Contest" }
-)
+	-- Create an augroup to prevent duplicate triggers
+	local group = vim.api.nvim_create_augroup("CompetiTestWait", { clear = true })
+
+	-- Set up an autocommand that waits for a file to be opened
+	vim.api.nvim_create_autocmd({ "BufEnter" }, {
+		group = group,
+		once = true, -- Ensures this only fires exactly once per key press
+
+		-- Match the CP directory to prevent the command from misfiring if manually
+		-- opening a random file while waiting for the browser download to finish
+		pattern = { "*/cp/*" },
+
+		callback = function()
+			-- Use vim.schedule to ensure the buffer is fully rendered
+			-- and the template is loaded before attempting to jump lines
+			vim.schedule(function()
+				-- Move to target line
+				vim.cmd(target_cmd)
+			end)
+		end,
+	})
+end
+
+vim.keymap.set("n", "<leader>cdp", function()
+	receive_and_execute("problem", helpers.target_line)
+end, { desc = "Problem" })
+
+vim.keymap.set("n", "<leader>cdc", function()
+	receive_and_execute("contest", helpers.target_line)
+end, { desc = "Contest" })
 
 -- LSP
 local lsp_mappings = {
