@@ -112,12 +112,22 @@ vim.keymap.set("n", "<leader>ls", function()
 		for _, server in ipairs(servers) do
 			vim.cmd("lsp disable " .. server)
 		end
-		vim.notify("LSP Disabled", vim.log.levels.INFO, { title = "LSP System" })
+		vim.notify("LSP disabled", vim.log.levels.INFO, { title = "LSP system" })
 	else
+		local ok = false
 		for _, server in ipairs(servers) do
-			vim.cmd("lsp enable " .. server)
+			if pcall(function()
+				vim.cmd("lsp enable " .. server)
+			end) then
+				ok = true
+			end
 		end
-		vim.notify("LSP Enabled", vim.log.levels.INFO, { title = "LSP System" })
+
+		if ok then
+			vim.notify("LSP enabled", vim.log.levels.INFO, { title = "LSP system" })
+		else
+			vim.notify("No LSP available", vim.log.levels.INFO, { title = "LSP system" })
+		end
 	end
 end, { desc = "Toggle LSP" })
 
