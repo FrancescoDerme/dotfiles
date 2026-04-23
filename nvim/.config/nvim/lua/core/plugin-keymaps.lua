@@ -41,11 +41,11 @@ local function receive_and_execute(receive_type, target_cmd)
 end
 
 vim.keymap.set("n", "<leader>cdp", function()
-	receive_and_execute("problem", helpers.target_line)
+	receive_and_execute("problem", tostring(helpers.target_line))
 end, { desc = "Problem" })
 
 vim.keymap.set("n", "<leader>cdc", function()
-	receive_and_execute("contest", helpers.target_line)
+	receive_and_execute("contest", tostring(helpers.target_line))
 end, { desc = "Contest" })
 
 -- LSP
