@@ -53,6 +53,10 @@ vim.opt.cursorline = true
 -- A high number makes the cursor stay in the middle of the screen
 vim.opt.scrolloff = 999
 
+-- Decrease the time it takes for Neovim to consider typing as paused
+-- The default is 4000ms, which is too long for Latex editing
+vim.opt.updatetime = 250
+
 -- Set diagnostic options
 vim.diagnostic.config({
 	signs = false,
