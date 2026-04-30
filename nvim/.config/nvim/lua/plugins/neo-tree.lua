@@ -8,7 +8,7 @@ return {
 	config = function()
 		require("neo-tree").setup({
 			filesystem = {
-				-- With this enabled, Neotree would fight against Oil when opening a diretory
+				-- With this enabled, Neotree would fight against Oil when opening a directory
 				hijack_netrw_behavior = "disabled",
 			},
 			event_handlers = {
