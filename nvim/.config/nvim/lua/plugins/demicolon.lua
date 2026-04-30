@@ -5,21 +5,21 @@ return {
 	-- They are defined at the bottom of this file
 	keys = {
 		-- Flash
-		{ "f", desc = "Flash f" },
-		{ "F", desc = "Flash F" },
-		{ "t", desc = "Flash t" },
-		{ "T", desc = "Flash T" },
-		{ "s", desc = "Flash s" },
+		{ "f", mode = { "n", "x", "o" }, desc = "Flash f" },
+		{ "F", mode = { "n", "x", "o" }, desc = "Flash F" },
+		{ "t", mode = { "n", "x", "o" }, desc = "Flash t" },
+		{ "T", mode = { "n", "x", "o" }, desc = "Flash T" },
+		{ "s", mode = { "n", "x", "o" }, desc = "Flash s" },
 
 		-- Treesitter textobjects
-		{ "]d", desc = "Function definition" },
-		{ "[d", desc = "Function definition" },
-		{ "]f", desc = "Function call" },
-		{ "[f", desc = "Function call" },
-		{ "]i", desc = "Conditional" },
-		{ "[i", desc = "Condtional" },
-		{ "]l", desc = "Loop" },
-		{ "[l", desc = "Loop" },
+		{ "]d", mode = { "n", "x", "o" }, desc = "Function definition" },
+		{ "[d", mode = { "n", "x", "o" }, desc = "Function definition" },
+		{ "]f", mode = { "n", "x", "o" }, desc = "Function call" },
+		{ "[f", mode = { "n", "x", "o" }, desc = "Function call" },
+		{ "]i", mode = { "n", "x", "o" }, desc = "Conditional" },
+		{ "[i", mode = { "n", "x", "o" }, desc = "Conditional" },
+		{ "]l", mode = { "n", "x", "o" }, desc = "Loop" },
+		{ "[l", mode = { "n", "x", "o" }, desc = "Loop" },
 	},
 
 	dependencies = {
