@@ -10,5 +10,8 @@ return {
 
 		-- Don't open QuickFix for compilation warnings, only errors
 		vim.g.vimtex_quickfix_open_on_warning = 0
+
+		-- Keympas are setup manually so that they get picked up by Which-Key
+		vim.g.vimtex_mappings_enabled = 0
 	end,
 }
