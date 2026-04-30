@@ -1,6 +1,5 @@
 return {
 	"nvim-neo-tree/neo-tree.nvim",
-	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-tree/nvim-web-devicons",
@@ -8,6 +7,10 @@ return {
 	},
 	config = function()
 		require("neo-tree").setup({
+			filesystem = {
+				-- With this enabled, Neotree would fight against Oil when opening a diretory
+				hijack_netrw_behavior = "disabled",
+			},
 			event_handlers = {
 				{
 					event = "neo_tree_buffer_enter",
