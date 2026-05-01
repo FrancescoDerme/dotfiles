@@ -4,6 +4,9 @@ return {
 	config = function()
 		local npairs = require("nvim-autopairs")
 
+		-- Initialize the plugin and load default rules
+		npairs.setup({})
+
 		-- Modify the deletion behavior for these specific rules
 		local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
 
