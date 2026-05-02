@@ -13,5 +13,9 @@ return {
 
 		-- Keympas are setup manually so that they get picked up by Which-Key
 		vim.g.vimtex_mappings_enabled = 0
+
+		vim.g.vimtex_compiler_latexmk = {
+			out_dir = "build",
+		}
 	end,
 }
