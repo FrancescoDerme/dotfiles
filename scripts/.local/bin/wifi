@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SLEEP_DURATION=${1:-2}
+SLEEP_DURATION=${1:-4}
 
 CURRENT_WIFI=$(nmcli -t -f TYPE,STATE,CONNECTION device | grep '^wifi:connected:' | cut -d':' -f3-)
 if [ -n "$CURRENT_WIFI" ]; then
