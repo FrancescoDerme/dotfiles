@@ -18,19 +18,6 @@ return {
 			},
 		})
 
-		-- It's called "ensure_installed" but for some reason also enables the LSPs,
-		-- thus it's disabled cause I prefer manually toggling the LSPs
-		--[[
-		local mason_lspconfig = require("mason-lspconfig")
-		mason_lspconfig.setup({
-			ensure_installed = {
-				"clangd",
-				"neocmakelsp",
-				"lua_ls",
-			},
-		})
-        --]]
-
 		local mason_tool_installer = require("mason-tool-installer")
 		mason_tool_installer.setup({
 			ensure_installed = {
@@ -48,6 +35,10 @@ return {
 
 				-- Markdown
 				"prettier",
+
+				-- Latex
+				"texlab",
+				"ltex-ls-plus",
 			},
 
 			auto_update = true,

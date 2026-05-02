@@ -62,5 +62,37 @@ return {
 				},
 			},
 		})
+
+		-- Latex (code)
+		vim.lsp.config("texlab", {
+			filetypes = { "tex", "plaintex", "bib" },
+			settings = {
+				texlab = {
+					-- We leave compiling and PDF syncing to VimTeX,
+					-- we only need TexLab for code completion/diagnostics
+					diagnosticsDelay = 300,
+					formatterLineLength = 80,
+					chktex = {
+						onOpenAndSave = false,
+					},
+				},
+			},
+		})
+
+		-- Latex (grammar)
+		vim.lsp.config("ltex_plus", {
+			filetypes = { "tex", "plaintex", "markdown", "text" },
+			settings = {
+				ltex = {
+					language = "en-US",
+					diagnosticSeverity = "information",
+					sentenceCacheSize = 2000,
+					additionalRules = {
+						enablePickyRules = true,
+						motherTongue = "en-US",
+					},
+				},
+			},
+		})
 	end,
 }

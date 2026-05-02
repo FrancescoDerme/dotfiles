@@ -122,7 +122,7 @@ vim.api.nvim_create_autocmd("LspDetach", {
 	end,
 })
 
-local servers = { "clangd", "neocmakelsp", "lua_ls" }
+local servers = { "clangd", "neocmakelsp", "lua_ls", "texlab", "ltex_plus" }
 
 vim.keymap.set("n", "<leader>ls", function()
 	-- Check if there are any active clients in the current buffer
