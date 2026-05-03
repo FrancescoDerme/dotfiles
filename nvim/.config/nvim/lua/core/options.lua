@@ -43,6 +43,15 @@ vim.opt.signcolumn = "no"
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
+-- Also, set these characters' color to match the comments color
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "*",
+	callback = function()
+		vim.api.nvim_set_hl(0, "Whitespace", { link = "Comment" })
+		vim.api.nvim_set_hl(0, "NonText", { link = "Comment" })
+	end,
+})
+
 -- Preview substitutions on a little window at the bottom of the screen
 vim.opt.inccommand = "split"
 
