@@ -48,6 +48,120 @@ vim.keymap.set("n", "<leader>cdc", function()
 	receive_and_execute("contest", tostring(helpers.target_line))
 end, { desc = "Contest" })
 
+vim.keymap.set("n", "<leader>cc", function()
+	if vim.fn.filereadable(helpers.temp_file) == 1 then
+		-- If it exists, just open it instead of overwriting it
+		vim.cmd("edit " .. helpers.temp_file)
+		vim.notify("Resumed existing temp session, use <leader>cds to sync", vim.log.levels.INFO)
+		return
+	end
+
+	-- Keep track of how many blank lines were stripped to restore them later
+	local stripped_blank_lines = 0
+
+	-- Read the template and strip the unevaluated header
+	if vim.fn.filereadable(helpers.template_file) == 1 then
+		local lines = vim.fn.readfile(helpers.template_file)
+
+		-- Determine where the actual code starts after the header
+		local start_idx = helpers.header_lines + 1
+
+		-- Skip any empty lines immediately following the header
+		while start_idx <= #lines and lines[start_idx] == "" do
+			start_idx = start_idx + 1
+			stripped_blank_lines = stripped_blank_lines + 1
+		end
+
+		-- Create a new table skipping the header and the blank lines
+		local temp_lines = {}
+		for i = start_idx, #lines do
+			table.insert(temp_lines, lines[i])
+		end
+
+		-- Write the header-less code to the temp file
+		vim.fn.writefile(temp_lines, helpers.temp_file)
+	else
+		vim.notify("Template file not found at: " .. helpers.template_file, vim.log.levels.ERROR)
+		return
+	end
+
+	-- Open the temporary file
+	vim.cmd("edit " .. helpers.temp_file)
+
+	-- Jump to the target line (adjusted because the header and blank lines were removed)
+	vim.schedule(function()
+		local adjusted_line = helpers.target_line - helpers.header_lines - stripped_blank_lines
+		adjusted_line = math.max(1, adjusted_line)
+		vim.cmd(tostring(adjusted_line))
+	end)
+
+	-- Create the sync keymap, it's going to be local to this buffer only
+	vim.keymap.set("n", "<leader>cds", function()
+		-- Get the current buffer ID
+		local temp_bufnr = vim.api.nvim_get_current_buf()
+
+		-- Read the code from Neovim's memory (captures unsaved edits)
+		local temp_code = vim.api.nvim_buf_get_lines(temp_bufnr, 0, -1, false)
+
+		-- Capture the current line before triggering the sync
+		local current_temp_line = vim.fn.line(".")
+
+		-- Calculate where that line will be in the final file by adding back the stripped lines
+		local final_cursor_line = current_temp_line + helpers.header_lines + stripped_blank_lines
+
+		-- Start the competitest listener
+		vim.cmd("CompetiTest receive contest")
+
+		-- Setup the autocmd to wait for Competitest to open the new file
+		local group = vim.api.nvim_create_augroup("CompetitestSync", { clear = true })
+
+		vim.api.nvim_create_autocmd({ "BufEnter" }, {
+			group = group,
+			once = true,
+			pattern = { "*/cp/*" },
+			callback = function()
+				vim.schedule(function()
+					-- We are inside the newly generated main.cpp
+
+					-- Grab the evaluated header from the auto-geeneerated buffer
+					local evaluated_header = vim.api.nvim_buf_get_lines(0, 0, helpers.header_lines, false)
+
+					-- Header goes first
+					local final_code = {}
+					for _, line in ipairs(evaluated_header) do
+						table.insert(final_code, line)
+					end
+
+					-- Blank lines second
+					for i = 1, stripped_blank_lines do
+						table.insert(final_code, "")
+					end
+
+					-- Code third
+					for _, line in ipairs(temp_code) do
+						table.insert(final_code, line)
+					end
+
+					-- Overwrite the auto-generated file with the code
+					vim.api.nvim_buf_set_lines(0, 0, -1, false, final_code)
+
+					-- Save the merged file
+					vim.cmd("write")
+
+					-- Delete the temporary file and wipe the ghost buffer from Neovim
+					vim.fn.delete(helpers.temp_file)
+					vim.api.nvim_buf_delete(temp_bufnr, { force = true })
+
+					-- Jump back to the line the cursor was at on the temp file
+					vim.cmd(tostring(final_cursor_line))
+
+					vim.notify("Contest synced successfully", vim.log.levels.INFO)
+				end)
+			end,
+		})
+	end, { buffer = true, desc = "Sync temp problem to contest" })
+end, { desc = "Start temp problem" })
+
 -- LSP
 local lsp_mappings = {
 	{ mode = "n", key = "<leader>lg", func = vim.lsp.buf.declaration, desc = "Go to declaration" },
