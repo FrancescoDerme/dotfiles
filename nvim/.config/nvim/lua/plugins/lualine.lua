@@ -4,6 +4,7 @@ return {
 		require("lualine").setup({
 			options = {
 				theme = "palenight",
+				globalstatus = true,
 			},
 			extensions = {
 				"neo-tree",
