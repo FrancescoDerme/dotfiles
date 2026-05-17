@@ -49,15 +49,11 @@ vim.keymap.set("n", "<leader>cdc", function()
 end, { desc = "Contest" })
 
 vim.keymap.set("n", "<leader>cc", function()
-	if vim.fn.filereadable(helpers.temp_file) == 1 then
-		-- If it exists, just open it instead of overwriting it
-		vim.cmd("edit " .. helpers.temp_file)
-		vim.notify("Resumed existing temp session, use <leader>cds to sync", vim.log.levels.INFO)
-		return
-	end
-
 	-- Keep track of how many blank lines were stripped to restore them later
 	local stripped_blank_lines = 0
+
+	-- Table skipping the header and the blank lines
+	local temp_lines = {}
 
 	-- Read the template and strip the unevaluated header
 	if vim.fn.filereadable(helpers.template_file) == 1 then
@@ -72,21 +68,25 @@ vim.keymap.set("n", "<leader>cc", function()
 			stripped_blank_lines = stripped_blank_lines + 1
 		end
 
-		-- Create a new table skipping the header and the blank lines
-		local temp_lines = {}
 		for i = start_idx, #lines do
 			table.insert(temp_lines, lines[i])
 		end
-
-		-- Write the header-less code to the temp file
-		vim.fn.writefile(temp_lines, helpers.temp_file)
 	else
 		vim.notify("Template file not found at: " .. helpers.template_file, vim.log.levels.ERROR)
 		return
 	end
 
-	-- Open the temporary file
-	vim.cmd("edit " .. helpers.temp_file)
+	if vim.fn.filereadable(helpers.temp_file) == 1 then
+		-- If it exists, just open it instead of overwriting it
+		vim.cmd("edit " .. helpers.temp_file)
+		vim.notify("Resumed existing temp session, use <leader>cds to sync", vim.log.levels.INFO)
+	else
+		-- Write the header-less code to the temp file
+		vim.fn.writefile(temp_lines, helpers.temp_file)
+
+		-- Open the temporary file
+		vim.cmd("edit " .. helpers.temp_file)
+	end
 
 	-- Jump to the target line (adjusted because the header and blank lines were removed)
 	vim.schedule(function()
