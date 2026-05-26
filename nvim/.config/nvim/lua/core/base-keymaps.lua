@@ -256,7 +256,8 @@ local function navigate_history(direction)
 	local dir = vim.fn.fnamemodify(target_file, ":h")
 	vim.cmd("cd " .. vim.fn.fnameescape(dir))
 
-	local msg = string.format("History (%d/%d): %s", target_idx, #history_cache, target_file)
+	local rel_path = vim.fn.fnamemodify(target_file, ":~")
+	local msg = string.format("History (%d/%d): %s", target_idx, #history_cache, rel_path)
 	vim.notify(msg, vim.log.levels.INFO)
 end
 
