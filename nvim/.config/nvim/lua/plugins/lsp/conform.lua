@@ -1,37 +1,45 @@
 return {
-	"stevearc/conform.nvim",
-	event = { "BufReadPre", "BufNewFile" },
-	config = function()
-		local conform = require("conform")
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+        local conform = require("conform")
 
-		conform.setup({
-			formatters_by_ft = {
-				cpp = { "clang_format" },
-				cmake = { "cmake_format" },
-				lua = { "stylua" },
-				markdown = { "prettier" },
-			},
-			formatters = {
-				clang_format = {
-					prepend_args = {
-						"--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 74, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
-					},
-				},
-			},
+        conform.setup({
+            formatters_by_ft = {
+                cpp = { "clang-format" },
+                -- If above doesn't work revert to cpp = { "clang_format" },
+                cmake = { "cmake_format" },
+                python = { "isort", "black" },
+                lua = { "stylua" },
+                markdown = { "prettier" },
+            },
+            formatters = {
+                ["clang-format"] = {
+                    -- If above doesn't work revert to clang_format =
+                    prepend_args = {
+                        "--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 74, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
+                    },
+                },
+                stylua = {
+                    prepend_args = { "--indent-type", "Spaces", "--indent-width", "4" },
+                },
+            },
 
-			format_on_save = {
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			},
-		})
+            format_on_save = {
+                lsp_format = "fallback",
+                -- If above doesn't wotk revert to lsp_fallback = true,
+                async = false,
+                timeout_ms = 1000,
+            },
+        })
 
-		vim.keymap.set({ "n", "v" }, "<leader>p", function()
-			conform.format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			})
-		end, { desc = "Format" })
-	end,
+        vim.keymap.set({ "n", "v" }, "<leader>p", function()
+            conform.format({
+                lsp_format = "fallback",
+                -- If above doesn't work rever to lsp_fallback = true,
+                async = false,
+                timeout_ms = 1000,
+            })
+        end, { desc = "Format" })
+    end,
 }

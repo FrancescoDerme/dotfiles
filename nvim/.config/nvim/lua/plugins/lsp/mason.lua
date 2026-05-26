@@ -29,6 +29,12 @@ return {
 				"neocmakelsp",
 				"cmakelang",
 
+				-- Python
+				"pyright",
+				"black",
+				"isort",
+				"ruff",
+
 				-- Lua
 				"lua_ls",
 				"stylua",

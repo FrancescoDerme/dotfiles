@@ -6,9 +6,8 @@ return {
 		--"hrsh7th/cmp-path", -- source for file system paths
 		{
 			"L3MON4D3/LuaSnip",
-			-- follow latest release.
-			version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-			-- install jsregexp (optional!).
+
+			-- install jsregexp
 			build = "make install_jsregexp",
 		},
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
@@ -96,12 +95,6 @@ return {
 					ellipsis_char = "...",
 				}),
 			},
-			--[[
-			experimental = {
-				-- Previews what the insetion would look like, but greyed out
-				ghost_text = true,
-			},NumericOrComplex 
-            ]]
 		})
 	end,
 }

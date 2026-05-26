@@ -14,256 +14,260 @@ vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file e
 
 -- Competitest
 local function receive_and_execute(receive_type, target_cmd)
-	-- Start the Competitest server to listen for the browser extension
-	vim.cmd("CompetiTest receive " .. receive_type)
+    -- Start the Competitest server to listen for the browser extension
+    vim.cmd("CompetiTest receive " .. receive_type)
 
-	-- Create an augroup to prevent duplicate triggers
-	local group = vim.api.nvim_create_augroup("CompetiTestWait", { clear = true })
+    -- Create an augroup to prevent duplicate triggers
+    local group = vim.api.nvim_create_augroup("CompetiTestWait", { clear = true })
 
-	-- Set up an autocommand that waits for a file to be opened
-	vim.api.nvim_create_autocmd({ "BufEnter" }, {
-		group = group,
-		once = true, -- Ensures this only fires exactly once per key press
+    -- Set up an autocommand that waits for a file to be opened
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+        group = group,
+        once = true, -- Ensures this only fires exactly once per key press
 
-		-- Match the CP directory to prevent the command from misfiring if manually
-		-- opening a random file while waiting for the browser download to finish
-		pattern = { "*/cp/*" },
+        -- Match the CP directory to prevent the command from misfiring if manually
+        -- opening a random file while waiting for the browser download to finish
+        pattern = { "*/cp/*" },
 
-		callback = function()
-			-- Use vim.schedule to ensure the buffer is fully rendered
-			-- and the template is loaded before attempting to jump lines
-			vim.schedule(function()
-				-- Move to target line
-				vim.cmd(target_cmd)
-			end)
-		end,
-	})
+        callback = function()
+            -- Use vim.schedule to ensure the buffer is fully rendered
+            -- and the template is loaded before attempting to jump lines
+            vim.schedule(function()
+                -- Move to target line
+                vim.cmd(target_cmd)
+            end)
+        end,
+    })
 end
 
 vim.keymap.set("n", "<leader>cdp", function()
-	receive_and_execute("problem", tostring(helpers.target_line))
+    receive_and_execute("problem", tostring(helpers.target_line))
 end, { desc = "Problem" })
 
 vim.keymap.set("n", "<leader>cdc", function()
-	receive_and_execute("contest", tostring(helpers.target_line))
+    receive_and_execute("contest", tostring(helpers.target_line))
 end, { desc = "Contest" })
 
 vim.keymap.set("n", "<leader>cc", function()
-	-- Keep track of how many blank lines were stripped to restore them later
-	local stripped_blank_lines = 0
+    -- Keep track of how many blank lines were stripped to restore them later
+    local stripped_blank_lines = 0
 
-	-- Table skipping the header and the blank lines
-	local temp_lines = {}
+    -- Table skipping the header and the blank lines
+    local temp_lines = {}
 
-	-- Read the template and strip the unevaluated header
-	if vim.fn.filereadable(helpers.template_file) == 1 then
-		local lines = vim.fn.readfile(helpers.template_file)
+    -- Read the template and strip the unevaluated header
+    if vim.fn.filereadable(helpers.template_file) == 1 then
+        local lines = vim.fn.readfile(helpers.template_file)
 
-		-- Determine where the actual code starts after the header
-		local start_idx = helpers.header_lines + 1
+        -- Determine where the actual code starts after the header
+        local start_idx = helpers.header_lines + 1
 
-		-- Skip any empty lines immediately following the header
-		while start_idx <= #lines and lines[start_idx] == "" do
-			start_idx = start_idx + 1
-			stripped_blank_lines = stripped_blank_lines + 1
-		end
+        -- Skip any empty lines immediately following the header
+        while start_idx <= #lines and lines[start_idx] == "" do
+            start_idx = start_idx + 1
+            stripped_blank_lines = stripped_blank_lines + 1
+        end
 
-		for i = start_idx, #lines do
-			table.insert(temp_lines, lines[i])
-		end
-	else
-		vim.notify("Template file not found at: " .. helpers.template_file, vim.log.levels.ERROR)
-		return
-	end
+        for i = start_idx, #lines do
+            table.insert(temp_lines, lines[i])
+        end
+    else
+        vim.notify("Template file not found at: " .. helpers.template_file, vim.log.levels.ERROR)
+        return
+    end
 
-	if vim.fn.filereadable(helpers.temp_file) == 1 then
-		-- If it exists, just open it instead of overwriting it
-		vim.cmd("edit " .. helpers.temp_file)
-		vim.notify("Resumed existing temp session, use <leader>cds to sync", vim.log.levels.INFO)
-	else
-		-- Write the header-less code to the temp file
-		vim.fn.writefile(temp_lines, helpers.temp_file)
+    if vim.fn.filereadable(helpers.temp_file) == 1 then
+        -- If it exists, just open it instead of overwriting it
+        vim.cmd("edit " .. helpers.temp_file)
+        vim.notify("Resumed existing temp session, use <leader>cds to sync", vim.log.levels.INFO)
+    else
+        -- Write the header-less code to the temp file
+        vim.fn.writefile(temp_lines, helpers.temp_file)
 
-		-- Open the temporary file
-		vim.cmd("edit " .. helpers.temp_file)
-	end
+        -- Open the temporary file
+        vim.cmd("edit " .. helpers.temp_file)
+    end
 
-	-- Jump to the target line (adjusted because the header and blank lines were removed)
-	vim.schedule(function()
-		local adjusted_line = helpers.target_line - helpers.header_lines - stripped_blank_lines
-		adjusted_line = math.max(1, adjusted_line)
-		vim.cmd(tostring(adjusted_line))
-	end)
+    -- Jump to the target line (adjusted because the header and blank lines were removed)
+    vim.schedule(function()
+        local adjusted_line = helpers.target_line - helpers.header_lines - stripped_blank_lines
+        adjusted_line = math.max(1, adjusted_line)
+        vim.cmd(tostring(adjusted_line))
+    end)
 
-	-- Create the sync keymap, it's going to be local to this buffer only
-	vim.keymap.set("n", "<leader>cds", function()
-		-- Get the current buffer ID
-		local temp_bufnr = vim.api.nvim_get_current_buf()
+    -- Create the sync keymap, it's going to be local to this buffer only
+    vim.keymap.set("n", "<leader>cds", function()
+        -- Get the current buffer ID
+        local temp_bufnr = vim.api.nvim_get_current_buf()
 
-		-- Read the code from Neovim's memory (captures unsaved edits)
-		local temp_code = vim.api.nvim_buf_get_lines(temp_bufnr, 0, -1, false)
+        -- Read the code from Neovim's memory (captures unsaved edits)
+        local temp_code = vim.api.nvim_buf_get_lines(temp_bufnr, 0, -1, false)
 
-		-- Capture the current line before triggering the sync
-		local current_temp_line = vim.fn.line(".")
+        -- Capture the current line before triggering the sync
+        local current_temp_line = vim.fn.line(".")
 
-		-- Calculate where that line will be in the final file by adding back the stripped lines
-		local final_cursor_line = current_temp_line + helpers.header_lines + stripped_blank_lines
+        -- Calculate where that line will be in the final file by adding back the stripped lines
+        local final_cursor_line = current_temp_line + helpers.header_lines + stripped_blank_lines
 
-		-- Start the competitest listener
-		vim.cmd("CompetiTest receive contest")
+        -- Start the competitest listener
+        vim.cmd("CompetiTest receive contest")
 
-		-- Setup the autocmd to wait for Competitest to open the new file
-		local group = vim.api.nvim_create_augroup("CompetitestSync", { clear = true })
+        -- Setup the autocmd to wait for Competitest to open the new file
+        local group = vim.api.nvim_create_augroup("CompetitestSync", { clear = true })
 
-		vim.api.nvim_create_autocmd({ "BufEnter" }, {
-			group = group,
-			once = true,
-			pattern = { "*/cp/*" },
-			callback = function()
-				vim.schedule(function()
-					-- We are inside the newly generated main.cpp
+        vim.api.nvim_create_autocmd({ "BufEnter" }, {
+            group = group,
+            once = true,
+            pattern = { "*/cp/*" },
+            callback = function()
+                vim.schedule(function()
+                    -- We are inside the newly generated main.cpp
 
-					-- Grab the evaluated header from the auto-geeneerated buffer
-					local evaluated_header = vim.api.nvim_buf_get_lines(0, 0, helpers.header_lines, false)
+                    -- Grab the evaluated header from the auto-geeneerated buffer
+                    local evaluated_header = vim.api.nvim_buf_get_lines(0, 0, helpers.header_lines, false)
 
-					-- Header goes first
-					local final_code = {}
-					for _, line in ipairs(evaluated_header) do
-						table.insert(final_code, line)
-					end
+                    -- Header goes first
+                    local final_code = {}
+                    for _, line in ipairs(evaluated_header) do
+                        table.insert(final_code, line)
+                    end
 
-					-- Blank lines second
-					for i = 1, stripped_blank_lines do
-						table.insert(final_code, "")
-					end
+                    -- Blank lines second
+                    for i = 1, stripped_blank_lines do
+                        table.insert(final_code, "")
+                    end
 
-					-- Code third
-					for _, line in ipairs(temp_code) do
-						table.insert(final_code, line)
-					end
+                    -- Code third
+                    for _, line in ipairs(temp_code) do
+                        table.insert(final_code, line)
+                    end
 
-					-- Overwrite the auto-generated file with the code
-					vim.api.nvim_buf_set_lines(0, 0, -1, false, final_code)
+                    -- Overwrite the auto-generated file with the code
+                    vim.api.nvim_buf_set_lines(0, 0, -1, false, final_code)
 
-					-- Save the merged file
-					vim.cmd("write")
+                    -- Save the merged file
+                    vim.cmd("write")
 
-					-- Delete the temporary file and wipe the ghost buffer from Neovim
-					vim.fn.delete(helpers.temp_file)
-					vim.api.nvim_buf_delete(temp_bufnr, { force = true })
+                    -- Delete the temporary file and wipe the ghost buffer from Neovim
+                    vim.fn.delete(helpers.temp_file)
+                    vim.api.nvim_buf_delete(temp_bufnr, { force = true })
 
-					-- Jump back to the line the cursor was at on the temp file
-					vim.cmd(tostring(final_cursor_line))
+                    -- Jump back to the line the cursor was at on the temp file
+                    vim.cmd(tostring(final_cursor_line))
 
-					vim.notify("Contest synced successfully", vim.log.levels.INFO)
-				end)
-			end,
-		})
-	end, { buffer = true, desc = "Sync temp problem to contest" })
+                    vim.notify("Contest synced successfully", vim.log.levels.INFO)
+                end)
+            end,
+        })
+    end, { buffer = true, desc = "Sync temp problem to contest" })
 end, { desc = "Start temp problem" })
 
 -- LSP
 local lsp_mappings = {
-	{ mode = "n", key = "<leader>lg", func = vim.lsp.buf.declaration, desc = "Go to declaration" },
-	{ mode = "n", key = "<leader>lf", func = "<cmd>Telescope lsp_definitions<CR>", desc = "Show definitions" },
-	{ mode = "n", key = "<leader>li", func = "<cmd>Telescope lsp_implementations<CR>", desc = "Show implementations" },
-	{
-		mode = "n",
-		key = "<leader>lt",
-		func = "<cmd>Telescope lsp_type_definitions<CR>",
-		desc = "Show type definitions",
-	},
-	{ mode = { "n", "v" }, key = "<leader>la", func = vim.lsp.buf.code_action, desc = "See code actions" },
-	{ mode = "n", key = "<leader>lr", func = vim.lsp.buf.rename, desc = "Smart rename" },
-	{
-		mode = "n",
-		key = "<leader>lD",
-		func = "<cmd>Telescope diagnostics bufnr=0<CR>",
-		desc = "Show buffer diagnostics",
-	},
-	{ mode = "n", key = "<leader>ld", func = vim.diagnostic.open_float, desc = "Show line diagnostics" },
-	{
-		mode = "n",
-		key = "[e",
-		func = function()
-			vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })
-		end,
-		desc = "Error",
-	},
-	{
-		mode = "n",
-		key = "]e",
-		func = function()
-			vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
-		end,
-		desc = "Error",
-	},
-	{
-		mode = "n",
-		key = "[w",
-		func = function()
-			vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN, float = true })
-		end,
-		desc = "Warning",
-	},
-	{
-		mode = "n",
-		key = "]w",
-		func = function()
-			vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN, float = true })
-		end,
-		desc = "Warning",
-	},
+    { mode = "n", key = "<leader>lg", func = vim.lsp.buf.declaration, desc = "Go to declaration" },
+    { mode = "n", key = "<leader>lf", func = "<cmd>Telescope lsp_definitions<CR>", desc = "Show definitions" },
+    { mode = "n", key = "<leader>li", func = "<cmd>Telescope lsp_implementations<CR>", desc = "Show implementations" },
+    {
+        mode = "n",
+        key = "<leader>lt",
+        func = "<cmd>Telescope lsp_type_definitions<CR>",
+        desc = "Show type definitions",
+    },
+    { mode = { "n", "v" }, key = "<leader>la", func = vim.lsp.buf.code_action, desc = "See code actions" },
+    { mode = "n", key = "<leader>lr", func = vim.lsp.buf.rename, desc = "Smart rename" },
+    {
+        mode = "n",
+        key = "<leader>lD",
+        func = "<cmd>Telescope diagnostics bufnr=0<CR>",
+        desc = "Show buffer diagnostics",
+    },
+    { mode = "n", key = "<leader>ld", func = vim.diagnostic.open_float, desc = "Show line diagnostics" },
+    {
+        mode = "n",
+        key = "[e",
+        func = function()
+            vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })
+        end,
+        desc = "Error",
+    },
+    {
+        mode = "n",
+        key = "]e",
+        func = function()
+            vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
+        end,
+        desc = "Error",
+    },
+    {
+        mode = "n",
+        key = "[w",
+        func = function()
+            vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN, float = true })
+        end,
+        desc = "Warning",
+    },
+    {
+        mode = "n",
+        key = "]w",
+        func = function()
+            vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN, float = true })
+        end,
+        desc = "Warning",
+    },
 }
 
 local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = lsp_group,
-	callback = function(ev)
-		for _, map in ipairs(lsp_mappings) do
-			vim.keymap.set(map.mode, map.key, map.func, { buffer = ev.buf, desc = map.desc })
-		end
-	end,
+    group = lsp_group,
+    callback = function(ev)
+        for _, map in ipairs(lsp_mappings) do
+            vim.keymap.set(map.mode, map.key, map.func, { buffer = ev.buf, desc = map.desc })
+        end
+    end,
 })
 
 vim.api.nvim_create_autocmd("LspDetach", {
-	group = lsp_group,
-	callback = function(ev)
-		for _, map in ipairs(lsp_mappings) do
-			pcall(vim.keymap.del, map.mode, map.key, { buffer = ev.buf })
-		end
-	end,
+    group = lsp_group,
+    callback = function(ev)
+        for _, map in ipairs(lsp_mappings) do
+            pcall(vim.keymap.del, map.mode, map.key, { buffer = ev.buf })
+        end
+    end,
 })
 
-local servers = { "clangd", "neocmakelsp", "lua_ls", "texlab", "ltex_plus" }
+local servers = { "clangd", "neocmakelsp", "lua_ls", "texlab", "ltex_plus", "pyright", "ruff" }
 
 vim.keymap.set("n", "<leader>ls", function()
-	-- Check if there are any active clients in the current buffer
-	local active_clients = vim.lsp.get_clients({ bufnr = 0 })
-	local is_active = #active_clients > 0
+    -- Check if there are any active clients in the current buffer
+    local active_clients = vim.lsp.get_clients({ bufnr = 0 })
 
-	if is_active then
-		for _, server in ipairs(servers) do
-			vim.cmd("lsp disable " .. server)
-		end
-		vim.notify("LSP disabled", vim.log.levels.INFO, { title = "LSP system" })
-	else
-		local ok = false
-		for _, server in ipairs(servers) do
-			if pcall(function()
-				vim.cmd("lsp enable " .. server)
-			end) then
-				ok = true
-			end
-		end
+    if #active_clients > 0 then
+        for _, server in ipairs(servers) do
+            pcall(function()
+                vim.cmd("lsp disable " .. server)
+            end)
+        end
+        vim.notify("LSP disabled", vim.log.levels.INFO, { title = "LSP system" })
+    else
+        for _, server in ipairs(servers) do
+            pcall(function()
+                vim.cmd("lsp enable " .. server)
+            end)
+        end
 
-		if ok then
-			vim.notify("LSP enabled", vim.log.levels.INFO, { title = "LSP system" })
-		else
-			vim.notify("No LSP available", vim.log.levels.INFO, { title = "LSP system" })
-		end
-	end
+        -- Give the LSP some time to attach
+        vim.defer_fn(function()
+            -- Re-check active clients after the delay
+            local new_clients = vim.lsp.get_clients({ bufnr = 0 })
+
+            if #new_clients > 0 then
+                vim.notify("LSP enabled", vim.log.levels.INFO, { title = "LSP system" })
+            else
+                vim.notify("No LSP available for this filetype", vim.log.levels.WARN, { title = "LSP system" })
+            end
+        end, 200)
+    end
 end, { desc = "Toggle LSP" })
 
 --vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "Show references" })
