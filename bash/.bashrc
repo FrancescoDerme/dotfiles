@@ -114,10 +114,6 @@ fi
 # Export scripts directory
 export PATH="$PATH:$HOME/.local/bin"
 
-# Export cdpath
-# cd will look for files here if it doesn't find them in the current directory
-export CDPATH=".:$HOME/uni/poli:$HOME/uni/epfl"
-
 # Pipx will put its stuff here
 export PIPX_BIN_DIR="$HOME/.local/pipx-bin"
 
