@@ -62,6 +62,9 @@ vim.opt.cursorline = true
 -- A high number makes the cursor stay in the middle of the screen
 vim.opt.scrolloff = 999
 
+-- Don't show partially-completed commands in the bottom-right corner
+vim.opt.showcmd = false
+
 -- Set diagnostic options
 vim.diagnostic.config({
 	signs = false,
