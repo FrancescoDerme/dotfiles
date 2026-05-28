@@ -5,7 +5,10 @@ return {
         local npairs = require("nvim-autopairs")
 
         -- Initialize the plugin and load default rules
-        npairs.setup({})
+        npairs.setup({
+            -- Default is "[%w%%%'%[%%\"%.%`%$]". We remove the "%. " so it pairs before dots
+            ignored_next_char = "[%w%%%'%[%\"%`%$]",
+        })
 
         -- Modify the behavior for these specific rules
         local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
