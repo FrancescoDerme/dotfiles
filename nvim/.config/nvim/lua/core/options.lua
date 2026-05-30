@@ -23,6 +23,9 @@ vim.opt.relativenumber = true
 -- Don't show the mode since it's already in the statusline
 vim.opt.showmode = false
 
+-- Enable smooth scrolling
+vim.opt.smoothscroll = true
+
 -- Wrap lines at the window edge (visually only, buffer remains unchanged)
 vim.opt.wrap = true
 
