@@ -127,3 +127,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 if [ -f ~/.bash_completions ]; then
     . ~/.bash_completions
 fi
+
+# Custom colored prompt: Green user@host, Blue directory
+PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
