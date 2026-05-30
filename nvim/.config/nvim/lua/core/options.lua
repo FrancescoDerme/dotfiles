@@ -23,12 +23,18 @@ vim.opt.relativenumber = true
 -- Don't show the mode since it's already in the statusline
 vim.opt.showmode = false
 
--- Enable break indent
+-- Wrap lines at the window edge (visually only, buffer remains unchanged)
+vim.opt.wrap = true
+
+-- Prevent words from being split in half
+vim.opt.linebreak = true
+
+-- Show wrapped lines with an indent matching the original line
 vim.opt.breakindent = true
 
 -- Save undo history
 -- This will create an undo file for every edited file allowing to undo edits that happened
--- during the previous sessions.
+-- during the previous sessions
 vim.opt.undofile = true
 
 -- Case-insensitive searching unless \C or one or more capital letters in the search term
@@ -45,11 +51,11 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Also, set these characters' color to match the comments color
 vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = "*",
-	callback = function()
-		vim.api.nvim_set_hl(0, "Whitespace", { link = "Comment" })
-		vim.api.nvim_set_hl(0, "NonText", { link = "Comment" })
-	end,
+    pattern = "*",
+    callback = function()
+        vim.api.nvim_set_hl(0, "Whitespace", { link = "Comment" })
+        vim.api.nvim_set_hl(0, "NonText", { link = "Comment" })
+    end,
 })
 
 -- Preview substitutions on a little window at the bottom of the screen
@@ -67,8 +73,8 @@ vim.opt.showcmd = false
 
 -- Set diagnostic options
 vim.diagnostic.config({
-	signs = false,
-	underline = true,
-	virtual_text = false,
-	update_in_insert = false,
+    signs = false,
+    underline = true,
+    virtual_text = false,
+    update_in_insert = false,
 })
