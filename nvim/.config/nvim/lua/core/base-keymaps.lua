@@ -93,6 +93,10 @@ vim.keymap.set({ "n", "i" }, "<Up>", "<Nop>", { desc = "Disabled" })
 vim.keymap.set({ "n", "i" }, "<Left>", "<Nop>", { desc = "Disabled" })
 vim.keymap.set({ "n", "i" }, "<Right>", "<Nop>", { desc = "Disabled" })
 
+-- If a line is visually wrapped, don't skip it with a single keypress
+vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+
 -- Switch focus
 vim.keymap.set("n", "<M-h>", "<C-w>h", { desc = "Switch focus left" })
 vim.keymap.set("n", "<M-j>", "<C-w>j", { desc = "Switch focus down" })
