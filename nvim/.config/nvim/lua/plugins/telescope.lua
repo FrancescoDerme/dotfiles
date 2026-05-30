@@ -1,27 +1,26 @@
 return {
-	"nvim-telescope/telescope.nvim",
-	branch = "master",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-		"nvim-tree/nvim-web-devicons",
-	},
+    "nvim-telescope/telescope.nvim",
+    branch = "master",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
 
-	config = function()
-		local telescope = require("telescope")
-		local actions = require("telescope.actions")
+    config = function()
+        local telescope = require("telescope")
+        local actions = require("telescope.actions")
 
-		telescope.setup({
-			defaults = {
-				mappings = {
-					i = {
-						["<M-j>"] = actions.move_selection_next,
-						["<M-k>"] = actions.move_selection_previous,
-					},
-				},
-			},
-		})
+        telescope.setup({
+            defaults = {
+                mappings = {
+                    i = {
+                        ["<M-j>"] = actions.move_selection_next,
+                        ["<M-k>"] = actions.move_selection_previous,
+                    },
+                },
+            },
+        })
 
-		require("telescope").load_extension("fzf")
-	end,
+        require("telescope").load_extension("fzf")
+    end,
 }
