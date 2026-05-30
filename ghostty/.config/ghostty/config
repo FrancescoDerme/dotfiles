@@ -1,17 +1,20 @@
-# Theme
+# Theme and Font
 theme = TokyoNight
+font-family = Hack Nerd Font
+font-size = 12
 
-# Open a new terminal window
+# Disable ligatures to keep standard symbols
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
+# Window and Tab management
 keybind = alt+q=new_window
-
-# Open a new tab in the current window
 keybind = alt+w=new_tab
-
-# Close the current tab or window
 keybind = alt+e=close_surface
 
 # F11 to toggle fullscreen
 keybind = f11=toggle_fullscreen
 
-# Disable visual bell (makes the terminal flash when doing something invald)
-bell-features = no-border,no-system
+# Don't show window dimensions
+resize-overlay = never

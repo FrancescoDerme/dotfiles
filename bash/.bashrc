@@ -128,5 +128,5 @@ if [ -f ~/.bash_completions ]; then
     . ~/.bash_completions
 fi
 
-# Custom colored prompt: Green user@host, Blue directory
-PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+# Custom colored prompt
+PS1='\[\033[38;2;158;206;106m\]\u@\h\[\033[0m\]:\[\033[38;2;122;162;247m\]\w\[\033[0m\]\$ '

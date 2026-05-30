@@ -2,6 +2,7 @@
 
 Caps lock and ctrl keys have been swapped by running `gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']"`,
 to reset to default settings run `gsettings reset org.gnome.desktop.input-sources xkb-options`.
+Visual bell has been disabled by running `echo "set bell-style none" >> ~/.inputrc`.
 
 ### keyboard shortcuts
 
