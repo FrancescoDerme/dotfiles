@@ -13,6 +13,9 @@ keybind = alt+q=new_window
 keybind = alt+w=new_tab
 keybind = alt+e=close_surface
 
+# Hide mouse while typing
+mouse-hide-while-typing = true
+
 # F11 to toggle fullscreen
 keybind = f11=toggle_fullscreen
 
