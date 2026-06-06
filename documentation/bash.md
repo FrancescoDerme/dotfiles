@@ -69,6 +69,7 @@
 - `flameshot gui` takes a screenshots
 - `evince` opens a pdf
 - `tree` shows a file tree
+- `diffpdf` finds differences between two pdf files
 
 ### Compiling and debugging
 
