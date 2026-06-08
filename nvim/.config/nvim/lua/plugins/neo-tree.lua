@@ -24,14 +24,14 @@ return {
                         -- Modify the message "x hidden items"
                         -- Check if this is a message node and if it contains the word "hidden"
                         if node.type == "message" and result.text and result.text:match("hidden") then
-                            -- Extract the number from the default string (e.g., "3 hidden items")
+                            -- Extract the number from the default string
                             local count = result.text:match("(%d+)")
 
                             if count then
-                                -- Handle singular/plural grammatically
+                                -- Handle singular/plural
                                 local item_word = tonumber(count) == 1 and "item" or "items"
 
-                                -- Completely replace the text
+                                -- Modify the text
                                 result.text = string.format("%s hidden %s,\nH to show", count, item_word)
                             end
                         end
