@@ -70,6 +70,7 @@
 - `evince` opens a pdf
 - `tree` shows a file tree
 - `diffpdf` finds differences between two pdf files
+- `pdftk` extracts one pdf from another
 
 ### Compiling and debugging
 
