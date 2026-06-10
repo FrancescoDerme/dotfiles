@@ -93,6 +93,11 @@ return {
             compile_command = {
                 c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "/tmp/$(FNOEXT)" } },
                 cpp = {
+                    -- These cpp flags are pretty heavy (both in terms of compilation and of runtime),
+                    -- this is alleviated by the fact that this setup has another way of running code,
+                    -- and by the presence of a precompiled bits header (which was compiled with these exact flags)
+                    -- inside ~/cp/bits/stdc++.h.gch. One must strictly follow the rules of precompiled headers
+                    -- for this to work
                     exec = "g++",
                     args = {
                         "-std=c++23",
