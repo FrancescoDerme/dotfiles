@@ -9,10 +9,12 @@ import:
 play:
     command: mpv
 lyrics:
-    sources: genius
+    sources: lrclib genius
     # This writes lyrics to the ID3/Vorbis tag,
     # the lyrics live within the song
-    force: no
+    synced: yes
+    force: yes
+    keep_synced: yes
     auto: yes
     # This allows slight differences in title matching
     title_diff: 2 
