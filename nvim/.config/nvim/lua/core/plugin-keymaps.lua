@@ -269,6 +269,3 @@ vim.keymap.set("n", "<leader>ls", function()
         end, 200)
     end
 end, { desc = "Toggle LSP" })
-
---vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "Show references" })
---vim.keymap.set("n", "<leader>lk", vim.lsp.buf.hover, { desc = "Show documentation" })

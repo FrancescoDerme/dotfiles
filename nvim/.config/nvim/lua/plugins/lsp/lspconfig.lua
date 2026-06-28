@@ -67,6 +67,7 @@ return {
 
         -- Lua
         vim.lsp.config("lua_ls", {
+            exit_timeout = 0,
             settings = {
                 ["Lua"] = {
                     diagnostics = {
