@@ -38,6 +38,7 @@ return {
                 show_nu = true,
                 show_rnu = false,
                 mappings = {
+                    switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
                     run_again = "R",
                     run_all_again = "<C-r>",
                     kill = "K",
