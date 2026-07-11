@@ -130,8 +130,11 @@ return {
             testcases_storage = "files",
             testcases_auto_detect = true,
             testcases_single_file_format = "$(FNOEXT).testcases",
-            testcases_input_file_format = "$(FNOEXT)_input$(TCNUM).txt",
-            testcases_output_file_format = "$(FNOEXT)_output$(TCNUM).txt",
+            -- Ordered list: source-named pair first (canonical, what `write` uses),
+            -- then a shared un-prefixed `input<N>.txt` so any solution in a folder
+            -- (e.g. `:Tuna run all`) discovers testcases it didn't itself create.
+            testcases_input_file_format = { "$(FNOEXT)_input$(TCNUM).txt", "input$(TCNUM).txt" },
+            testcases_output_file_format = { "$(FNOEXT)_output$(TCNUM).txt", "output$(TCNUM).txt" },
 
             companion_port = 27121,
             receive_print_message = true,
