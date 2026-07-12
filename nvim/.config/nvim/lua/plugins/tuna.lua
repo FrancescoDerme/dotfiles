@@ -154,11 +154,11 @@ return {
             open_received_contests = true,
             replace_received_testcases = false,
 
-            -- Submit via `subwithoutcred <URL> <LANG> <FILE>` (your Rust submitter).
-            -- The URL comes from the template's `// submit at: $(URL)` header line, or
+            -- Submit via "subwithoutcred <URL> <LANG> <FILE>".
+            -- The URL comes from the template's "// submit at: $(URL)" header line, or
             -- the received-problem sidecar (.tuna.json) if the marker is missing.
-            -- Runs in a cached vertical toggleterm (auto-detected). Bound to <leader>cs
-            -- in ftplugin/cpp.lua. cpp -> "C++" is the default language mapping.
+            -- Runs in a cached vertical toggleterm if available. Bound to <leader>cs
+            -- in ftplugin/cpp.lua. cpp -> "C++" is the default language mapping
             submit = {
                 command = 'subwithoutcred "$(URL)" "$(LANG)" "$(FABSPATH)"',
             },
