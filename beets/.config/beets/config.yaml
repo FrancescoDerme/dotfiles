@@ -3,11 +3,30 @@ include:
 
 directory: ~/Music
 library: ~/.config/beets/library.db
-plugins: play lyrics mpdupdate rewrite
+
+# Spotify works as a metadata source for albums not on MusicBrainz.
+# The plugin ships with working API credentials, so no token is needed.
+# `beet import` usually auto-matches via Spotify search. If it doesn't,
+# press `I` (enter Id) at the prompt and paste the full
+# https://open.spotify.com/album/... URL (the https form, not spotify:album:)
+plugins: musicbrainz spotify play lyrics mpdupdate fetchart embedart rewrite
 import:
     move: yes
 play:
     command: mpv
+fetchart:
+    # Spotify's album_for_id doesn't return cover art, so pull it from
+    # these sources during import. `spotify` reuses the matched album id
+    sources:
+        - filesystem
+        - coverart
+        - itunes
+        - amazon
+        - spotify
+embedart:
+    # Embed the fetched cover into each file's tags. ImageMagick is
+    # installed, so resizing and compare_threshold are available
+    remove_art_file: yes
 lyrics:
     sources: lrclib genius
     # This writes lyrics to the ID3/Vorbis tag,
