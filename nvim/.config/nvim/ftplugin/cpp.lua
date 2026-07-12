@@ -61,42 +61,10 @@ vim.keymap.set("n", "<leader>cr", ":CompetiTest run <CR>", { buffer = true, desc
 vim.keymap.set("n", "<leader>cu", ":CompetiTest show_ui <CR>", { buffer = true, desc = "Show ui" })
 vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { buffer = true, desc = "Testcases" })
 
-local submit_term = nil
-vim.keymap.set("n", "<leader>cs", function()
-	vim.cmd("write")
-
-	-- Extract URL and filepath
-	local lines = vim.api.nvim_buf_get_lines(0, 2, 3, false)
-	local line = lines[1] or ""
-	local url = line:match("submit at:%s*(%S+)")
-
-	if not url then
-		vim.notify("Submitter: no URL found on line 3 after 'submit at:'", vim.log.levels.ERROR)
-		return
-	end
-
-	local file_path = vim.fn.expand("%:p")
-	local bash_cmd = string.format('subwithoutcred "%s" "C++" "%s"', url, file_path)
-
-	local ok, terminal_module = pcall(require, "toggleterm.terminal")
-	if not ok then
-		vim.notify("Submitter: toggleterm.terminal is not installed", vim.log.levels.ERROR)
-		return
-	end
-
-	if not submit_term then
-		submit_term = terminal_module.Terminal:new({
-			direction = "vertical",
-			close_on_exit = false,
-		})
-	end
-
-	if not submit_term.job_id then
-		submit_term:spawn()
-	end
-
-	submit_term:send(bash_cmd)
-end, { buffer = true, desc = "Submit" })
+-- Submit via tuna (:Tuna submit) — reads the `submit at:` header marker (or the
+-- received-problem sidecar), builds `subwithoutcred "<url>" "C++" "<file>"`, and runs
+-- it in a cached vertical toggleterm. Configured in lua/plugins/tuna.lua (submit = …).
+vim.keymap.set("n", "<leader>cs", "<cmd>Tuna submit<cr>", { buffer = true, desc = "Submit" })
 
 local function navigate_problem(offset, direction_name)
 	-- Get current file and directory info
