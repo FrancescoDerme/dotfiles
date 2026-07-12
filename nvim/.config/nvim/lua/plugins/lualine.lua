@@ -20,7 +20,8 @@ return {
                         end,
                         cond = function()
                             local ok, receive = pcall(require, "tuna.receive")
-                            return ok and receive.is_receiving()
+                            local sok, submit = pcall(require, "tuna.submit")
+                            return (ok and receive.is_receiving()) or (sok and submit.is_submitting())
                         end,
                         color = { fg = "#82aaff", gui = "bold" },
                     },
