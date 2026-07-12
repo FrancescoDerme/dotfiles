@@ -157,10 +157,18 @@ return {
             -- Submit via "subwithoutcred <URL> <LANG> <FILE>".
             -- The URL comes from the template's "// submit at: $(URL)" header line, or
             -- the received-problem sidecar (.tuna.json) if the marker is missing.
-            -- Runs in a cached vertical toggleterm if available. Bound to <leader>cs
-            -- in ftplugin/cpp.lua. cpp -> "C++" is the default language mapping
+            -- Runs in a cached vertical toggleterm if available. cpp -> "C++" is the
+            -- default language mapping.
             submit = {
                 command = 'subwithoutcred "$(URL)" "$(LANG)" "$(FABSPATH)"',
+            },
+
+            -- Opt-in buffer-local keymaps on solution files. <leader>cs -> :Tuna submit,
+            -- applied to the default solution filetypes (c/cpp/rust/java/python).
+            keymaps = {
+                mappings = {
+                    submit = "<leader>cs",
+                },
             },
         })
     end,
