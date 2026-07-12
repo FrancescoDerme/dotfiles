@@ -158,13 +158,13 @@ return {
             -- The URL comes from the template's "// submit at: $(URL)" header line, or
             -- the received-problem sidecar (.tuna.json) if the marker is missing.
             -- Runs in a cached vertical toggleterm if available. cpp -> "C++" is the
-            -- default language mapping.
+            -- default language mapping
             submit = {
                 command = 'subwithoutcred "$(URL)" "$(LANG)" "$(FABSPATH)"',
             },
 
             -- Opt-in buffer-local keymaps on solution files. <leader>cs -> :Tuna submit,
-            -- applied to the default solution filetypes (c/cpp/rust/java/python).
+            -- applied to the default solution filetypes (c/cpp/rust/java/python)
             keymaps = {
                 mappings = {
                     submit = "<leader>cs",

@@ -61,9 +61,6 @@ vim.keymap.set("n", "<leader>cr", ":CompetiTest run <CR>", { buffer = true, desc
 vim.keymap.set("n", "<leader>cu", ":CompetiTest show_ui <CR>", { buffer = true, desc = "Show ui" })
 vim.keymap.set("n", "<leader>cdt", ":CompetiTest receive testcases <CR>", { buffer = true, desc = "Testcases" })
 
--- Submit (<leader>cs) is provided by tuna's opt-in keymaps, configured in
--- lua/plugins/tuna.lua at "keymaps ="; no per-ftplugin mapping is needed.
-
 local function navigate_problem(offset, direction_name)
     -- Get current file and directory info
     local file = vim.fn.expand("%:p:h")
