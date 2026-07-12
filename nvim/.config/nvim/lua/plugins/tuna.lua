@@ -161,6 +161,11 @@ return {
             -- default language mapping
             submit = {
                 command = 'subwithoutcred "$(URL)" "$(LANG)" "$(FABSPATH)"',
+                -- Track the submission as an async job (no terminal) and show the
+                -- judge verdict in lualine, per problem, until the next submit. The
+                -- Rust submitter polls Codeforces and prints the verdict, which the
+                -- watcher parses (Testing -> Accepted / Wrong Answer / ...).
+                watch = true,
             },
 
             -- Opt-in buffer-local keymaps on solution files. <leader>cs -> :Tuna submit,

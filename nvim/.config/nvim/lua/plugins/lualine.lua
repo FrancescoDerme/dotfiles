@@ -20,10 +20,23 @@ return {
                         end,
                         cond = function()
                             local ok, receive = pcall(require, "tuna.receive")
-                            local sok, submit = pcall(require, "tuna.submit")
-                            return (ok and receive.is_receiving()) or (sok and submit.is_submitting())
+                            return ok and receive.is_receiving()
                         end,
                         color = { fg = "#82aaff", gui = "bold" },
+                    },
+                    {
+                        -- Submit verdict (watch mode): per-problem, persistent, colored
+                        -- by verdict via tuna's TunaCorrect/TunaWrong/TunaWarning groups.
+                        function()
+                            return require("tuna.submit").status()
+                        end,
+                        cond = function()
+                            local ok, submit = pcall(require, "tuna.submit")
+                            return ok and submit.is_submitting()
+                        end,
+                        color = function()
+                            return require("tuna.submit").status_hl()
+                        end,
                     },
                     {
                         function()
