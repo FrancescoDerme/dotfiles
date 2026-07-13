@@ -2,93 +2,29 @@ return {
     "FrancescoDerme/tuna.nvim",
     dir = "~/projects/tuna.nvim",
     config = function()
+        -- Only non-default settings are listed; everything else uses the plugin
+        -- defaults (see tuna's config.lua).
         require("tuna").setup({
-            floating_border = "rounded",
-            floating_border_highlight = "FloatBorder",
-            picker_ui = {
-                width = 0.2,
-                height = 0.3,
-                mappings = {
-                    focus_next = { "j", "<down>", "<Tab>" },
-                    focus_prev = { "k", "<up>", "<S-Tab>" },
-                    close = { "<esc>", "<C-c>", "q", "Q" },
-                    submit = "<cr>",
-                },
-            },
+            -- Directional pane focus with <M-hjkl> (the editor UI defaults to
+            -- <C-h>/<C-l>/<C-i>); the runner UI already uses <M-hjkl>.
             editor_ui = {
-                width = 0.4,
-                height = 0.6,
-                show_nu = true,
-                show_rnu = false,
-                normal_mode_mappings = {
-                    switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
-                    save_and_close = "<C-s>",
-                    cancel = { "q", "Q" },
-                },
-                insert_mode_mappings = {
-                    switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
-                    save_and_close = "<C-s>",
-                    cancel = "<C-q>",
-                },
+                normal_mode_mappings = { switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" } },
+                insert_mode_mappings = { switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" } },
             },
             runner_ui = {
-                interface = "popup",
-                selector_show_nu = false,
-                selector_show_rnu = false,
-                show_nu = true,
-                show_rnu = false,
-                mappings = {
-                    switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
-                    run_again = "R",
-                    run_all_again = "<C-r>",
-                    kill = "K",
-                    kill_all = "<C-k>",
-                    view_input = { "i", "I" },
-                    view_output = { "a", "A" },
-                    view_stdout = { "o", "O" },
-                    view_stderr = { "e", "E" },
-                    toggle_diff = { "d", "D" },
-                    close = { "<esc>", "<C-c>", "q", "Q" },
-                },
-                viewer = {
-                    -- the viewer closes with runner_ui.mappings.close above
-                    width = 0.8,
-                    height = 0.8,
-                    show_nu = true,
-                    show_rnu = false,
-                    open_when_compilation_fails = true,
-                },
+                -- also close with <esc>/<C-c> (default is just q/Q), and a bigger viewer
+                mappings = { close = { "<esc>", "<C-c>", "q", "Q" } },
+                viewer = { width = 0.8, height = 0.8 },
             },
             popup_ui = {
-                total_width = 0.8,
-                total_height = 0.8,
+                -- taller testcase selector; wider detail panes
                 layout = {
                     { 4, "tc" },
                     { 5, { { 1, "so" }, { 1, "si" } } },
                     { 5, { { 1, "eo" }, { 1, "se" } } },
                 },
             },
-            split_ui = {
-                position = "right",
-                relative_to_editor = true,
-                total_width = 0.3,
-                vertical_layout = {
-                    { 1, "tc" },
-                    { 1, { { 1, "so" }, { 1, "eo" } } },
-                    { 1, { { 1, "si" }, { 1, "se" } } },
-                },
-                total_height = 0.4,
-                horizontal_layout = {
-                    { 2, "tc" },
-                    { 3, { { 1, "so" }, { 1, "si" } } },
-                    { 3, { { 1, "eo" }, { 1, "se" } } },
-                },
-            },
 
-            save_current_file = true,
-            save_all_files = false,
-            -- Compile directory must be the problem folder to find the source file
-            compile_directory = ".",
             compile_command = {
                 c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "/tmp/$(FNOEXT)" } },
                 cpp = {
@@ -113,58 +49,27 @@ return {
                     },
                 },
             },
-            -- Even though the binary lives in /tmp/, it executes as if it is in the problem folder,
-            -- hence it's able to find the input
-            running_directory = ".",
+            -- The binary is built into /tmp (see compile_command); the running
+            -- directory stays the problem folder (the default) so it still finds
+            -- the input.
             run_command = {
                 c = { exec = "/tmp/$(FNOEXT)" },
                 cpp = { exec = "/tmp/$(FNOEXT)" },
-                python = { exec = "python3", args = { "$(FNAME)" } },
             },
-            multiple_testing = -1,
-            maximum_time = 5000,
-            output_compare_method = "squish",
-            view_output_diff = false,
 
-            testcases_directory = ".",
-            testcases_storage = "files",
-            testcases_auto_detect = true,
-            testcases_single_file_format = "$(FNOEXT).testcases",
-            -- Ordered list: source-named pair first (canonical, what `write` uses),
-            -- then a shared un-prefixed `input<N>.txt` so any solution in a folder
-            -- (e.g. `:Tuna run all`) discovers testcases it didn't itself create, and
-            -- finally a numberless `in.txt`/`out.txt` single-testcase pair (an output
-            -- with no input still runs, fed empty stdin).
-            testcases_input_file_format = { "$(FNOEXT)_input$(TCNUM).txt", "input$(TCNUM).txt", "in.txt" },
-            testcases_output_file_format = { "$(FNOEXT)_output$(TCNUM).txt", "output$(TCNUM).txt", "out.txt" },
-
-            companion_port = 27121,
-            receive_print_message = true,
+            -- Store problems/contests under ~/cp, one dir per problem, from a template.
             template_file = "~/cp/template.$(FEXT)",
             evaluate_template_modifiers = true,
-            date_format = "%c",
-            received_files_extension = "cpp",
             received_problems_path = "$(HOME)/cp/problems/$(JUDGE)/$(PROBLEM)/main.$(FEXT)",
-            received_problems_prompt_path = true,
             received_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
             received_contests_problems_path = "$(PROBLEM)/main.$(FEXT)",
-            received_contests_prompt_directory = true,
-            received_contests_prompt_extension = true,
-            open_received_problems = true,
-            open_received_contests = true,
-            replace_received_testcases = false,
 
-            -- Submit via "subwithoutcred <URL> <LANG> <FILE>".
-            -- The URL comes from the template's "// submit at: $(URL)" header line, or
-            -- the received-problem sidecar (.tuna.json) if the marker is missing.
-            -- Runs in a cached vertical toggleterm if available. cpp -> "C++" is the
-            -- default language mapping
+            -- Submit via "subwithoutcred <URL> <LANG> <FILE>" (the Rust submitter),
+            -- tracked as an async job (watch) so the judge verdict shows in lualine
+            -- per problem until the next submit. The URL comes from the template's
+            -- "// submit at: $(URL)" header line or the received-problem sidecar.
             submit = {
                 command = 'subwithoutcred "$(URL)" "$(LANG)" "$(FABSPATH)"',
-                -- Track the submission as an async job (no terminal) and show the
-                -- judge verdict in lualine, per problem, until the next submit. The
-                -- Rust submitter polls Codeforces and prints the verdict, which the
-                -- watcher parses (Testing -> Accepted / Wrong Answer / ...).
                 watch = true,
                 -- Verdict colors, matching the statusline palette (same green/red as
                 -- the LSP indicator) rather than the plugin's default highlight groups.
@@ -175,14 +80,21 @@ return {
                     rejected = { fg = "#ff6c6b" },
                     error = { fg = "#ff6c6b" },
                 },
+                -- Per-judge routing: the Rust submitter doesn't support AtCoder, so
+                -- route atcoder.jp to online-judge-tools' `oj` (needs a prior
+                -- `oj login https://atcoder.jp`). `oj` doesn't stream a verdict, so
+                -- fall back to the fire-and-forget terminal flash.
+                judges = {
+                    atcoder = {
+                        command = 'oj submit -y -w0 "$(URL)" "$(FABSPATH)"',
+                        watch = false,
+                    },
+                },
             },
 
-            -- Opt-in buffer-local keymaps on solution files. <leader>cs -> :Tuna submit,
-            -- applied to the default solution filetypes (c/cpp/rust/java/python)
+            -- Opt-in buffer-local keymap on solution files (c/cpp/rust/java/python).
             keymaps = {
-                mappings = {
-                    submit = "<leader>cs",
-                },
+                mappings = { submit = "<leader>cs" },
             },
         })
     end,
