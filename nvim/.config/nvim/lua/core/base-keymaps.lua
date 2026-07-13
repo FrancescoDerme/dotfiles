@@ -288,18 +288,18 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 })
 
 -- Navigate and manage history
-vim.keymap.set("n", "<leader>ha", function()
+vim.keymap.set("n", "<leader>da", function()
     add_to_history()
 end, { desc = "Add to history" })
 
-vim.keymap.set("n", "<leader>hd", function()
+vim.keymap.set("n", "<leader>dd", function()
     remove_from_history()
 end, { desc = "Remove from history" })
 
-vim.keymap.set("n", "<leader>hp", function()
+vim.keymap.set("n", "<leader>dp", function()
     navigate_history("prev")
 end, { desc = "Previous file in history" })
 
-vim.keymap.set("n", "<leader>hn", function()
+vim.keymap.set("n", "<leader>dn", function()
     navigate_history("next")
 end, { desc = "Next file in history" })
