@@ -166,6 +166,15 @@ return {
                 -- Rust submitter polls Codeforces and prints the verdict, which the
                 -- watcher parses (Testing -> Accepted / Wrong Answer / ...).
                 watch = true,
+                -- Verdict colors, matching the statusline palette (same green/red as
+                -- the LSP indicator) rather than the plugin's default highlight groups.
+                verdict_hl = {
+                    pending = { fg = "#ECBE7B" },
+                    accepted = { fg = "#98be65" },
+                    partial = { fg = "#ECBE7B" },
+                    rejected = { fg = "#ff6c6b" },
+                    error = { fg = "#ff6c6b" },
+                },
             },
 
             -- Opt-in buffer-local keymaps on solution files. <leader>cs -> :Tuna submit,
