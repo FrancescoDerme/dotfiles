@@ -5,8 +5,10 @@ return {
         -- Only non-default settings are listed; everything else uses the plugin
         -- defaults (see tuna's config.lua).
         require("tuna").setup({
-            -- Directional pane focus with <M-hjkl> (the editor UI defaults to
-            -- <C-h>/<C-l>/<C-i>); the runner UI already uses <M-hjkl>.
+            -- Directional pane focus with <M-hjkl> everywhere. The plugin-wide
+            -- switch_window_keys (results UI + clean form) default to <C-hjkl>; the
+            -- two-pane testcase editor keeps its own <C-h>/<C-l>/<C-i> default.
+            switch_window_keys = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
             editor_ui = {
                 normal_mode_mappings = { switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" } },
                 insert_mode_mappings = { switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" } },
