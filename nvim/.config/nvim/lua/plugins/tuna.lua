@@ -81,11 +81,11 @@ return {
                     error = { fg = "#ff6c6b" },
                 },
                 -- Per-judge routing. AtCoder gates submission behind a Cloudflare
-                -- Turnstile challenge (since ~ABC408) that no headless client / CLI
-                -- submitter can solve, so command-line submission is impossible.
+                -- Turnstile challenge that no headless client / CLI submitter
+                -- can solve, so command-line submission is impossible.
                 -- Hand off to the browser instead: the "browser" provider opens the
                 -- submit page with the task preselected and copies the source to the
-                -- system clipboard, so submitting is paste + solve-Turnstile + click.
+                -- system clipboard.
                 judges = {
                     atcoder = {
                         provider = "browser",
