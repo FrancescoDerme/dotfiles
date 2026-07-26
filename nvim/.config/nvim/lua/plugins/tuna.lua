@@ -62,6 +62,10 @@ return {
             -- Store problems/contests under ~/cp, one dir per problem, from a template.
             template_file = "~/cp/template.$(FEXT)",
             evaluate_template_modifiers = true,
+            -- Line 23 of the template is the first line of solve(): where typing
+            -- actually starts. Applied whenever tuna opens a file made from the
+            -- template — a received problem, `:Tuna next`/`prev`, `:Tuna temp`.
+            template_cursor = 23,
             received_problems_path = "$(HOME)/cp/problems/$(JUDGE)/$(PROBLEM)/main.$(FEXT)",
             received_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
             received_contests_problems_path = "$(PROBLEM)/main.$(FEXT)",
@@ -95,9 +99,13 @@ return {
                 },
             },
 
-            -- Opt-in buffer-local keymap on solution files (c/cpp/rust/java/python).
+            -- The whole default keymap set under <leader>t (buffer-local on solution
+            -- files, global for what is reached for with no solution open):
+            --   ta/te/tx testcases    tr run       tu show ui   ts submit
+            --   tn/tp problem back and forth       tm dashboard tc clean
+            --   tt scratch + tds sync              td{t,p,c} receive testcases/problem/contest
             keymaps = {
-                mappings = { submit = "<leader>cs" },
+                preset = "<leader>t",
             },
         })
     end,
