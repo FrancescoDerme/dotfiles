@@ -101,10 +101,19 @@ return {
                 },
             },
 
+            -- Algorithm library for `:Tuna lib` (<leader>tl). Files are offered by
+            -- extension; parts of a file worth copying on their own are marked in
+            -- place with a pair of comments:
+            --   // TUNALIB: binary exp start   …   // TUNALIB: binary exp end
+            -- A file with no such guards is still offered, whole.
+            library = {
+                path = "~/cp/snippets",
+            },
+
             -- The whole default keymap set under <leader>t (buffer-local on solution
             -- files, global for what is reached for with no solution open):
             --   tt{a,e,d} testcases   tr run       tu show ui   ts submit
-            --   tn/tp problem back and forth       tm dashboard
+            --   tn/tp problem back and forth       tm dashboard tl library
             --   tw scratch + tds sync              td{t,p,c} receive testcases/problem/contest
             keymaps = {
                 preset = "<leader>t",
