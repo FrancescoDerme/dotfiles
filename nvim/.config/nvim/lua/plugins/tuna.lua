@@ -62,10 +62,12 @@ return {
             -- Store problems/contests under ~/cp, one dir per problem, from a template.
             template_file = "~/cp/template.$(FEXT)",
             evaluate_template_modifiers = true,
-            -- Line 23 of the template is the first line of solve(): where typing
-            -- actually starts. Applied whenever tuna opens a file made from the
-            -- template — a received problem, `:Tuna next`/`prev`, `:Tuna temp`.
-            template_cursor = 23,
+            -- Start on the first line of solve(), where typing actually begins,
+            -- instead of on the template's header. Anchored to the function rather
+            -- than to a line number, so editing the template can't move it. Applied
+            -- whenever tuna opens a file made from the template — a received problem,
+            -- `:Tuna next`/`prev`, `:Tuna temp`.
+            template_cursor = { pattern = "^void solve", offset = 1 },
             received_problems_path = "$(HOME)/cp/problems/$(JUDGE)/$(PROBLEM)/main.$(FEXT)",
             received_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
             received_contests_problems_path = "$(PROBLEM)/main.$(FEXT)",
