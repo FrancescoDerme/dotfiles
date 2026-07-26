@@ -103,9 +103,9 @@ return {
 
             -- The whole default keymap set under <leader>t (buffer-local on solution
             -- files, global for what is reached for with no solution open):
-            --   ta/te/tx testcases    tr run       tu show ui   ts submit
-            --   tn/tp problem back and forth       tm dashboard tc clean
-            --   tt scratch + tds sync              td{t,p,c} receive testcases/problem/contest
+            --   tt{a,e,d} testcases   tr run       tu show ui   ts submit
+            --   tn/tp problem back and forth       tm dashboard
+            --   tw scratch + tds sync              td{t,p,c} receive testcases/problem/contest
             keymaps = {
                 preset = "<leader>t",
             },

@@ -31,6 +31,7 @@ return {
                 { "<leader>l", group = "LSP" },
                 { "<leader>f", group = "Find" },
                 { "<leader>t", group = "Tuna" },
+                { "<leader>tt", group = "Testcases" },
                 { "<leader>td", group = "Download" },
                 { "<leader>o", group = "Oil" },
                 { "]", group = "Next" },
