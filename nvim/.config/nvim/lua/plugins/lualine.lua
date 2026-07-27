@@ -19,8 +19,8 @@ return {
                             return require("tuna").lualine_component()
                         end,
                         cond = function()
-                            local ok, receive = pcall(require, "tuna.receive")
-                            return ok and receive.is_receiving()
+                            local ok, download = pcall(require, "tuna.download")
+                            return ok and download.is_downloading()
                         end,
                         color = { fg = "#82aaff", gui = "bold" },
                     },

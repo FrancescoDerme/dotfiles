@@ -65,17 +65,17 @@ return {
             -- Start on the first line of solve(), where typing actually begins,
             -- instead of on the template's header. Anchored to the function rather
             -- than to a line number, so editing the template can't move it. Applied
-            -- whenever tuna opens a file made from the template — a received problem,
+            -- whenever tuna opens a file made from the template — a downloaded problem,
             -- `:Tuna next`/`prev`, `:Tuna temp`.
             template_cursor = { pattern = "^void solve", offset = 1 },
-            received_problems_path = "$(HOME)/cp/problems/$(JUDGE)/$(PROBLEM)/main.$(FEXT)",
-            received_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
-            received_contests_problems_path = "$(PROBLEM)/main.$(FEXT)",
+            downloaded_problems_path = "$(HOME)/cp/problems/$(JUDGE)/$(PROBLEM)/main.$(FEXT)",
+            downloaded_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
+            downloaded_contests_problems_path = "$(PROBLEM)/main.$(FEXT)",
 
             -- Submit via "subwithoutcred <URL> <LANG> <FILE>" (the Rust submitter),
             -- tracked as an async job (watch) so the judge verdict shows in lualine
             -- per problem until the next submit. The URL comes from the template's
-            -- "// submit at: $(URL)" header line or the received-problem sidecar.
+            -- "// submit at: $(URL)" header line or the downloaded-problem sidecar.
             submit = {
                 command = 'subwithoutcred "$(URL)" "$(LANG)" "$(FABSPATH)"',
                 watch = true,
@@ -114,7 +114,8 @@ return {
             -- files, global for what is reached for with no solution open):
             --   tt{a,e,d} testcases   tr run       tu show ui   ts submit
             --   tn/tp problem back and forth       tm dashboard tl library
-            --   tw scratch + tds sync              td{t,p,c} receive testcases/problem/contest
+            --   tw scratch                         td{t,p,c,s} download testcases/problem/contest/sync
+            --   tg{p,c} back to the last problem/contest (cwd included, across restarts)
             keymaps = {
                 preset = "<leader>t",
             },
