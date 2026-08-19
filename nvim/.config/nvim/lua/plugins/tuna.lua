@@ -13,20 +13,6 @@ return {
                 normal_mode_mappings = { switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" } },
                 insert_mode_mappings = { switch_window = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" } },
             },
-            runner_ui = {
-                -- also close with <esc>/<C-c> (default is just q/Q), and a bigger viewer
-                mappings = { close = { "<esc>", "<C-c>", "q", "Q" } },
-                viewer = { width = 0.8, height = 0.8 },
-            },
-            popup_ui = {
-                -- taller testcase selector; wider detail panes
-                layout = {
-                    { 4, "tc" },
-                    { 5, { { 1, "so" }, { 1, "si" } } },
-                    { 5, { { 1, "eo" }, { 1, "se" } } },
-                },
-            },
-
             compile_command = {
                 c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "/tmp/$(FNOEXT)" } },
                 cpp = {
