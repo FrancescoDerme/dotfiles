@@ -46,7 +46,9 @@ return {
             },
 
             -- Store problems/contests under ~/cp, one dir per problem, from a template.
-            template_file = "~/cp/template.$(FEXT)",
+            -- Tried in order, first that exists wins: a judge with its own template
+            -- gets it, everything else falls back to the general one.
+            template_file = { "~/cp/template.$(JUDGE).$(FEXT)", "~/cp/template.$(FEXT)" },
             evaluate_template_modifiers = true,
             -- Start on the first line of solve(), where typing actually begins,
             -- instead of on the template's header. Anchored to the function rather
