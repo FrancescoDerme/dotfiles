@@ -34,7 +34,6 @@ return {
                 { "<leader>tt", group = "Testcases" },
                 { "<leader>td", group = "Download" },
                 { "<leader>tg", group = "Go to" },
-                { "<leader>o", group = "Oil" },
                 { "]", group = "Next" },
                 { "[", group = "Previous" },
             },

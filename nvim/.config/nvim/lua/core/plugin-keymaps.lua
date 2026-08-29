@@ -7,8 +7,7 @@ vim.keymap.set("n", "<leader>fb", ":Telescope current_buffer_fuzzy_find <CR>", {
 vim.keymap.set("n", "<leader>ff", ":Telescope find_files <CR>", { desc = "File in directory" })
 
 -- Oil
-vim.keymap.set("n", "<leader>oe", ":Oil <CR>", { desc = "File explorer" })
-vim.keymap.set("n", "<leader>of", ":Oil --float <CR>", { desc = "Floating file explorer" })
+vim.keymap.set("n", "<leader>o", ":Oil --float <CR>", { desc = "Oil" })
 
 -- LSP
 local lsp_mappings = {
