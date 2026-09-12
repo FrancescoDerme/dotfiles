@@ -5,6 +5,9 @@ return {
             options = {
                 theme = "palenight",
                 globalstatus = true,
+                -- tuna's floats (results UI, dashboard, prompts) have filetype "tuna":
+                -- keep describing the file underneath while one has focus.
+                ignore_focus = { "tuna" },
             },
             extensions = {
                 "neo-tree",
