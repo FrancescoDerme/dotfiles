@@ -101,7 +101,7 @@ return {
             -- The whole default keymap set under <leader>t (buffer-local on solution
             -- files, global for what is reached for with no solution open):
             --   tt{a,e,d} testcases   tr run       tu show ui   ts submit
-            --   tn/tp problem back and forth       tm dashboard tl library
+            --   tn/tp problem back and forth       tm menu tl library
             --   tw scratch                         td{t,p,c,s} download testcases/problem/contest/sync
             --   tg{p,c} back to the last problem/contest (cwd included, across restarts)
             keymaps = {

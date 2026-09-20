@@ -14,12 +14,29 @@ return {
                 -- With this enabled, Neotree would fight against Oil when opening a directory
                 hijack_netrw_behavior = "disabled",
 
+                filtered_items = {
+                    -- ~/cp is a git repo that ignores the contests and problems folders: they
+                    -- are working files, not things to version. They are still what I open
+                    -- every day, so they are not "hidden" — dotfiles still are.
+                    hide_gitignored = false,
+                },
+
                 -- Add custom components
                 components = {
                     name = function(config, node, state)
                         -- Call the original name component
                         local fc = require("neo-tree.sources.filesystem.components")
                         local result = fc.name(config, node, state)
+
+                        -- Neotree colours a name by its git status, which greys out anything
+                        -- ignored. ~/cp keeps its contests and problems folders out of git, so
+                        -- everything worked in there would read as hidden: ignored entries get
+                        -- the colour their kind has instead. Every other status keeps its own.
+                        local git = state.components.git_status({}, node, state)
+                        if git and git.highlight == "NeoTreeGitIgnored" then
+                            result.highlight = node.type == "directory" and "NeoTreeDirectoryName"
+                                or "NeoTreeFileName"
+                        end
 
                         -- Modify the message "x hidden items"
                         -- Check if this is a message node and if it contains the word "hidden"
