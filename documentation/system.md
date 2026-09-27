@@ -1,12 +1,10 @@
 ### Settings
 
 - Caps lock and ctrl keys have been swapped by running `gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps']"`, to reset to default settings run `gsettings reset org.gnome.desktop.input-sources xkb-options`
-- Unfortunately, showmethekey reads raw keys from the kernel and builds its own keymap, so it ignores the GNOME `xkb-options` above. It picks up the swap from the `XKB_DEFAULT_OPTIONS` environment variable instead, set in a launcher override at `~/.local/share/applications/one.alynx.showmethekey.desktop`:
-
-```
-Exec=env XKB_DEFAULT_LAYOUT=it XKB_DEFAULT_OPTIONS=ctrl:swapcaps /usr/bin/showmethekey-gtk
-```
-
+  - Unfortunately, showmethekey reads raw keys from the kernel and builds its own keymap, so it ignores the GNOME `xkb-options` above. It picks up the swap from the `XKB_DEFAULT_OPTIONS` environment variable instead, set in a launcher override at `~/.local/share/applications/one.alynx.showmethekey.desktop`:
+  ```
+  Exec=env XKB_DEFAULT_LAYOUT=it XKB_DEFAULT_OPTIONS=ctrl:swapcaps /usr/bin/showmethekey-gtk
+  ```
 - Visual bell has been disabled by running `echo "set bell-style none" >> ~/.inputrc`
 - Screen blank timer has been set to 1 hour by running `gsettings set org.gnome.desktop.session idle-delay 3600`
 - System sleep timer and notifications have been disabled by running `gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'`, `gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'`, `gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0`, and `gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0`
