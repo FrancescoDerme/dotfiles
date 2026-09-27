@@ -54,30 +54,6 @@
 
 Automatically closes pairs of caracthers like parenthesis, type the closing character to move outside.
 
-### Competitest
-
-Compiling, running against testcases and downloading problems or contests.
-
-- `<leader>ca` add testcase
-- `<leader>ce` edit testcase
-- `<leader>cr` run testcases
-- `<leader>cs` show competitest ui
-- `<leader>crt` receive testcases
-- `<leader>crp` receive problem (source file is automatically created along with testcases)
-- `<leader>crc` receive contest (make sure to be on the homepage of the contest, not of a single problem)
-
-Inside competitest's ui:
-
-- `R` run again the selected testcase
-- `ctrl + r` run again all testcases
-- `K` kill the process associated with a testcase
-- `ctrl + k` kill all the processes associated with testcases
-- `i` or `I` view input in a bigger window
-- `a` or `A` view expected output in a bigger window
-- `o` or `O` view stdout in a bigger window
-- `e` or `E` view stderr in a bigger window
-- `d` or `D` toggle diff view between actual and expected output
-
 ### Lualine
 
 Status bar.
