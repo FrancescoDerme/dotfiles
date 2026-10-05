@@ -49,12 +49,11 @@ return {
             -- Tried in order, first that exists wins: a judge with its own template
             -- gets it, everything else falls back to the general one.
             template_file = { "~/cp/template.$(JUDGE).$(FEXT)", "~/cp/template.$(FEXT)" },
-            evaluate_template_modifiers = true,
             -- Start on the first line of solve(), where typing actually begins,
             -- instead of on the template's header. Anchored to the function rather
             -- than to a line number, so editing the template can't move it. Applied
             -- whenever tuna opens a file made from the template — a downloaded problem,
-            -- `:Tuna next`/`prev`, `:Tuna temp`.
+            -- `:Tuna next`/`prev`, `:Tuna scratch`.
             template_cursor = { pattern = "^void solve", offset = 1 },
             downloaded_problems_path = "$(HOME)/cp/problems/$(JUDGE)/$(PROBLEM)/main.$(FEXT)",
             downloaded_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
