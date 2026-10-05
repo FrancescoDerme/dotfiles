@@ -44,8 +44,9 @@ return {
             downloaded_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
             downloaded_contests_problems_path = "$(PROBLEM)/main.$(FEXT)",
 
-            -- Submit with submitter, run from ~/dotfiles/private so its credentials stay
-            -- there, tracked as an async job, so the judge verdict shows in lualine.
+            -- Submit with submitter, run from ~/dotfiles/private so it doesn't ask for
+            -- credentials. submitter is tracked as an async job (default, same as watch = true),
+            -- so the judge verdict shows in lualine.
             -- The URL comes from a file's "// submit at: $(URL)" header
             -- line or the sidecar for downloaded problems.
             submit = {
