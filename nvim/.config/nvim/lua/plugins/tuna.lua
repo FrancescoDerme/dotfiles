@@ -44,12 +44,12 @@ return {
             downloaded_contests_directory = "$(HOME)/cp/contests/$(JUDGE)/$(CONTEST)",
             downloaded_contests_problems_path = "$(PROBLEM)/main.$(FEXT)",
 
-            -- Submit via "subwithoutcred <URL> <LANG> <FILE>", tracked as an
-            -- async job, so the judge verdict shows in lualine.
+            -- Submit with submitter, run from ~/dotfiles/private so its credentials stay
+            -- there, tracked as an async job, so the judge verdict shows in lualine.
             -- The URL comes from a file's "// submit at: $(URL)" header
             -- line or the sidecar for downloaded problems.
             submit = {
-                command = 'subwithoutcred "$(URL)" "$(LANG)" "$(FABSPATH)"',
+                command = 'cd ~/dotfiles/private && submitter "$(URL)" "$(LANG)" "$(FABSPATH)"',
 
                 -- Verdict colors, matching the statusline palette rather than
                 -- the plugin's default highlight groups.
