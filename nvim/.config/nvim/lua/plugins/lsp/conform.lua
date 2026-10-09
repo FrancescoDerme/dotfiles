@@ -4,7 +4,7 @@ return {
     config = function()
         local conform = require("conform")
 
-        -- Prettier takes ~1s on long markdown files (more on prettierd's cold start)
+        -- Prettier takes ~1s on long markdown files (more on prettierd's start)
         local slow_filetypes = { markdown = true }
 
         local function format_opts(bufnr)
