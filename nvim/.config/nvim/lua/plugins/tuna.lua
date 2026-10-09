@@ -54,7 +54,7 @@ return {
 
                 -- Verdict colors, matching the statusline palette rather than
                 -- the plugin's default highlight groups.
-                verdict_hl = {
+                verdict_highlight = {
                     pending = { fg = "#ECBE7B" },
                     accepted = { fg = "#98be65" },
                     partial = { fg = "#ECBE7B" },
