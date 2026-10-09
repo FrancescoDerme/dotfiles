@@ -3,7 +3,12 @@ vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc 
 
 -- Telescope
 vim.keymap.set("n", "<leader>fd", ":Telescope live_grep <CR>", { desc = "Text in directory" })
-vim.keymap.set("n", "<leader>fb", ":Telescope current_buffer_fuzzy_find <CR>", { desc = "Text in buffer" })
+vim.keymap.set("n", "<leader>fb", function()
+    -- Exact matching, fuzzy would match letters scattered across different words
+    require("telescope.builtin").current_buffer_fuzzy_find({
+        sorter = require("telescope").extensions.fzf.native_fzf_sorter({ fuzzy = false, case_mode = "smart_case" }),
+    })
+end, { desc = "Text in buffer" })
 vim.keymap.set("n", "<leader>ff", ":Telescope find_files <CR>", { desc = "File in directory" })
 
 -- Oil
