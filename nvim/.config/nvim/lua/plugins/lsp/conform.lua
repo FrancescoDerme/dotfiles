@@ -4,13 +4,24 @@ return {
     config = function()
         local conform = require("conform")
 
+        -- Prettier takes ~1s on long markdown files (more on prettierd's cold start)
+        local slow_filetypes = { markdown = true }
+
+        local function format_opts(bufnr)
+            return {
+                lsp_format = "fallback",
+                async = false,
+                timeout_ms = slow_filetypes[vim.bo[bufnr].filetype] and 3000 or 1000,
+            }
+        end
+
         conform.setup({
             formatters_by_ft = {
                 cpp = { "clang-format" },
                 cmake = { "cmake_format" },
                 python = { "isort", "black" },
                 lua = { "stylua" },
-                markdown = { "prettier" },
+                markdown = { "prettierd", "prettier", stop_after_first = true },
             },
             formatters = {
                 ["clang-format"] = {
@@ -23,19 +34,13 @@ return {
                 },
             },
 
-            format_on_save = {
-                lsp_format = "fallback",
-                async = false,
-                timeout_ms = 1000,
-            },
+            format_on_save = function(bufnr)
+                return format_opts(bufnr)
+            end,
         })
 
         vim.keymap.set({ "n", "v" }, "<leader>p", function()
-            conform.format({
-                lsp_format = "fallback",
-                async = false,
-                timeout_ms = 1000,
-            })
+            conform.format(format_opts(0))
         end, { desc = "Format" })
     end,
 }
