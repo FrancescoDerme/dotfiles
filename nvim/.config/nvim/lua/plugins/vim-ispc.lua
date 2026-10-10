@@ -1,4 +1,4 @@
 return {
-	"jez/vim-ispc",
-	ft = { "ispc" },
+    "jez/vim-ispc",
+    ft = { "ispc" },
 }

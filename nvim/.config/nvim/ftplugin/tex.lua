@@ -1,9 +1,9 @@
 -- Name the group in Which-Key
 local ok, wk = pcall(require, "which-key")
 if ok then
-	wk.add({
-		{ "<localleader>v", group = "VimTeX", buffer = 0 },
-	})
+    wk.add({
+        { "<localleader>v", group = "VimTeX", buffer = 0 },
+    })
 end
 
 -- Core compilation and viewing

@@ -1,140 +1,140 @@
 return {
-	"mawkler/demicolon.nvim",
+    "mawkler/demicolon.nvim",
 
-	-- These keymaps are used for lazily loading the plugin
-	-- They are defined at the bottom of this file
-	keys = {
-		-- Flash
-		{ "f", mode = { "n", "x", "o" }, desc = "Flash f" },
-		{ "F", mode = { "n", "x", "o" }, desc = "Flash F" },
-		{ "t", mode = { "n", "x", "o" }, desc = "Flash t" },
-		{ "T", mode = { "n", "x", "o" }, desc = "Flash T" },
-		{ "s", mode = { "n", "x", "o" }, desc = "Flash s" },
+    -- These keymaps are used for lazily loading the plugin
+    -- They are defined at the bottom of this file
+    keys = {
+        -- Flash
+        { "f", mode = { "n", "x", "o" }, desc = "Flash f" },
+        { "F", mode = { "n", "x", "o" }, desc = "Flash F" },
+        { "t", mode = { "n", "x", "o" }, desc = "Flash t" },
+        { "T", mode = { "n", "x", "o" }, desc = "Flash T" },
+        { "s", mode = { "n", "x", "o" }, desc = "Flash s" },
 
-		-- Treesitter textobjects
-		{ "]d", mode = { "n", "x", "o" }, desc = "Function definition" },
-		{ "[d", mode = { "n", "x", "o" }, desc = "Function definition" },
-		{ "]f", mode = { "n", "x", "o" }, desc = "Function call" },
-		{ "[f", mode = { "n", "x", "o" }, desc = "Function call" },
-		{ "]i", mode = { "n", "x", "o" }, desc = "Conditional" },
-		{ "[i", mode = { "n", "x", "o" }, desc = "Conditional" },
-		{ "]l", mode = { "n", "x", "o" }, desc = "Loop" },
-		{ "[l", mode = { "n", "x", "o" }, desc = "Loop" },
-	},
+        -- Treesitter textobjects
+        { "]d", mode = { "n", "x", "o" }, desc = "Function definition" },
+        { "[d", mode = { "n", "x", "o" }, desc = "Function definition" },
+        { "]f", mode = { "n", "x", "o" }, desc = "Function call" },
+        { "[f", mode = { "n", "x", "o" }, desc = "Function call" },
+        { "]i", mode = { "n", "x", "o" }, desc = "Conditional" },
+        { "[i", mode = { "n", "x", "o" }, desc = "Conditional" },
+        { "]l", mode = { "n", "x", "o" }, desc = "Loop" },
+        { "[l", mode = { "n", "x", "o" }, desc = "Loop" },
+    },
 
-	dependencies = {
-		"nvim-treesitter/nvim-treesitter",
-		"nvim-treesitter/nvim-treesitter-textobjects",
-	},
+    dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-treesitter/nvim-treesitter-textobjects",
+    },
 
-	config = function()
-		require("demicolon").setup({
-			keymaps = {
-				horizontal_motions = false,
-			},
-		})
+    config = function()
+        require("demicolon").setup({
+            keymaps = {
+                horizontal_motions = false,
+            },
+        })
 
-		local flash_char = require("flash.plugins.char")
-		---@param options { key: string, forward: boolean }
-		local function flash_jump(options)
-			return function()
-				require("demicolon.jump").repeatably_do(function(o)
-					local key = o.forward and o.key:lower() or o.key:upper()
+        local flash_char = require("flash.plugins.char")
+        ---@param options { key: string, forward: boolean }
+        local function flash_jump(options)
+            return function()
+                require("demicolon.jump").repeatably_do(function(o)
+                    local key = o.forward and o.key:lower() or o.key:upper()
 
-					flash_char.jumping = true
-					local autohide = require("flash.config").get("char").autohide
+                    flash_char.jumping = true
+                    local autohide = require("flash.config").get("char").autohide
 
-					-- Originally was
-					-- if require("flash.repeat").is_repeat then
-					if o.repeated then
-						flash_char.jump_labels = false
+                    -- Originally was
+                    -- if require("flash.repeat").is_repeat then
+                    if o.repeated then
+                        flash_char.jump_labels = false
 
-						-- Originally was
-						-- flash_char.state:jump({ count = vim.v.count1 })
-						if o.forward then
-							flash_char.right()
-						else
-							flash_char.left()
-						end
+                        -- Originally was
+                        -- flash_char.state:jump({ count = vim.v.count1 })
+                        if o.forward then
+                            flash_char.right()
+                        else
+                            flash_char.left()
+                        end
 
-						flash_char.state:show()
-					else
-						flash_char.jump(key)
-					end
+                        flash_char.state:show()
+                    else
+                        flash_char.jump(key)
+                    end
 
-					vim.schedule(function()
-						flash_char.jumping = false
-						if flash_char.state and autohide then
-							flash_char.state:hide()
-						end
-					end)
-				end, options)
-			end
-		end
+                    vim.schedule(function()
+                        flash_char.jumping = false
+                        if flash_char.state and autohide then
+                            flash_char.state:hide()
+                        end
+                    end)
+                end, options)
+            end
+        end
 
-		vim.api.nvim_create_autocmd({ "BufLeave", "CursorMoved", "InsertEnter" }, {
-			group = vim.api.nvim_create_augroup("flash_char", { clear = true }),
-			callback = function(event)
-				local hide = event.event == "InsertEnter" or not flash_char.jumping
-				if hide and flash_char.state then
-					flash_char.state:hide()
-				end
-			end,
-		})
+        vim.api.nvim_create_autocmd({ "BufLeave", "CursorMoved", "InsertEnter" }, {
+            group = vim.api.nvim_create_augroup("flash_char", { clear = true }),
+            callback = function(event)
+                local hide = event.event == "InsertEnter" or not flash_char.jumping
+                if hide and flash_char.state then
+                    flash_char.state:hide()
+                end
+            end,
+        })
 
-		vim.on_key(function(key)
-			if
-				flash_char.state
-				and key == require("flash.util").ESC
-				and (vim.fn.mode() == "n" or vim.fn.mode() == "v")
-			then
-				flash_char.state:hide()
-			end
-		end)
+        vim.on_key(function(key)
+            if
+                flash_char.state
+                and key == require("flash.util").ESC
+                and (vim.fn.mode() == "n" or vim.fn.mode() == "v")
+            then
+                flash_char.state:hide()
+            end
+        end)
 
-		-- Flash mappings
-		vim.keymap.set({ "n", "x", "o" }, "f", flash_jump({ key = "f", forward = true }))
-		vim.keymap.set({ "n", "x", "o" }, "F", flash_jump({ key = "F", forward = false }))
-		vim.keymap.set({ "n", "x", "o" }, "t", flash_jump({ key = "t", forward = true }))
-		vim.keymap.set({ "n", "x", "o" }, "T", flash_jump({ key = "T", forward = false }))
+        -- Flash mappings
+        vim.keymap.set({ "n", "x", "o" }, "f", flash_jump({ key = "f", forward = true }))
+        vim.keymap.set({ "n", "x", "o" }, "F", flash_jump({ key = "F", forward = false }))
+        vim.keymap.set({ "n", "x", "o" }, "t", flash_jump({ key = "t", forward = true }))
+        vim.keymap.set({ "n", "x", "o" }, "T", flash_jump({ key = "T", forward = false }))
 
-		vim.keymap.set({ "n", "x", "o" }, "s", function()
-			require("flash").jump()
-		end)
+        vim.keymap.set({ "n", "x", "o" }, "s", function()
+            require("flash").jump()
+        end)
 
-		-- Treesitter textobjects mapppings
-		local ts_move = require("nvim-treesitter-textobjects.move")
+        -- Treesitter textobjects mapppings
+        local ts_move = require("nvim-treesitter-textobjects.move")
 
-		vim.keymap.set({ "n", "x", "o" }, "]d", function()
-			ts_move.goto_next_start("@function.outer", "textobjects")
-		end, { desc = "Next function definition start" })
+        vim.keymap.set({ "n", "x", "o" }, "]d", function()
+            ts_move.goto_next_start("@function.outer", "textobjects")
+        end, { desc = "Next function definition start" })
 
-		vim.keymap.set({ "n", "x", "o" }, "[d", function()
-			ts_move.goto_previous_start("@function.outer", "textobjects")
-		end, { desc = "Previous function definition start" })
+        vim.keymap.set({ "n", "x", "o" }, "[d", function()
+            ts_move.goto_previous_start("@function.outer", "textobjects")
+        end, { desc = "Previous function definition start" })
 
-		vim.keymap.set({ "n", "x", "o" }, "]f", function()
-			ts_move.goto_next_start("@call.outer", "textobjects")
-		end, { desc = "Next function call start" })
+        vim.keymap.set({ "n", "x", "o" }, "]f", function()
+            ts_move.goto_next_start("@call.outer", "textobjects")
+        end, { desc = "Next function call start" })
 
-		vim.keymap.set({ "n", "x", "o" }, "[f", function()
-			ts_move.goto_previous_start("@call.outer", "textobjects")
-		end, { desc = "Previous function call start" })
+        vim.keymap.set({ "n", "x", "o" }, "[f", function()
+            ts_move.goto_previous_start("@call.outer", "textobjects")
+        end, { desc = "Previous function call start" })
 
-		vim.keymap.set({ "n", "x", "o" }, "]i", function()
-			ts_move.goto_next_start("@conditional.outer", "textobjects")
-		end, { desc = "Next conditional start" })
+        vim.keymap.set({ "n", "x", "o" }, "]i", function()
+            ts_move.goto_next_start("@conditional.outer", "textobjects")
+        end, { desc = "Next conditional start" })
 
-		vim.keymap.set({ "n", "x", "o" }, "[i", function()
-			ts_move.goto_previous_start("@conditional.outer", "textobjects")
-		end, { desc = "Previous conditional start" })
+        vim.keymap.set({ "n", "x", "o" }, "[i", function()
+            ts_move.goto_previous_start("@conditional.outer", "textobjects")
+        end, { desc = "Previous conditional start" })
 
-		vim.keymap.set({ "n", "x", "o" }, "]l", function()
-			ts_move.goto_next_start("@loop.outer", "textobjects")
-		end, { desc = "Next loop start" })
+        vim.keymap.set({ "n", "x", "o" }, "]l", function()
+            ts_move.goto_next_start("@loop.outer", "textobjects")
+        end, { desc = "Next loop start" })
 
-		vim.keymap.set({ "n", "x", "o" }, "[l", function()
-			ts_move.goto_previous_start("@loop.outer", "textobjects")
-		end, { desc = "Previous loop start" })
-	end,
+        vim.keymap.set({ "n", "x", "o" }, "[l", function()
+            ts_move.goto_previous_start("@loop.outer", "textobjects")
+        end, { desc = "Previous loop start" })
+    end,
 }

@@ -1,6 +1,5 @@
 return {
     "FrancescoDerme/tuna.nvim",
-    dir = "~/projects/tuna.nvim",
     config = function()
         -- Only non-default settings are listed.
         require("tuna").setup({
