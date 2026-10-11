@@ -1,0 +1,22 @@
+Temporary workarounds in this config (October 2026)
+
+scrollEOF (lua/plugins/scrolleof.lua)
+  Problem: since scrollEOF switched to a window-local 'scrolloff', :edit-ing a new
+  buffer resets it to the global 999 until the next WinEnter, and its WinEnter
+  handler rewrites the scrolloff of tuna's floats. In even-height windows it
+  also leaves a one-row dead zone when changing direction, which no
+  'scrolloff' value can avoid.
+  Workaround: "tuna" in disabled_filetypes, and a BufWinEnter autocmd that
+  reapplies scrollEOF's value.
+  Next step: Neovim 0.13 adds 'scrolloffpad'. Then drop scrollEOF and set
+  vim.o.scrolloffpad = 1 next to scrolloff = 999 (no dead zone at any height).
+
+lualine (lua/plugins/lualine.lua)
+  Problem: the "branch" component looks the branch up on BufEnter from the
+  buffer entered, ignoring ignore_focus, so it blanks while a tuna float has
+  focus. "diff" has the same flaw, which is harmless while ~/cp files are
+  untracked.
+  Workaround: a fmt on "branch" that looks the branch up again from the
+  window lualine draws from.
+  Next step: wait for lualine to skip ignore_focus filetypes on BufEnter,
+  then go back to the plain "branch".
