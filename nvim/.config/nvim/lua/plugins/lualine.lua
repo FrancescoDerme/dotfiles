@@ -14,7 +14,25 @@ return {
             },
             sections = {
                 lualine_a = { "mode" },
-                lualine_b = { "branch", "diff", "diagnostics" },
+                lualine_b = {
+                    {
+                        "branch",
+                        -- The branch is looked up on BufEnter from the buffer entered, so a
+                        -- tuna float (tuna://…, no repository) blanks it while ignore_focus
+                        -- keeps the statusline on the file underneath. This runs in that
+                        -- file's window, so look the branch up again from there.
+                        fmt = function(str)
+                            if str ~= "" then
+                                return str
+                            end
+                            local git_branch = require("lualine.components.branch.git_branch")
+                            git_branch.find_git_dir()
+                            return git_branch.get_branch()
+                        end,
+                    },
+                    "diff",
+                    "diagnostics",
+                },
                 lualine_c = { "filename" },
                 lualine_x = {
                     {
