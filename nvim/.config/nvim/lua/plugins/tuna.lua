@@ -23,9 +23,14 @@ return {
                         "-I$(HOME)/cp",
                         "$(FNAME)",
                         "-o",
-                        "$(FNOEXT)",
+                        -- Hidden, so problem folders hold only sources and testcases.
+                        ".$(FNOEXT)",
                     },
                 },
+            },
+            -- Run the hidden executable the compile command writes.
+            run_command = {
+                cpp = { exec = "./.$(FNOEXT)" },
             },
 
             -- Template files, tried in order, and the first that exists wins, so a judge with
@@ -74,6 +79,12 @@ return {
             -- Algorithms library for `:Tuna lib`.
             library = {
                 path = "~/cp/snippets",
+            },
+
+            -- The library is tested with tuna (testcases in ~/cp/snippets/tests), which
+            -- would otherwise make its files look like problems in `:Tuna last` and the menu.
+            recent = {
+                ignored_directories = { "~/cp/snippets" },
             },
 
             -- The whole default keymap set under <leader>t (buffer-local for what is
