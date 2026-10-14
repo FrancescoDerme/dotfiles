@@ -91,33 +91,26 @@ vim.api.nvim_create_autocmd("LspDetach", {
 local servers = { "clangd", "neocmakelsp", "lua_ls", "texlab", "ltex_plus", "pyright", "ruff" }
 
 vim.keymap.set("n", "<leader>ls", function()
-    -- Check if there are any active clients in the current buffer
-    local active_clients = vim.lsp.get_clients({ bufnr = 0 })
+    -- Toggle the global enable state instead of guessing it from attached clients,
+    -- which keep being listed for a few seconds while they shut down
+    local enable = not vim.iter(servers):any(vim.lsp.is_enabled)
+    vim.lsp.enable(servers, enable)
 
-    if #active_clients > 0 then
-        for _, server in ipairs(servers) do
-            pcall(function()
-                vim.cmd("lsp disable " .. server)
-            end)
-        end
+    if not enable then
         vim.notify("LSP disabled", vim.log.levels.INFO, { title = "LSP system" })
+        return
+    end
+
+    -- Availability comes from the configs, so there's no need to wait for a client to attach
+    local filetype = vim.bo.filetype
+    local available = vim.iter(servers):any(function(name)
+        local filetypes = vim.lsp.config[name].filetypes
+        return filetypes == nil or vim.list_contains(filetypes, filetype)
+    end)
+
+    if available then
+        vim.notify("LSP enabled", vim.log.levels.INFO, { title = "LSP system" })
     else
-        for _, server in ipairs(servers) do
-            pcall(function()
-                vim.cmd("lsp enable " .. server)
-            end)
-        end
-
-        -- Give the LSP some time to attach
-        vim.defer_fn(function()
-            -- Re-check active clients after the delay
-            local new_clients = vim.lsp.get_clients({ bufnr = 0 })
-
-            if #new_clients > 0 then
-                vim.notify("LSP enabled", vim.log.levels.INFO, { title = "LSP system" })
-            else
-                vim.notify("No LSP available for this filetype", vim.log.levels.WARN, { title = "LSP system" })
-            end
-        end, 200)
+        vim.notify("No LSP available for this filetype", vim.log.levels.WARN, { title = "LSP system" })
     end
 end, { desc = "Toggle LSP" })

@@ -1,6 +1,13 @@
 return {
     "nvim-lualine/lualine.nvim",
     config = function()
+        -- Stopped clients stay attached for a few seconds while the server shuts down
+        local function live_lsp_clients()
+            return vim.tbl_filter(function(client)
+                return not client:is_stopped()
+            end, vim.lsp.get_clients({ bufnr = 0 }))
+        end
+
         require("lualine").setup({
             options = {
                 theme = "palenight",
@@ -61,20 +68,18 @@ return {
                     },
                     {
                         function()
-                            local clients = vim.lsp.get_clients({ bufnr = 0 })
-                            if #clients == 0 then
+                            local names = vim.iter(live_lsp_clients())
+                                :map(function(client)
+                                    return client.name
+                                end)
+                                :totable()
+                            if #names == 0 then
                                 return "LSP OFF"
-                            end
-
-                            local names = {}
-                            for _, client in ipairs(clients) do
-                                table.insert(names, client.name)
                             end
                             return "LSP: " .. table.concat(names, ", ")
                         end,
                         color = function()
-                            local clients = vim.lsp.get_clients({ bufnr = 0 })
-                            return { fg = #clients > 0 and "#98be65" or "#ff6c6b" }
+                            return { fg = #live_lsp_clients() > 0 and "#98be65" or "#ff6c6b" }
                         end,
                     },
                     "filetype",
