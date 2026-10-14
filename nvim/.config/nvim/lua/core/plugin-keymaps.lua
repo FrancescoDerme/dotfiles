@@ -91,8 +91,8 @@ vim.api.nvim_create_autocmd("LspDetach", {
 local servers = { "clangd", "neocmakelsp", "lua_ls", "texlab", "ltex_plus", "pyright", "ruff" }
 
 vim.keymap.set("n", "<leader>ls", function()
-    -- Toggle the global enable state instead of guessing it from attached clients,
-    -- which keep being listed for a few seconds while they shut down
+    -- Toggle the global enable state (do not infer it from attached clients,
+    -- which keep being listed for a few seconds while they shut down)
     local enable = not vim.iter(servers):any(vim.lsp.is_enabled)
     vim.lsp.enable(servers, enable)
 
@@ -101,7 +101,6 @@ vim.keymap.set("n", "<leader>ls", function()
         return
     end
 
-    -- Availability comes from the configs, so there's no need to wait for a client to attach
     local filetype = vim.bo.filetype
     local available = vim.iter(servers):any(function(name)
         local filetypes = vim.lsp.config[name].filetypes
