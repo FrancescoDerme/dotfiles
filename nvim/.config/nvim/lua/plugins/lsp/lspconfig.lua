@@ -3,8 +3,6 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
-        { "antosha417/nvim-lsp-file-operations", config = true },
-        { "folke/lazydev.nvim", opts = {} },
     },
 
     config = function()
@@ -61,9 +59,6 @@ return {
                 },
             },
         })
-
-        -- Python (Ruff for linting)
-        vim.lsp.config("ruff", {})
 
         -- Lua
         vim.lsp.config("lua_ls", {

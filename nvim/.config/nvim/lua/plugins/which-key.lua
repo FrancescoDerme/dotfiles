@@ -4,15 +4,6 @@ return {
     opts = {
         ---@param mapping wk.Mapping
         filter = function(mapping)
-            -- Hide DeadKeys, these are defined in "keymaps.lua"
-            if _G.DeadKeys then
-                for _, dead_key in ipairs(_G.DeadKeys) do
-                    if mapping.lhs == dead_key then
-                        return false
-                    end
-                end
-            end
-
             -- Hide keys whose description starts with "Disabled"
             if mapping.desc and mapping.desc:match("^Disable") then
                 return false
@@ -31,7 +22,6 @@ return {
                 { "<leader>l", group = "LSP" },
                 { "<leader>f", group = "Find" },
                 { "<leader>t", group = "Tuna" },
-                { "<leader>tt", group = "Testcases" },
                 { "<leader>td", group = "Download" },
                 { "<leader>tg", group = "Go to" },
                 { "]", group = "Next" },

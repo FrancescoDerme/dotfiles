@@ -61,9 +61,9 @@ for _, char in ipairs(chars_to_delete) do
     pcall(vim.keymap.del, { "n", "v", "o" }, "[" .. char)
 end
 
--- Disable other default keymaps and hide them inside which-key
+-- Disable other default keymaps (which-key hides them because of their "Disabled" description)
 -- These are core engine motions, so vim.keymap.del doesn't work
-_G.DeadKeys = {
+local dead_keys = {
     "]m",
     "[m",
     "]M",
@@ -80,13 +80,13 @@ _G.DeadKeys = {
     "[{",
 }
 
-for _, key in ipairs(_G.DeadKeys) do
+for _, key in ipairs(dead_keys) do
     vim.keymap.set({ "n", "v", "o" }, key, "<Nop>", { desc = "Disabled" })
 end
 
 -- Disable arrow keys
 -- Can't be done in the previous section because these have to be
--- deleted for insert mode, but deleting _G.DeadKeys for insert mode
+-- deleted for insert mode, but deleting dead_keys for insert mode
 -- would cause problems when typing square brackets
 vim.keymap.set({ "n", "i" }, "<Down>", "<Nop>", { desc = "Disabled" })
 vim.keymap.set({ "n", "i" }, "<Up>", "<Nop>", { desc = "Disabled" })
@@ -104,13 +104,13 @@ vim.keymap.set("n", "<M-k>", "<C-w>k", { desc = "Switch focus up" })
 vim.keymap.set("n", "<M-l>", "<C-w>l", { desc = "Switch focus right" })
 
 -- Tabs and splits
-vim.keymap.set("n", "<Tab>t", ":tabnew <CR>", { desc = "Open new tab" })
-vim.keymap.set("n", "<Tab>v", ":vsplit <CR>", { desc = "Open vertical window" })
-vim.keymap.set("n", "<Tab>h", ":split <CR>", { desc = "Open horizontal window" })
+vim.keymap.set("n", "<Tab>t", "<cmd>tabnew<CR>", { desc = "Open new tab" })
+vim.keymap.set("n", "<Tab>v", "<cmd>vsplit<CR>", { desc = "Open vertical window" })
+vim.keymap.set("n", "<Tab>h", "<cmd>split<CR>", { desc = "Open horizontal window" })
 
 -- Change directory relative to current buffer
-vim.keymap.set("n", "<leader>dc", ":cd %:p:h <CR>", { desc = "cd to file", silent = true })
-vim.keymap.set("n", "<leader>du", ":cd %:p:h:h <CR>", { desc = "cd to above file", silent = true })
+vim.keymap.set("n", "<leader>dc", "<cmd>cd %:p:h<CR>", { desc = "cd to file" })
+vim.keymap.set("n", "<leader>du", "<cmd>cd %:p:h:h<CR>", { desc = "cd to above file" })
 
 -- Keep track of the path of the last saved files to be used in directory-related keymaps
 local history_path = vim.fn.stdpath("data") .. "/history.txt"

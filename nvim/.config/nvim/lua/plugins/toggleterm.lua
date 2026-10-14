@@ -1,7 +1,9 @@
 return {
     "akinsho/toggleterm.nvim",
     version = "*",
-    config = true,
+    -- "+" must match open_mapping below
+    keys = { { "+", desc = "Toggle terminal" } },
+    cmd = { "ToggleTerm", "TermExec", "TermSelect", "ToggleTermToggleAll", "ToggleTermSetName" },
     opts = {
         size = function(term)
             if term.direction == "horizontal" then

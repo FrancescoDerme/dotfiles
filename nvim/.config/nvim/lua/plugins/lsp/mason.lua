@@ -1,53 +1,51 @@
 return {
-	"williamboman/mason.nvim",
+    "mason-org/mason.nvim",
 
-	dependencies = {
-		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
+    dependencies = {
+        "mason-org/mason-lspconfig.nvim",
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+    },
 
-	config = function()
-		local mason = require("mason")
-		mason.setup({
-			ui = {
-				icons = {
-					package_installed = "✓",
-					package_pending = "➜",
-					package_uninstalled = "✗",
-				},
-			},
-		})
+    config = function()
+        local mason = require("mason")
+        mason.setup({
+            ui = {
+                icons = {
+                    package_installed = "✓",
+                    package_pending = "➜",
+                    package_uninstalled = "✗",
+                },
+            },
+        })
 
-		local mason_tool_installer = require("mason-tool-installer")
-		mason_tool_installer.setup({
-			ensure_installed = {
-				-- C++
-				"clangd",
-				"clang-format",
+        local mason_tool_installer = require("mason-tool-installer")
+        mason_tool_installer.setup({
+            ensure_installed = {
+                -- C++
+                "clangd",
+                "clang-format",
 
-				-- CMake
-				"neocmakelsp",
-				"cmakelang",
+                -- CMake
+                "neocmakelsp",
+                "cmakelang",
 
-				-- Python
-				"pyright",
-				"black",
-				"isort",
-				"ruff",
+                -- Python
+                "pyright",
+                "ruff",
 
-				-- Lua
-				"lua_ls",
-				"stylua",
+                -- Lua
+                "lua_ls",
+                "stylua",
 
-				-- Markdown
-				"prettierd",
+                -- Markdown
+                "prettierd",
 
-				-- Latex
-				"texlab",
-				"ltex-ls-plus",
-			},
+                -- Latex
+                "texlab",
+                "ltex-ls-plus",
+            },
 
-			auto_update = true,
-		})
-	end,
+            auto_update = true,
+        })
+    end,
 }

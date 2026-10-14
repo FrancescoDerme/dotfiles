@@ -1,14 +1,14 @@
 return {
     "nvim-neo-tree/neo-tree.nvim",
+    cmd = "Neotree",
     dependencies = {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",
-        "echasnovski/mini.icons",
+        "nvim-mini/mini.icons",
+        -- Set up in config below, it only hooks into neo-tree if neo-tree is already loaded
+        "antosha417/nvim-lsp-file-operations",
     },
     config = function()
-        -- Force mini.icons to pretend to be nvim-web-devicons
-        require("mini.icons").mock_nvim_web_devicons()
-
         require("neo-tree").setup({
             filesystem = {
                 -- With this enabled, Neotree would fight against Oil when opening a directory
@@ -55,10 +55,14 @@ return {
                 {
                     event = "neo_tree_buffer_enter",
                     handler = function()
-                        vim.opt.relativenumber = true
+                        -- Like :setlocal, so the global value is left alone
+                        vim.wo[0][0].relativenumber = true
                     end,
                 },
             },
         })
+
+        -- Tell the LSP about files renamed/moved/created/deleted from neo-tree
+        require("lsp-file-operations").setup()
     end,
 }

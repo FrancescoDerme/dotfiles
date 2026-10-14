@@ -1,18 +1,18 @@
 -- Neotree
-vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left <CR>", { desc = "File tree", silent = true })
+vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem toggle left<CR>", { desc = "File tree" })
 
 -- Telescope
-vim.keymap.set("n", "<leader>fd", ":Telescope live_grep <CR>", { desc = "Text in directory" })
+vim.keymap.set("n", "<leader>fd", "<cmd>Telescope live_grep<CR>", { desc = "Text in directory" })
 vim.keymap.set("n", "<leader>fb", function()
     -- Exact matching, fuzzy would match letters scattered across different words
     require("telescope.builtin").current_buffer_fuzzy_find({
         sorter = require("telescope").extensions.fzf.native_fzf_sorter({ fuzzy = false, case_mode = "smart_case" }),
     })
 end, { desc = "Text in buffer" })
-vim.keymap.set("n", "<leader>ff", ":Telescope find_files <CR>", { desc = "File in directory" })
+vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "File in directory" })
 
 -- Oil
-vim.keymap.set("n", "<leader>o", ":Oil <CR>", { desc = "Oil" })
+vim.keymap.set("n", "<leader>o", "<cmd>Oil<CR>", { desc = "Oil" })
 
 -- LSP
 local lsp_mappings = {
@@ -82,6 +82,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_autocmd("LspDetach", {
     group = lsp_group,
     callback = function(ev)
+        -- Keep the keymaps while another client is still attached (e.g. texlab and ltex_plus)
+        local others = vim.iter(vim.lsp.get_clients({ bufnr = ev.buf })):any(function(client)
+            return client.id ~= ev.data.client_id
+        end)
+        if others then
+            return
+        end
+
         for _, map in ipairs(lsp_mappings) do
             pcall(vim.keymap.del, map.mode, map.key, { buffer = ev.buf })
         end

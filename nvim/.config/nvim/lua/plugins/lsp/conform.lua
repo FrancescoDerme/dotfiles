@@ -19,7 +19,7 @@ return {
             formatters_by_ft = {
                 cpp = { "clang-format" },
                 cmake = { "cmake_format" },
-                python = { "isort", "black" },
+                python = { "ruff_organize_imports", "ruff_format" },
                 lua = { "stylua" },
                 markdown = { "prettierd", "prettier", stop_after_first = true },
             },
@@ -30,7 +30,13 @@ return {
                     },
                 },
                 stylua = {
-                    prepend_args = { "--indent-type", "Spaces", "--indent-width", "4" },
+                    -- 4 spaces, unless the project has its own stylua.toml (this config has one)
+                    prepend_args = function(_, ctx)
+                        if vim.fs.root(ctx.dirname, { "stylua.toml", ".stylua.toml" }) then
+                            return {}
+                        end
+                        return { "--indent-type", "Spaces", "--indent-width", "4" }
+                    end,
                 },
             },
 
