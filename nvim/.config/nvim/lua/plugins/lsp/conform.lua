@@ -23,22 +23,8 @@ return {
                 lua = { "stylua" },
                 markdown = { "prettierd", "prettier", stop_after_first = true },
             },
-            formatters = {
-                ["clang-format"] = {
-                    prepend_args = {
-                        "--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit : 75, BreakBeforeBraces: Custom, BraceWrapping: {AfterFunction: false, BeforeElse: true}}",
-                    },
-                },
-                stylua = {
-                    -- 4 spaces, unless the project has its own stylua.toml (this config has one)
-                    prepend_args = function(_, ctx)
-                        if vim.fs.root(ctx.dirname, { "stylua.toml", ".stylua.toml" }) then
-                            return {}
-                        end
-                        return { "--indent-type", "Spaces", "--indent-width", "4" }
-                    end,
-                },
-            },
+            -- clang-format and stylua read their style from ~/.clang-format and ~/.stylua.toml
+            -- (the clang-format and stylua packages in the dotfiles)
 
             format_on_save = function(bufnr)
                 return format_opts(bufnr)

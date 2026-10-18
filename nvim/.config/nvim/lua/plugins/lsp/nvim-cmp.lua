@@ -69,10 +69,12 @@ return {
             -- sources for autocompletion
             -- keyword_length is the number of characters to be typed before a suggestion is generated
             -- max_item_count is self-explanatory
+            -- priority breaks ties between equally good matches: names before snippets
             sources = cmp.config.sources({
                 -- suggestion coming from the lsp
                 {
                     name = "nvim_lsp",
+                    priority = 3,
                     entry_filter = function(entry, ctx)
                         -- Get the word currently typed in the buffer
                         local word = ctx.cursor_before_line:match("[%w_]+$")
@@ -80,13 +82,30 @@ return {
                         return entry:get_insert_text() ~= word
                     end,
                 },
-                -- snippets
-                { name = "luasnip" },
                 -- text within current buffer
-                { name = "buffer" },
+                { name = "buffer", priority = 2 },
+                -- snippets
+                { name = "luasnip", priority = 1 },
                 -- file system paths (needs the cmp-path dependency above)
                 --{ name = "path", keyword_length = 3, max_item_count = 1 },
             }),
+
+            sorting = {
+                comparators = {
+                    cmp.config.compare.offset,
+                    -- No compare.exact: it put snippets whose trigger matches the typed text
+                    -- (e.g. "st") above every name
+                    cmp.config.compare.score,
+                    -- The server's own ranking, so clangd's in-scope names beat the
+                    -- thousands of std:: symbols from bits/stdc++.h
+                    cmp.config.compare.sort_text,
+                    cmp.config.compare.recently_used,
+                    cmp.config.compare.locality,
+                    cmp.config.compare.kind,
+                    cmp.config.compare.length,
+                    cmp.config.compare.order,
+                },
+            },
 
             -- configure lspkind for pictograms in completion menu
             formatting = {

@@ -17,6 +17,8 @@ return {
                 "clangd",
                 "--clang-tidy",
                 "--header-insertion=never", -- Stops automatic header imports
+                "--header-insertion-decorators=false", -- No indent before every completion label
+                "--completion-style=bundled", -- One completion item per function, not per overload
                 "--background-index",
                 "--offset-encoding=utf-8",
                 "--compile-commands-dir=build",
