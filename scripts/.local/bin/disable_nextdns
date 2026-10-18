@@ -19,4 +19,3 @@ EOL
 
 sudo systemctl restart systemd-resolved
 echo "NextDNS disabled (using network default DNS)"
-
