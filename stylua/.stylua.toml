@@ -1,0 +1,3 @@
+# Default Lua style for everything under ~ (a project's own stylua.toml takes precedence)
+indent_type = "Spaces"
+indent_width = 4

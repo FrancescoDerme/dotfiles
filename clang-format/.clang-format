@@ -1,0 +1,8 @@
+# Default C++ style for everything under ~ (a project's own .clang-format takes precedence)
+BasedOnStyle: Google
+IndentWidth: 4
+ColumnLimit: 75
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: false
+  BeforeElse: true
