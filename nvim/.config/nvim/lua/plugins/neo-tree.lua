@@ -10,6 +10,19 @@ return {
     },
     config = function()
         require("neo-tree").setup({
+            -- Directories first, then files grouped by extension, alphabetical within each group
+            -- (files without an extension, like Makefile, come before the others)
+            sort_function = function(a, b)
+                if a.type ~= b.type then
+                    return a.type < b.type
+                end
+                local a_ext, b_ext = (a.ext or ""):lower(), (b.ext or ""):lower()
+                if a_ext ~= b_ext then
+                    return a_ext < b_ext
+                end
+                return a.path < b.path
+            end,
+
             filesystem = {
                 -- With this enabled, Neotree would fight against Oil when opening a directory
                 hijack_netrw_behavior = "disabled",
