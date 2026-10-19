@@ -33,15 +33,14 @@ return {
                 cpp = { exec = "./.$(FNOEXT)" },
             },
 
-            -- Template files, tried in order, and the first that exists wins, so a judge with
-            -- its own template gets it, everything else falls back to the general one.
-            template_file = { "~/cp/template.$(JUDGE).$(FEXT)", "~/cp/template.$(FEXT)" },
-
-            -- Start on the first line of solve(), instead of on the template's header.
-            -- Anchored to the function rather than to a line number, so editing the template
-            -- doesn't move it. Applied whenever tuna opens a downloaded problem, or after
-            -- `:Tuna next`/`prev`, `:Tuna scratch`, etc.
-            template_cursor = { pattern = "^void solve", offset = 1 },
+            -- Solution templates, tried in order, and the first that exists wins, so a judge
+            -- with its own template gets it, everything else falls back to the general one.
+            -- Helpers keep tuna's own starters.
+            scaffold = {
+                templates = {
+                    solution = { "~/cp/template.$(JUDGE).$(FEXT)", "~/cp/template.$(FEXT)" },
+                },
+            },
 
             -- Store problems and contests under ~/cp.
             downloaded_problems_path = "$(HOME)/cp/problems/$(JUDGE)/$(PROBLEM)/main.$(FEXT)",
