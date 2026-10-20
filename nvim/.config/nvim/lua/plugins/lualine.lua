@@ -47,7 +47,7 @@ return {
                             return require("tuna").lualine_component()
                         end,
                         cond = function()
-                            local ok, download = pcall(require, "tuna.download")
+                            local ok, download = pcall(require, "tuna.problem.download")
                             return ok and download.is_downloading()
                         end,
                         color = { fg = "#82aaff", gui = "bold" },
@@ -56,14 +56,14 @@ return {
                         -- Submit verdict (watch mode): per-problem, persistent, colored
                         -- by verdict via tuna's TunaCorrect/TunaWrong/TunaWarning groups.
                         function()
-                            return require("tuna.submit").status()
+                            return require("tuna.problem.submit").status()
                         end,
                         cond = function()
-                            local ok, submit = pcall(require, "tuna.submit")
+                            local ok, submit = pcall(require, "tuna.problem.submit")
                             return ok and submit.is_submitting()
                         end,
                         color = function()
-                            return require("tuna.submit").status_hl()
+                            return require("tuna.problem.submit").status_hl()
                         end,
                     },
                     {
