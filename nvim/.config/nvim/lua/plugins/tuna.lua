@@ -24,6 +24,8 @@ return {
                         "-D_GLIBCXX_ASSERTIONS",
                         -- -O1 as the sanitizers recommend.
                         "-O1",
+                        -- Line numbers for the report of a failed assertion (see ~/cp/debug.h).
+                        "-g",
                         "-I$(HOME)/cp",
                         "$(FNAME)",
                         "-o",
