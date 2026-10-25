@@ -39,8 +39,9 @@ return {
                         local fc = require("neo-tree.sources.filesystem.components")
                         local result = fc.name(config, node, state)
 
-                        -- Avoid greying-out gitignored files.
-                        local git = state.components.git_status({}, node, state)
+                        -- Avoid greying-out gitignored files (asking the original git_status,
+                        -- since the one below says nothing for ~/cp's).
+                        local git = require("neo-tree.sources.common.components").git_status({}, node, state)
                         if git and git.highlight == "NeoTreeGitIgnored" then
                             result.highlight = node.type == "directory" and "NeoTreeDirectoryName" or "NeoTreeFileName"
                         end
@@ -60,6 +61,20 @@ return {
                             end
                         end
 
+                        return result
+                    end,
+
+                    -- No gitignored mark inside ~/cp: its contests and problems are ignored on
+                    -- purpose, so the mark would sit on every problem and say nothing.
+                    git_status = function(config, node, state)
+                        local result = require("neo-tree.sources.common.components").git_status(config, node, state)
+                        local cp = vim.fn.expand("~/cp")
+                        if
+                            result.highlight == "NeoTreeGitIgnored"
+                            and (node.path == cp or vim.startswith(node.path, cp .. "/"))
+                        then
+                            return {}
+                        end
                         return result
                     end,
                 },

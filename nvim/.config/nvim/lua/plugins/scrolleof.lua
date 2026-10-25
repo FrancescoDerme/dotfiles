@@ -3,6 +3,10 @@ return {
     event = { "CursorMoved", "WinScrolled" },
     opts = {
         insert_mode = true,
+        -- Each window's scrolloff worked out as half its height, every time. Otherwise
+        -- scrollEOF keeps the smaller of half the height and the window's own current value,
+        -- so a window made short once (a split below it) never gets its centring back.
+        relative_scrolloff = 2,
         -- tuna's floats set their own scrolloff (0 for a list that fits, the global value
         -- for one that scrolls), which scrollEOF would otherwise rewrite on every WinEnter.
         disabled_filetypes = { "terminal", "tuna" },

@@ -7,10 +7,9 @@ return {
             switch_window_keys = { "<M-h>", "<M-j>", "<M-k>", "<M-l>" },
             compile_command = {
                 cpp = {
-                    -- These cpp flags are pretty heavy (both in terms of compilation and of runtime),
-                    -- this is alleviated by the fact that this setup has another way of running code,
-                    -- and by the presence of a precompiled bits header (which was compiled with these exact flags)
-                    -- inside ~/cp/bits/stdc++.h.gch.
+                    -- These flags aim at providing a good balance between compilation and execution times,
+                    -- and catching bugs. Compilation times are alleviated by a precompiled bits header
+                    -- (which must be compiled with these exact flags) at ~/cp/bits/stdc++.h.gch.
                     exec = "g++",
                     args = {
                         "-std=c++23",
@@ -19,7 +18,12 @@ return {
                         "-Wextra",
                         "-Wshadow",
                         "-fsanitize=address,undefined",
-                        "-D_GLIBCXX_DEBUG",
+                        -- Decided against _GLIBCXX_DEBUG because _GLIBCXX_ASSERTIONS provides most of the
+                        -- same checks, but no checked iterators, which can significantly slow down calls to
+                        -- functions like lower_bound().
+                        "-D_GLIBCXX_ASSERTIONS",
+                        -- -O1 as the sanitizers recommend.
+                        "-O1",
                         "-I$(HOME)/cp",
                         "$(FNAME)",
                         "-o",

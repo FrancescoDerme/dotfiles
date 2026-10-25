@@ -3,11 +3,15 @@ Temporary workarounds in this config (October 2026)
 scrollEOF (lua/plugins/scrolleof.lua)
   Problem: since scrollEOF switched to a window-local 'scrolloff', :edit-ing a new
   buffer resets it to the global 999 until the next WinEnter, and its WinEnter
-  handler rewrites the scrolloff of tuna's floats. In even-height windows it
-  also leaves a one-row dead zone when changing direction, which no
-  'scrolloff' value can avoid.
-  Workaround: "tuna" in disabled_filetypes, and a BufWinEnter autocmd that
-  reapplies scrollEOF's value.
+  handler rewrites the scrolloff of tuna's floats. On a resize it keeps the
+  smaller of half the window's height and vim.o.scrolloff, which is the
+  window's own value rather than the global one, so a window made short once
+  (a split below it) stays uncentred after it grows back. In even-height
+  windows it also leaves a one-row dead zone when changing direction, which
+  no 'scrolloff' value can avoid.
+  Workaround: "tuna" in disabled_filetypes, a BufWinEnter autocmd that
+  reapplies scrollEOF's value, and relative_scrolloff = 2, which works the
+  value out from the window's height alone.
   Next step: Neovim 0.13 adds 'scrolloffpad'. Then drop scrollEOF and set
   vim.o.scrolloffpad = 1 next to scrolloff = 999 (no dead zone at any height).
 
