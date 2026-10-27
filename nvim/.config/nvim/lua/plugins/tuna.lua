@@ -87,7 +87,7 @@ return {
             },
 
             -- The library is tested with tuna (testcases in ~/cp/snippets/tests), which
-            -- would otherwise make its files look like problems in `:Tuna last` and the menu.
+            -- would otherwise make its files look like problems in `:Tuna go` and the menu.
             recent = {
                 ignored_directories = { "~/cp/snippets" },
             },
