@@ -8,9 +8,15 @@ return {
             end, vim.lsp.get_clients({ bufnr = 0 }))
         end
 
+        -- palenight with normal and insert swapped: insert in the purple of tuna's editable panes,
+        -- normal in the blue of the rest.
+        local theme = vim.deepcopy(require("lualine.themes.palenight"))
+        theme.normal.a, theme.insert.a = theme.insert.a, theme.normal.a
+        theme.normal.b, theme.insert.b = theme.insert.b, theme.normal.b
+
         require("lualine").setup({
             options = {
-                theme = "palenight",
+                theme = theme,
                 globalstatus = true,
                 -- tuna's floats (results UI, menu, prompts) have filetype "tuna":
                 -- keep describing the file underneath while one has focus.
